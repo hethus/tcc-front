@@ -1,0 +1,35 @@
+{
+  "name": "sami",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@reduxjs/toolkit": "^1.8.6",
+    "antd": "^4.24.0",
+    "axios": "^0.27.2",
+    "next": "^12.2.0",
+    "next-redux-wrapper": "^8.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.4",
+    "react-toastify": "^9.0.8",
+    "read-excel-file": "^5.5.3",
+    "redux": "^4.2.0",
+    "redux-persist": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.0.0",
+    "@types/react": "18.0.14",
+    "@types/react-dom": "18.0.5",
+    "eslint": "8.18.0",
+    "eslint-config-next": "12.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "typescript": "4.7.4"
+  }
+}

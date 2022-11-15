@@ -1,0 +1,135 @@
+.container {
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.body {
+  height: 88vh;
+}
+
+.title {
+  padding: 3rem 1rem 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 49px;
+
+  color: #000000;
+}
+
+.button {
+  border: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 33px;
+  padding: 0.7rem 2rem;
+
+  color: #ffffff;
+
+  background: #0094ff;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.filterDiv {
+  display: flex;
+  padding: 0 1rem 2rem 1rem;
+  width: 100%;
+}
+
+.filterDivLeftSide {
+  display: flex;
+  padding: 0 1rem 2rem 1rem;
+  width: 100%;
+}
+
+.filterDivLeftSide > div {
+  margin-right: 1rem;
+}
+
+.filterDivRightSide {
+  display: flex;
+  padding: 0 1rem 2rem 1rem;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.filterDivRightSide > div {
+  margin-right: 1rem;
+}
+
+.inputSearch {
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem;
+}
+
+.inputSearchDiv {
+  display: flex;
+  align-items: center;
+}
+
+.inputSearchTitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  margin-right: 0.5rem;
+
+  color: #000000;
+}
+
+.switchTitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  margin-right: 0.5rem;
+
+  color: #000000;
+}
+
+.switchDiv {
+  display: flex;
+  align-items: center;
+}
+
+.orderTitle {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+}
+
+.orderDivButton {
+  display: flex;
+  flex-direction: column;
+}
+
+.orderDivButtonUpDown {
+  padding: 0 0 0 0.5rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.cardsDiv {
+  display: flex;
+  align-items: center;
+}
+
+.cardsDiv > div {
+  margin: 2rem 2rem 0.5rem 2rem;
+}

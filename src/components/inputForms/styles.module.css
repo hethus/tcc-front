@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.input {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+
+  font-size: 18px;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+.title {
+  width: 15%;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  margin-bottom: 1rem;
+
+  color: #000000;
+}

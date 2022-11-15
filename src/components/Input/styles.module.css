@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.input {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+
+    font-size: 18px;
+    width: 15rem;
+    padding: 0.5rem 1rem;
+}
+
+.title{
+    width: 15%;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 27px;
+
+    color: #000000;
+}

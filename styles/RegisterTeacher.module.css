@@ -1,0 +1,108 @@
+.container {
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.pageContainer {
+  background-color: #ffffff;
+  border: 1px solid #000;
+  border-radius: 0.5rem;
+  margin: 2rem;
+  padding: 1rem 2.5rem;
+}
+
+.titleForms {
+  margin: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  text-align: center;
+
+  color: #000000;
+}
+
+.formsContainer {
+  text-align: center;
+  margin: 1rem;
+  margin-bottom: 2rem;
+}
+
+.checkbox {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 33px;
+}
+
+.checkbox > span {
+  margin-left: 0.5rem;
+}
+
+.buttonDiv {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.buttonCancel {
+  cursor: pointer;
+  background: #ff4040;
+  border-radius: 30px;
+  border: none;
+  padding: 0.5rem 3rem;
+
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 33px;
+
+  color: #ffffff;
+}
+
+.buttonCancel:hover {
+  transition: 0.2s;
+  opacity: 0.8;
+}
+
+.buttonRegister {
+  cursor: pointer;
+  background: #0094ff;
+  border-radius: 30px;
+  border: none;
+  padding: 0.5rem 3rem;
+
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 33px;
+
+  color: #ffffff;
+}
+
+.buttonRegister:hover {
+  transition: 0.2s;
+  opacity: 0.8;
+}
+
+.buttonUpload {
+  margin-top: 1rem;
+  cursor: pointer;
+  background: grey;
+  border-radius: 10px;
+  border: none;
+  padding: 0.5rem 3rem;
+
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 33px;
+
+  color: #ffffff;
+}
+
+.buttonUpload > span {
+  margin-left: 1rem;
+}
+
+.buttonUpload:hover {
+  transition: 0.2s;
+  opacity: 0.8;
+}

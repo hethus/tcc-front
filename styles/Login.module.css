@@ -1,0 +1,58 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.sideImage {
+    height: 100%;
+    width: 50vw;
+}
+
+.inputSide{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: center;
+    justify-content: center;
+}
+
+.logoText{
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 114px;
+    line-height: 135px;
+
+    color: #6D0088;
+}
+
+.text{
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+
+    color: #6D0088;
+    margin-bottom: 5rem;
+}
+
+.submitButton{
+    align-self: center;
+    margin-top: 36px;
+    text-align: center;
+    width: 101px;
+    min-height: 36px;
+    border: 1px solid #6D0088;
+    border-radius: 16px;
+    color: #6D0088;
+    cursor: pointer;
+}
+
+.loginImg {
+    width: 50vw;
+    object-fit: cover;
+    object-position: top;
+}
