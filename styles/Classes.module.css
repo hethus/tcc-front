@@ -1,0 +1,79 @@
+.container {
+  justify-content: space-between;
+  height: 100vh;
+  cursor: default;
+}
+
+.body {
+  height: 88vh;
+  background-color: #E4ECFF;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 2rem 1rem 2rem;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 49px;
+  color: #000000;
+}
+
+.button {
+  border: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 33px;
+  padding: 0.7rem 3rem;
+
+  color: #ffffff;
+
+  background: #0094ff;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.filterContainer {
+  display: flex;
+  width: 100%;
+  height: auto;
+  padding: 0 1rem 2rem 1rem;
+}
+
+.filterLeftSide {
+  display: flex;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 0 1rem 2rem 1rem;
+}
+
+.filterRightSide {
+  display: flex;
+  padding: 0 1rem 2rem 1rem;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.inputSearchDiv {
+  display: flex;
+  align-items: center;
+}
+
+.inputSearchName {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  margin-right: 0.5rem;
+  color: #000000;
+}
