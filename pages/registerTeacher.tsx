@@ -5,6 +5,7 @@ import { Header } from "../src/components/header";
 import { Button } from "antd";
 import { InputForms } from "../src/components/inputForms";
 import styles from "../styles/RegisterTeacher.module.css";
+import React from "react";
 
 const RegisterTeacher: NextPage = () => {
   const [isAdm, setIsAdm] = useState(false);
