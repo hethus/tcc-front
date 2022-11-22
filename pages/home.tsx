@@ -6,6 +6,7 @@ import { Input, Switch } from "antd";
 import { FormCard } from "../src/components/formCard";
 import { Header } from "../src/components/header";
 import { useSelector } from "react-redux";
+import React from "react";
 
 const Home: NextPage = () => {
 
