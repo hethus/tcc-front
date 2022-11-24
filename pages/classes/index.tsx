@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import styles from "@/styles/Classes.module.css";
 import { Header } from "../../src/components/header";
 import { FilterButton } from "../../src/components/filterButton";
+import ClassesTable from "../../src/components/tables/classesTable";
 
 const Classes: NextPage = () => {
   const { enums } = useSelector((state: any) => state);
@@ -46,8 +47,8 @@ const Classes: NextPage = () => {
           </div>
         </div>
 
-        <div>
-          
+        <div className={styles.ContainerTable}>
+          <ClassesTable />
         </div>
       </div>
     </div>
