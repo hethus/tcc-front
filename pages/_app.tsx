@@ -8,7 +8,7 @@ import type { AppProps } from 'next/app'
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
-    <Provider store={store}>
+    <Provider store={store}> {/* perguntar por cima */}
       <PersistGate loading={null} persistor={persistor}>
       <ProtectedRoutes router={router}>
         <Component {...pageProps} />

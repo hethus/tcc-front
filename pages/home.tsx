@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const Home: NextPage = () => {
 
   const { enums } = useSelector((state: any) => state);
-  const hasEnums = Object.keys(enums).length;
+  /* const hasEnums = Object.keys(enums).length; // ver se remove */
 
   const onChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 
   const { Search } = Input;
 
-  return hasEnums ? (
+  return (
     <div className={styles.container}>
       <Header />
       <div className={styles.body}>
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Home;

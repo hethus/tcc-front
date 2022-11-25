@@ -15,18 +15,36 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const { handleCreate } = useCRUD({ model: 'auth', pathOptions: '/login'});
+  const { handleCreate } = useCRUD({ model: "auth" });
+  const { handleGet } = useCRUD({ model: "user" });
 
   const login = () => {
-    handleCreate({values: {
-      email: user,
-      password,
-    }})
-      .then(({ data, error }) => {
-        if(error) return;
-        dispatch(userUpdate(data?.user));
-        router.push(appRoutes.home);
-      });
+    handleCreate({
+      values: {
+        email: user,
+        password,
+      },
+    }).then(({ data, error }) => {
+      console.log(data);
+      if (error) {
+        console.log(error);
+        return;
+      }
+      if (data.login) {
+        handleGet({
+          header: {
+            Authorization: `Bearer ${data.token}`,
+          },
+        }).then(({ data, error }) => {
+          if (error) {
+            console.log(error);
+            return;
+          }
+          dispatch(userUpdate(data));
+          router.push(appRoutes.home);
+        });
+      }
+    });
   };
 
   return (

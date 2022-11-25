@@ -36,15 +36,16 @@ const useCRUD = ({ model = '', options = {}, pathOptions = '', headerOptions = {
       }, []);
 
     const handleGet = useCallback(
-        ({ refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true } = {}) => {
+        ({ refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true, header = {} } = {}) => {
 
           if (generateLoading) setLoading(true);
+          if (!header) header = headers;
     
           // eslint-disable-next-line consistent-return
           return axios
             .get(`${baseURL}/${model}/${refetchPathOptions || pathOptions}`, {
               params: refetchOptions || options,
-              headers
+              headers: header
             })
             .catch(err => throwError(err, displayToast))
             .finally(() => {

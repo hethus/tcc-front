@@ -10,7 +10,7 @@ export function Header() {
   const { user, enums: { userType } } = useSelector((state: any) => state);
 
   const headerOptions = {
-    [userType?.teacher?.value]: [
+    [userType?.teacher?.value]: [ // pq os hrefs sao iguais?
       { label: 'Cadastrar turma', href: appRoutes.registerClass },
       { label: 'Indicadores', href: appRoutes.registerClass },
       { label: 'Formulários', href: appRoutes.registerClass },
@@ -47,7 +47,7 @@ export function Header() {
         ))}
         <Dropdown menu={{ items, onClick }} trigger={['click']}>
           <SmileFilled style={{ fontSize: "48px", color: "#C4C4C4" }} />
-        </Dropdown>
+        </Dropdown> {/* verificar */}
       </Space>
 
     </div>
