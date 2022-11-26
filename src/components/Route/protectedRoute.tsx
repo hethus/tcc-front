@@ -28,12 +28,14 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.logout,
       appRoutes.registerClass,
       appRoutes.classes,
+      appRoutes.updateClass
     ],
     admin: [
       appRoutes.home,
       appRoutes.logout,
       appRoutes.registerTeacher,
       appRoutes.classes,
+      appRoutes.updateClass
     ],
   };
 
