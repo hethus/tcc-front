@@ -5,7 +5,8 @@ const appRoutes = {
     login: '/login',
     logout: '/logout',
     index: '/',
-    classes: '/classes'
+    classes: '/classes',
+    updateClass: '/classes/update'
 }
 
 export { appRoutes }
