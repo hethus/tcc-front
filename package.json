@@ -11,7 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@reduxjs/toolkit": "^1.8.6",
-    "antd": "^4.24.0",
+    "antd": "^5.0.1",
     "axios": "^0.27.2",
     "next": "^12.2.0",
     "next-redux-wrapper": "^8.0.0",
