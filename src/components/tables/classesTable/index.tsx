@@ -174,7 +174,7 @@ const ClassesTable = () => {
       sorter: (a, b) => a.students - b.students,
       sortDirections: ["ascend", "descend"],
       align: 'center',
-      width: 250
+      width: 160
     },
     {
       title: "Semestres",
@@ -183,7 +183,7 @@ const ClassesTable = () => {
       sorter: (a, b) => a.semester.length - b.semester.length,
       sortDirections: ["ascend", "descend"],
       align: 'center',
-      width: 250
+      width: 160
     },
     {
       title: "Disciplinas",
@@ -193,7 +193,7 @@ const ClassesTable = () => {
       sorter: (a, b) => a.discipline.length - b.discipline.length,
       sortDirections: ["ascend", "descend"],
       align: 'center',
-      width: 250
+      width: 200
     },
     {
       title: "",
@@ -203,7 +203,7 @@ const ClassesTable = () => {
     },
   ];
 
-  return <Table className={styles.Table} columns={columns} dataSource={Data} />;
+  return <Table size={"middle"} className={styles.Table} columns={columns} dataSource={Data} />;
 };
 
 export default ClassesTable;
