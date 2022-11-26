@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Input } from "antd";
-import 'antd/dist/antd.css';
 import styles from "@/styles/Classes.module.css";
 import { Header } from "../../src/components/header";
 import { FilterButton } from "../../src/components/filterButton";
