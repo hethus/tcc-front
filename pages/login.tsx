@@ -24,32 +24,32 @@ const Login: NextPage = () => {
         email: user,
         password,
       },
-    }).then(({ data, error }) => {
-      console.log(data);
-      if (error) {
+    })
+      .then(({ data }) => {
+        if (data.login) {
+          handleGet({
+            header: {
+              Authorization: `Bearer ${data.token}`,
+            },
+          })
+            .then(({ data }) => {
+              dispatch(userUpdate(data));
+              router.push(appRoutes.home);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      })
+      .catch((error) => {
         console.log(error);
-        return;
-      }
-      if (data.login) {
-        handleGet({
-          header: {
-            Authorization: `Bearer ${data.token}`,
-          },
-        }).then(({ data, error }) => {
-          if (error) {
-            console.log(error);
-            return;
-          }
-          dispatch(userUpdate(data));
-          router.push(appRoutes.home);
-        });
-      }
-    });
+      });
   };
 
   return (
     <div className={styles.container}>
-      <img src="/homeimg.svg" alt="Home img" className={styles.loginImg} />
+      <img src="/teste.svg" alt="Home img" className={styles.loginImg} />
+
       <div className={styles.inputSide}>
         <div className={styles.logoText}>SAMI</div>
         <div className={styles.text}>
