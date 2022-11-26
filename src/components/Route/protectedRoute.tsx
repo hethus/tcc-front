@@ -3,6 +3,7 @@ import { appRoutes } from "../../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { enumUpdate } from "../../../store/actions/enums";
 import useCRUD from "../hooks/useCRUD";
+import { userReset } from "../../../store/actions/users";
 
 const ProtectedRoute = ({ router, children }: any) => {
   const dispatch = useDispatch();
@@ -24,17 +25,17 @@ const ProtectedRoute = ({ router, children }: any) => {
         },
       }
     ).then(({ data }) => {
-      if (data.message === "User successfully logged in!") {
+      if (data && data.message === "User successfully logged in!") {
         setIsAuthenticated(true);
         return;
       }
-      console.log("n deu erro");
       setIsAuthenticated(false);
+      dispatch(userReset());
     })
     .catch((error) => {
-      console.log("deu erro");
       console.log(error);
       setIsAuthenticated(false);
+      dispatch(userReset());
     });
   }, [router.pathname]);
 
