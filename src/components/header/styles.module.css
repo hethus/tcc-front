@@ -4,8 +4,11 @@
   justify-content: space-between;
   background-color: #ffffff;
   padding: 0.7rem 1rem;
+  color: #000;
+  font-weight: 600;
 }
 
 .link {
   padding: 16px;
+  cursor: pointer;
 }
