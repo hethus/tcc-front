@@ -6,11 +6,13 @@ import { Input, Switch } from "antd";
 import { FormCard } from "../src/components/formCard";
 import { Header } from "../src/components/header";
 import { useSelector } from "react-redux";
+import React from "react";
+import Head from "next/head";
 
 const Home: NextPage = () => {
 
   const { enums } = useSelector((state: any) => state);
-  const hasEnums = Object.keys(enums).length;
+  /* const hasEnums = Object.keys(enums).length; // ver se remove */
 
   const onChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
@@ -18,8 +20,14 @@ const Home: NextPage = () => {
 
   const { Search } = Input;
 
-  return hasEnums ? (
+  return (
     <div className={styles.container}>
+      <Head>
+        <title>
+          Home - SAMI
+        </title>
+        <meta name="Página inicial" content="Página inicial da aplicação" />
+      </Head>
       <Header />
       <div className={styles.body}>
         <div className={styles.title}>
@@ -78,7 +86,7 @@ const Home: NextPage = () => {
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Home;

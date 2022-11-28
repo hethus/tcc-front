@@ -31,20 +31,20 @@ const useCRUD = ({ model = '', options = {}, pathOptions = '', headerOptions = {
     
         const errMsg = message || `Ocorreu um erro ${code}`;
 
-        if (displayToast && statusCode) toast.error(errMsg);
         return { error: { message: errMsg } };
       }, []);
 
     const handleGet = useCallback(
-        ({ refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true } = {}) => {
+        ({ refetchOptions = null, refetchPathOptions = '', generateLoading = true, displayToast = true, header = {} } = {}) => {
 
           if (generateLoading) setLoading(true);
+          if (!header) header = headers;
     
           // eslint-disable-next-line consistent-return
           return axios
             .get(`${baseURL}/${model}/${refetchPathOptions || pathOptions}`, {
               params: refetchOptions || options,
-              headers
+              headers: header
             })
             .catch(err => throwError(err, displayToast))
             .finally(() => {
@@ -55,8 +55,9 @@ const useCRUD = ({ model = '', options = {}, pathOptions = '', headerOptions = {
       );
 
       const handleCreate = useCallback(
-        ({ values = {}, refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true } = {}) => {
+        ({ values = {}, refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true, header = {} } = {}) => {
           if (generateLoading) setLoading(true);
+          if (!header) header = headers;
     
           // eslint-disable-next-line consistent-return
           return axios
@@ -79,7 +80,7 @@ const useCRUD = ({ model = '', options = {}, pathOptions = '', headerOptions = {
     
           // eslint-disable-next-line consistent-return
           return axios
-            .put(`${baseURL}/${model}/${id}${refetchPathOptions || pathOptions}`, values, {
+            .patch(`${baseURL}/${model}/${id}${refetchPathOptions || pathOptions}`, values, {
               params: refetchOptions || options,
               headers
             })

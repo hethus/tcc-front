@@ -1,0 +1,102 @@
+.container {
+  justify-content: space-between;
+  height: 100vh;
+  cursor: default;
+}
+
+.body {
+  height: 88vh;
+  background-color: #e4ecff;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem 2rem 1rem 2rem;
+  width: 100%;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 49px;
+  color: #000000;
+}
+
+.containerForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65%;
+  height: auto;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.contentForm {
+  padding: 2rem;
+  align-items: center;
+  width: 100%;
+}
+
+.labelForm {
+  align-items: center;
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 275%;
+  font-weight: 500;
+}
+
+.addStudentsBtn {
+  padding: 1rem 1.5rem;
+  height: auto;
+  background-color: #bbb;
+  border: transparent;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.contentBtns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 4rem;
+  padding: 0 2rem;
+}
+
+.backBtn {
+  padding: 0 3rem;
+  border: transparent;
+  border-radius: 15px;
+  height: 40px;
+  background-color: #FF4040;
+  font-size: 1.1rem;
+  text-align: center;
+  transition: all .6s ease-in-out;
+}
+
+.backBtn:hover {
+  background-color: #e4ecff;
+}
+
+.updateBtn {
+  padding: 0 3rem;
+  border: transparent;
+  border-radius: 15px;
+  height: 40px;
+  background-color: #0094FF;
+  font-size: 1.1rem;
+  text-align: center;
+  transition: all .6s ease-in-out;
+}
+
+.updateBtn:hover {
+  background-color: #e4ecff;
+}

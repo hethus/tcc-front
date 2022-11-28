@@ -1,4 +1,5 @@
 import { CaretDownOutlined } from "@ant-design/icons";
+import React from "react";
 import styles from "./styles.module.css";
 
 interface FilterProps {
