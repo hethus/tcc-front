@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { appRoutes } from "../../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { enumUpdate } from "../../../store/actions/enums";
@@ -16,9 +16,11 @@ const ProtectedRoute = ({ router, children }: any) => {
   const { handleGet } = useCRUD({ model: "enums" });
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (user.token === null) {
+      setIsLoading(true);
       return;
     }
 
@@ -30,6 +32,7 @@ const ProtectedRoute = ({ router, children }: any) => {
       .then(async ({ data }) => {
         if (!data && router.pathname !== appRoutes.login) {
           setIsAuthenticated(false);
+          setIsLoading(true);
           toast.error("Sessão expirada, por favor faça login novamente", {
             toastId: "auth",
             });
@@ -37,11 +40,13 @@ const ProtectedRoute = ({ router, children }: any) => {
         }
         if (data.message === "User successfully logged in!") {
           setIsAuthenticated(true);
+          setIsLoading(true);
           return;
         }
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(true);
       });
   }, [router.pathname]);
 
@@ -71,12 +76,14 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.classes,
       appRoutes.updateClass
     ],
+    default: [appRoutes.login],
   };
 
-  if (!isAuthenticated && router.pathname !== appRoutes.login) {
-    router.push(appRoutes.login);
-    return null;
-  }
+  if (isLoading) {
+    if(user.id === null && router.pathname === appRoutes.login) {
+      return children
+    }
+
   if (!isAuthenticated && router.pathname !== appRoutes.login) {
     router.push(appRoutes.login);
     return null;
@@ -84,9 +91,9 @@ const ProtectedRoute = ({ router, children }: any) => {
 
   if (
     isAuthenticated &&
-    !protectedRoutes[user?.userType].find((url) => url === router.pathname)
+    !(protectedRoutes[user?.userType] || []).find((url) => url === router.pathname)
   ) {
-    router.push(protectedRoutes[user?.userType][0]);
+    router.push((protectedRoutes[user?.userType]?.[0] || appRoutes.login));
     return null;
   }
 
@@ -96,6 +103,7 @@ const ProtectedRoute = ({ router, children }: any) => {
   }
 
   return children;
+  }
 };
 
 export default ProtectedRoute;
