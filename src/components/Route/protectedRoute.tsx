@@ -56,15 +56,27 @@ const ProtectedRoute = ({ router, children }: any) => {
   }, [isAuthenticated && !enums]);
 
   let protectedRoutes = {
-    student: [appRoutes.logout],
-    teacher: [appRoutes.home, appRoutes.logout, appRoutes.registerClass],
-    admin: [appRoutes.home, appRoutes.logout, appRoutes.registerTeacher],
+    student: [appRoutes.logout, appRoutes.classes],
+    teacher: [
+      appRoutes.home,
+      appRoutes.logout,
+      appRoutes.registerClass,
+      appRoutes.classes,
+      appRoutes.updateClass
+    ],
+    admin: [
+      appRoutes.home,
+      appRoutes.logout,
+      appRoutes.registerTeacher,
+      appRoutes.classes,
+      appRoutes.updateClass
+    ],
   };
 
-  if (appRoutes.logout) {
-    return children;
+  if (!isAuthenticated && router.pathname !== appRoutes.login) {
+    router.push(appRoutes.login);
+    return null;
   }
-
   if (!isAuthenticated && router.pathname !== appRoutes.login) {
     router.push(appRoutes.login);
     return null;

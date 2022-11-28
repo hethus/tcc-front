@@ -14,7 +14,6 @@ import React from "react";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { ITableUser } from "../src/types/interfaces";
-
 const formFields = [
   { title: "Nome", type: "string", key: "name" },
   { title: "Nome da disciplina", type: "string", key: "subjectName" },
@@ -167,11 +166,11 @@ const RegisterClass: NextPage = () => {
       <div className={styles.titleForms}>Cadastro Turma</div>
       <div className={styles.pageContainer}>
         <div className={styles.formsContainer}>
-          {formFields.map((field) => {
+          {formFields.map((field, index) => {
             const { key, type } = field;
             return (
               <InputForms
-                key={key}
+                key={index}
                 onChange={(e) => {
                   setClassData((prev) => ({
                     ...prev,
