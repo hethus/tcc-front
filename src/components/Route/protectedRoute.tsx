@@ -3,7 +3,7 @@ import { appRoutes } from "../../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { enumUpdate } from "../../../store/actions/enums";
 import useCRUD from "../hooks/useCRUD";
-import { userReset } from "../../../store/actions/users";
+import { toast } from "react-toastify";
 
 const ProtectedRoute = ({ router, children }: any) => {
   const dispatch = useDispatch();
@@ -18,33 +18,41 @@ const ProtectedRoute = ({ router, children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    userAuthenticated(
-      {
-        header: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    ).then(({ data }) => {
-      if (data && data.message === "User successfully logged in!") {
-        setIsAuthenticated(true);
-        return;
-      }
-      setIsAuthenticated(false);
-      dispatch(userReset());
+    if (user.token === null) {
+      return;
+    }
+
+    userAuthenticated({
+      header: {
+        Authorization: `Bearer ${user.token}`,
+      },
     })
-    .catch((error) => {
-      console.log(error);
-      setIsAuthenticated(false);
-      dispatch(userReset());
-    });
+      .then(async ({ data }) => {
+        if (!data && router.pathname !== appRoutes.login) {
+          setIsAuthenticated(false);
+          toast.error("Sessão expirada, por favor faça login novamente", {
+            toastId: "auth",
+            });
+            return;
+        }
+        if (data.message === "User successfully logged in!") {
+          setIsAuthenticated(true);
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [router.pathname]);
 
   useEffect(() => {
-    handleGet().then(({ data }) => {
-      dispatch(enumUpdate(data));
-    }).catch((error) => {
-      console.log(error);
-    });
+    handleGet()
+      .then(({ data }) => {
+        dispatch(enumUpdate(data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [isAuthenticated && !enums]);
 
   let protectedRoutes = {
@@ -52,6 +60,10 @@ const ProtectedRoute = ({ router, children }: any) => {
     teacher: [appRoutes.home, appRoutes.logout, appRoutes.registerClass],
     admin: [appRoutes.home, appRoutes.logout, appRoutes.registerTeacher],
   };
+
+  if (appRoutes.logout) {
+    return children;
+  }
 
   if (!isAuthenticated && router.pathname !== appRoutes.login) {
     router.push(appRoutes.login);

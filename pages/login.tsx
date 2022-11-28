@@ -1,16 +1,17 @@
 import type { NextPage } from "next";
-import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { Input } from "../src/components/Input";
 import { userUpdate } from "../store/actions/users";
 import styles from "../styles/Login.module.css";
 import useCRUD from "../src/components/hooks/useCRUD.js";
 import { useRouter } from "next/router";
 import { appRoutes } from "../constants";
+import { toast } from "react-toastify";
+import Head from "next/head";
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
-  const { id, token, email } = useSelector((state: any) => state.user);
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -26,6 +27,10 @@ const Login: NextPage = () => {
       },
     })
       .then(({ data }) => {
+        if (!data) {
+          return toast.error("Credenciais inválidas ou usuário não cadastrado");
+        }
+
         if (data.login) {
           handleGet({
             header: {
@@ -34,21 +39,43 @@ const Login: NextPage = () => {
           })
             .then(({ data }) => {
               dispatch(userUpdate(data));
+              toast.success("Login realizado com sucesso", {
+                toastId: "login",
+              });
               router.push(appRoutes.home);
             })
             .catch((error) => {
-              console.log(error);
+              toast.error(error, {
+                toastId: "login",
+              });
             });
+        }
+
+        if (
+          !data.login &&
+          data.message === "Usuário novo, por favor crie uma senha"
+        ) {
+          toast.error(data.message, {
+            toastId: "login",
+          }); // adicionar redirecionamento para página de cadastro de senha depois
         }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error, {
+          toastId: "login",
+        });
       });
   };
 
   return (
     <div className={styles.container}>
-      <img src="/teste.svg" alt="Home img" className={styles.loginImg} />
+      <Head>
+        <title>
+          Login - SAMI
+        </title>
+        <meta name="Página de login" content="Página de login do usuário" />
+      </Head>
+      <img src="/loginImage.svg" alt="Home img" className={styles.loginImg} />
 
       <div className={styles.inputSide}>
         <div className={styles.logoText}>SAMI</div>

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: FredokaOne;
+    src: url(../public/fonts/FredokaOne-Regular.ttf);
+  }
+
 .container{
     display: flex;
     justify-content: space-between;
@@ -22,7 +27,7 @@
 }
 
 .logoText{
-    font-family: 'Rubik';
+    font-family: 'FredokaOne', Rubick;
     font-style: normal;
     font-weight: 400;
     font-size: 114px;
@@ -32,7 +37,7 @@
 }
 
 .text{
-    font-family: 'Rubik';
+    font-family: cursive;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;

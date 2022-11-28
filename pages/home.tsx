@@ -6,6 +6,8 @@ import { Input, Switch } from "antd";
 import { FormCard } from "../src/components/formCard";
 import { Header } from "../src/components/header";
 import { useSelector } from "react-redux";
+import React from "react";
+import Head from "next/head";
 
 const Home: NextPage = () => {
 
@@ -20,6 +22,12 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>
+          Home - SAMI
+        </title>
+        <meta name="Página inicial" content="Página inicial da aplicação" />
+      </Head>
       <Header />
       <div className={styles.body}>
         <div className={styles.title}>

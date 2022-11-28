@@ -5,6 +5,8 @@ import { persistor, store } from "../store";
 import { PersistGate } from 'redux-persist/integration/react';
 import ProtectedRoutes from '../src/components/Route/protectedRoute';
 import type { AppProps } from 'next/app'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
@@ -13,6 +15,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       <ProtectedRoutes router={router}>
         <Component {...pageProps} />
         </ProtectedRoutes>
+        <ToastContainer position="bottom-right"/>
       </PersistGate>
     </Provider>
   )
