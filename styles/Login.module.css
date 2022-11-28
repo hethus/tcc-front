@@ -18,6 +18,26 @@
     background-repeat: no-repeat;
 }
 
+.div {
+    display: flex;
+    flex-direction: column;
+}
+
+.passwordButton {
+    cursor: pointer;
+    width: 151px;
+    align-self: center;
+    margin-left: 11rem;
+    margin-top: -1rem;
+    border-bottom: 1px solid #000;
+    border-radius: 5px;
+}
+
+.passwordButton:hover {
+    background-color: #a503ce;
+    color: #fff;
+}
+
 .inputSide{
     display: flex;
     flex-direction: column;
@@ -58,6 +78,11 @@
     border-radius: 16px;
     color: #6D0088;
     cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #a503ce;
+    color: #fff;
 }
 
 .loginImg {

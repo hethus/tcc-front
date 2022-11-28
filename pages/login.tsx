@@ -87,11 +87,24 @@ const Login: NextPage = () => {
           type="email"
           onChange={(e) => setUser(e.target.value)}
         />
+
+        <div className={styles.div}>
+
         <Input
           title="Senha"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
+        <a className={styles.passwordButton} onClick={() => toast.error(
+          "Funcionalidade não implementada",
+          {
+            toastId: "implement",
+          }
+        )}>
+          esqueci minha senha
+        </a>
+        </div>
+
         <button className={styles.submitButton} onClick={login}>
           Entrar
         </button>
