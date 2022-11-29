@@ -70,9 +70,7 @@ const Login: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>
-          Login - SAMI
-        </title>
+        <title>Login - SAMI</title>
         <meta name="Página de login" content="Página de login do usuário" />
       </Head>
       <img src="/loginImage.svg" alt="Home img" className={styles.loginImg} />
@@ -95,6 +93,13 @@ const Login: NextPage = () => {
         <button className={styles.submitButton} onClick={login}>
           Entrar
         </button>
+
+        <span
+          className={styles.linkPassword}
+          onClick={() => router.push("/recoverPassword")}
+        >
+          Esqueceu sua senha
+        </span>
       </div>
     </div>
   );
