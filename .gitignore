@@ -35,4 +35,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
+# Files
+/TODO.md
+
 package-lock.json
