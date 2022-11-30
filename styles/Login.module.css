@@ -48,11 +48,11 @@
 
 .divInput {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   position: relative;
   margin-bottom: 2rem;
-  width: 75%;
+  width: 73%;
 }
 
 .error {

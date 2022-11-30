@@ -25,10 +25,7 @@ const RecoverPassword: NextPage = () => {
     handleGet({
       refetchPathOptions: data.email,
     }).then(({ data, error }) => {
-      console.log(data);
       if (!data) {
-        console.log("a");
-        console.log(error.message);
         toast.error(error.message, {
           toastId: "recoverError",
         });
@@ -36,7 +33,7 @@ const RecoverPassword: NextPage = () => {
       }
 
       toast.success(data, {
-        toastId: "recoverSucess",
+        toastId: "recoverSuccess",
       });
 
       router.push("/login");

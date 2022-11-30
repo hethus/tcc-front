@@ -109,7 +109,7 @@ const Login: NextPage = () => {
         </div>
 
         <div className={styles.divInput}>
-          <div className={styles.title}>senha:</div>
+          <div className={styles.title}>Senha:</div>
           <input
             className={loginErrors.password ? styles.inputError : styles.input}
             type="password"
