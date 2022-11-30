@@ -9,9 +9,9 @@ import { useRouter } from "next/router";
 import useCRUD from "../../src/components/hooks/useCRUD";
 import { toast } from "react-toastify";
 
-interface ChangePasswordData {
+interface FirstAccessData {
   password: string;
-  confirmPassword: string;
+  newPassword: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -31,12 +31,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-const changePasswordSchema = yup.object().shape({
-  password: yup.string().required("Senha é obrigatória"),
-  confirmPassword: yup
-    .string()
-    .required("Confirme sua senha")
-    .oneOf([yup.ref("password"), null], "Senhas não conferem"),
+const firstAccessSchema = yup.object().shape({
+  password: yup.string().required("Senha antiga é obrigatória"),
+  newPassword: yup.string().required("Nova senha é obrigatória"),
 });
 
 const ChangePassword = () => {
@@ -46,26 +43,25 @@ const ChangePassword = () => {
     handleSubmit: changePasswordHandleSubmit,
     formState: { errors: changePasswordErrors },
     reset,
-  } = useForm<ChangePasswordData>({
-    resolver: yupResolver(changePasswordSchema),
+  } = useForm<FirstAccessData>({
+    resolver: yupResolver(firstAccessSchema),
   });
 
-  const { handleUpdate } = useCRUD({ model: "user/recovery/password" });
+  const { handleUpdate } = useCRUD({ model: "user/first-access" });
 
-  const handlePasswordChange = (data: ChangePasswordData) => {
-
+  const handlePasswordChange = (data: FirstAccessData) => {
     handleUpdate({
       values: data,
       id: router.query.index as string,
     }).then(({ data, error }) => {
       if (!data) {
         toast.error(error.message, {
-          toastId: "changePasswordError",
+          toastId: "firstAccessError",
         });
       }
 
-      toast.success(data.message, {
-        toastId: "changePasswordSuccess",
+      toast.success("Senha cadastrada com sucesso, login liberado!", {
+        toastId: "firstAccessSuccess",
       });
 
       router.push("/login");
@@ -76,17 +72,17 @@ const ChangePassword = () => {
   return (
     <div className={styled.container}>
       <Head>
-        <title>Trocar senha - SAMI</title>
+        <title>Primeiro acesso - SAMI</title>
         <meta
-          name="Página de Trocar senha"
-          content="Página para a troca de senha do usuário"
+          name="Página de primeiro acesso"
+          content="Página para a troca de senha do usuário no primeiro acesso"
         />
       </Head>
 
       <img className={styled.img} src="/loginImage.svg" alt="logo" />
 
       <div className={styled.inputSide}>
-        <h1 className={styled.title}>Alterar senha</h1>
+        <h1 className={styled.title}>Primeiro acesso, altere a senha</h1>
 
         <div className={styled.divInput}>
           <div className={styled.inputText}>Senha:</div>
@@ -104,19 +100,19 @@ const ChangePassword = () => {
           )}
         </div>
         <div className={styled.divInput}>
-          <div className={styled.inputText}>Confirmar senha:</div>
+          <div className={styled.inputText}>Nova senha:</div>
           <input
             className={
-              changePasswordErrors.confirmPassword
+              changePasswordErrors.newPassword
                 ? styled.inputError
                 : styled.input
             }
             type="password"
-            {...changePasswordRegister("confirmPassword")}
+            {...changePasswordRegister("newPassword")}
           />
-          {changePasswordErrors.confirmPassword && (
+          {changePasswordErrors.newPassword && (
             <p className={styled.error}>
-              {changePasswordErrors.confirmPassword?.message}
+              {changePasswordErrors.newPassword?.message}
             </p>
           )}
         </div>

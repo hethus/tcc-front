@@ -4,6 +4,7 @@ const appRoutes = {
   registerTeacher: "/registerTeacher",
   recoverPassword: "/recoverPassword",
   changePassword: "/changePassword/[index]",
+  firstAccess: "/firstAccess/[index]",
   login: "/login",
   logout: "/logout",
   index: "/",

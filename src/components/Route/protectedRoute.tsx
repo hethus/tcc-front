@@ -42,6 +42,7 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.login,
       appRoutes.recoverPassword,
       appRoutes.changePassword,
+      appRoutes.firstAccess,
     ],
   };
 
@@ -95,7 +96,8 @@ const ProtectedRoute = ({ router, children }: any) => {
 
   if (isLoading) {
     if (
-      !user.id && protectedRoutes.default.includes(router.pathname) //validar se o redux de 'null' é null mesmo
+      !user.id &&
+      protectedRoutes.default.includes(router.pathname) //validar se o redux de 'null' é null mesmo
     ) {
       return children;
     }

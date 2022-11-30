@@ -70,9 +70,10 @@ const Login: NextPage = () => {
           !data.login &&
           data.message === "Usuário novo, por favor crie uma senha"
         ) {
-          toast.error(data.message, {
-            toastId: "loginNew",
-          }); // adicionar redirecionamento para página de cadastro de senha depois
+          toast.info(data.message, {
+            toastId: "loginInfo",
+          });
+          router.push(`firstAccess/${data.tokenUrl}`);
         }
       })
       .catch((error) => {
