@@ -35,8 +35,8 @@ const ProtectedRoute = ({ router, children }: any) => {
           setIsLoading(true);
           toast.error("Sessão expirada, por favor faça login novamente", {
             toastId: "auth",
-            });
-            return;
+          });
+          return;
         }
         if (data.message === "User successfully logged in!") {
           setIsAuthenticated(true);
@@ -67,42 +67,44 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.logout,
       appRoutes.registerClass,
       appRoutes.classes,
-      appRoutes.updateClass
+      appRoutes.updateClass,
     ],
     admin: [
       appRoutes.home,
       appRoutes.logout,
       appRoutes.registerTeacher,
       appRoutes.classes,
-      appRoutes.updateClass
+      appRoutes.updateClass,
     ],
     default: [appRoutes.login],
   };
 
   if (isLoading) {
-    if(user.id === null && router.pathname === appRoutes.login) {
-      return children
+    if (user.id === null && router.pathname === appRoutes.login) {
+      return children;
     }
 
-  if (!isAuthenticated && router.pathname !== appRoutes.login) {
-    router.push(appRoutes.login);
-    return null;
-  }
+    if (!isAuthenticated && router.pathname !== appRoutes.login) {
+      router.push(appRoutes.login);
+      return null;
+    }
 
-  if (
-    isAuthenticated &&
-    !(protectedRoutes[user?.userType] || []).find((url) => url === router.pathname)
-  ) {
-    router.push((protectedRoutes[user?.userType]?.[0] || appRoutes.login));
-    return null;
-  }
+    if (
+      isAuthenticated &&
+      !(protectedRoutes[user?.userType] || []).find(
+        (url) => url === router.pathname
+      )
+    ) {
+      router.push(protectedRoutes[user?.userType]?.[0] || appRoutes.login);
+      return null;
+    }
 
-  if (isAuthenticated && router.pathname === appRoutes.login) {
-    router.push(appRoutes.home);
-    return null;
-  }
+    if (isAuthenticated && router.pathname === appRoutes.login) {
+      router.push(appRoutes.home);
+      return null;
+    }
 
-  return children;
+    return children;
   }
 };
 
