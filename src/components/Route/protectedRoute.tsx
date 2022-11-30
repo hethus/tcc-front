@@ -18,49 +18,7 @@ const ProtectedRoute = ({ router, children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useLayoutEffect(() => {
-    if (user.token === null) {
-      setIsLoading(true);
-      return;
-    }
-
-    userAuthenticated({
-      header: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    })
-      .then(async ({ data }) => {
-        if (!data && router.pathname !== appRoutes.login) {
-          setIsAuthenticated(false);
-          setIsLoading(true);
-          toast.error("Sessão expirada, por favor faça login novamente", {
-            toastId: "auth",
-          });
-          return;
-        }
-        if (data.message === "User successfully logged in!") {
-          setIsAuthenticated(true);
-          setIsLoading(true);
-          return;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(true);
-      });
-  }, [router.pathname]);
-
-  useEffect(() => {
-    handleGet()
-      .then(({ data }) => {
-        dispatch(enumUpdate(data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [isAuthenticated && !enums]);
-
-  let protectedRoutes = {
+  const protectedRoutes = {
     student: [appRoutes.logout, appRoutes.classes],
     teacher: [
       appRoutes.home,
@@ -87,8 +45,62 @@ const ProtectedRoute = ({ router, children }: any) => {
     ],
   };
 
+  useLayoutEffect(() => {
+    if (user.token === null) {
+      setIsLoading(true);
+      return;
+    }
+
+    userAuthenticated({
+      header: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(async ({ data }) => {
+        if (!data && !protectedRoutes.default.includes(router.pathname)) {
+          setIsAuthenticated(false);
+          setIsLoading(true);
+          toast.error("Sessão expirada, por favor faça login novamente", {
+            toastId: "auth",
+          });
+          return;
+        }
+        if (!data) {
+          setIsAuthenticated(false);
+          setIsLoading(true);
+          return;
+        }
+
+        if (data.message === "User successfully logged in!") {
+          setIsAuthenticated(true);
+          setIsLoading(true);
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  }, [router.pathname]);
+
+  useEffect(() => {
+    handleGet()
+      .then(({ data }) => {
+        dispatch(enumUpdate(data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [isAuthenticated && !enums]);
+
   if (isLoading) {
-    if (user.id === null && router.pathname === appRoutes.login) {
+    if (
+      !user.id && protectedRoutes.default.includes(router.pathname) //validar se o redux de 'null' é null mesmo
+    ) {
+      return children;
+    }
+
+    if (!isAuthenticated && router.pathname === appRoutes.login) {
       return children;
     }
 

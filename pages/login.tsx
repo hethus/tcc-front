@@ -9,22 +9,37 @@ import { useRouter } from "next/router";
 import { appRoutes } from "../constants";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+const loginSchema = yup.object().shape({
+  email: yup.string().required("Email é obrigatório").email("Email inválido"),
+  password: yup.string().required("Senha é obrigatória"),
+});
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
 
   const { handleCreate } = useCRUD({ model: "auth" });
   const { handleGet } = useCRUD({ model: "user" });
 
-  const login = () => {
+  const {
+    register: loginRegister,
+    handleSubmit: loginHandleSubmit,
+    formState: { errors: loginErrors },
+    reset,
+  } = useForm<LoginData>({ resolver: yupResolver(loginSchema) });
+
+  const login = (data: LoginData) => {
     handleCreate({
-      values: {
-        email: user,
-        password,
-      },
+      values: data,
     })
       .then(({ data }) => {
         if (!data) {
@@ -40,13 +55,13 @@ const Login: NextPage = () => {
             .then(({ data }) => {
               dispatch(userUpdate(data));
               toast.success("Login realizado com sucesso", {
-                toastId: "login",
+                toastId: "loginSuccess",
               });
               router.push(appRoutes.home);
             })
             .catch((error) => {
               toast.error(error, {
-                toastId: "login",
+                toastId: "loginError",
               });
             });
         }
@@ -56,13 +71,13 @@ const Login: NextPage = () => {
           data.message === "Usuário novo, por favor crie uma senha"
         ) {
           toast.error(data.message, {
-            toastId: "login",
+            toastId: "loginNew",
           }); // adicionar redirecionamento para página de cadastro de senha depois
         }
       })
       .catch((error) => {
         toast.error(error, {
-          toastId: "login",
+          toastId: "loginError",
         });
       });
   };
@@ -80,30 +95,35 @@ const Login: NextPage = () => {
         <div className={styles.text}>
           Sistema para análise de métricas e <br /> indicadores de aprendizagem
         </div>
-        <Input
-          title="Usuário"
-          type="email"
-          onChange={(e) => setUser(e.target.value)}
-        />
 
-        <div className={styles.div}>
-
-        <Input
-          title="Senha"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <a className={styles.passwordButton} onClick={() => toast.error(
-          "Funcionalidade não implementada",
-          {
-            toastId: "implement",
-          }
-        )}>
-          esqueci minha senha
-        </a>
+        <div className={styles.divInput}>
+          <div className={styles.title}>Email:</div>
+          <input
+            className={loginErrors.email ? styles.inputError : styles.input}
+            type="email"
+            {...loginRegister("email")}
+          />
+          {loginErrors.email && (
+            <p className={styles.error}>{loginErrors.email?.message}</p>
+          )}
         </div>
 
-        <button className={styles.submitButton} onClick={login}>
+        <div className={styles.divInput}>
+          <div className={styles.title}>senha:</div>
+          <input
+            className={loginErrors.password ? styles.inputError : styles.input}
+            type="password"
+            {...loginRegister("password")}
+          />
+          {loginErrors.password && (
+            <p className={styles.error}>{loginErrors.password?.message}</p>
+          )}
+        </div>
+
+        <button
+          className={styles.submitButton}
+          onClick={loginHandleSubmit(login)}
+        >
           Entrar
         </button>
 
