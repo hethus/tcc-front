@@ -68,6 +68,8 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.registerClass,
       appRoutes.classes,
       appRoutes.updateClass,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
     ],
     admin: [
       appRoutes.home,
@@ -75,8 +77,14 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.registerTeacher,
       appRoutes.classes,
       appRoutes.updateClass,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
     ],
-    default: [appRoutes.login],
+    default: [
+      appRoutes.login,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+    ],
   };
 
   if (isLoading) {
