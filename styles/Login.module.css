@@ -66,6 +66,11 @@
   background-color: #6d0088;
 }
 
+.submitButton:hover {
+    background-color: #a503ce;
+    color: #fff;
+}
+
 .loginImg {
   width: 50vw;
   object-fit: cover;
