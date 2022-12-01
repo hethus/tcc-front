@@ -18,6 +18,34 @@ const ProtectedRoute = ({ router, children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const protectedRoutes = {
+    student: [appRoutes.logout, appRoutes.classes],
+    teacher: [
+      appRoutes.home,
+      appRoutes.logout,
+      appRoutes.registerClass,
+      appRoutes.classes,
+      appRoutes.updateClass,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+    ],
+    admin: [
+      appRoutes.home,
+      appRoutes.logout,
+      appRoutes.registerTeacher,
+      appRoutes.classes,
+      appRoutes.updateClass,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+    ],
+    default: [
+      appRoutes.login,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+      appRoutes.firstAccess,
+    ],
+  };
+
   useLayoutEffect(() => {
     if (user.token === null) {
       setIsLoading(true);
@@ -30,14 +58,20 @@ const ProtectedRoute = ({ router, children }: any) => {
       },
     })
       .then(async ({ data }) => {
-        if (!data && router.pathname !== appRoutes.login) {
+        if (!data && !protectedRoutes.default.includes(router.pathname)) {
           setIsAuthenticated(false);
           setIsLoading(true);
           toast.error("Sessão expirada, por favor faça login novamente", {
             toastId: "auth",
-            });
-            return;
+          });
+          return;
         }
+        if (!data) {
+          setIsAuthenticated(false);
+          setIsLoading(true);
+          return;
+        }
+
         if (data.message === "User successfully logged in!") {
           setIsAuthenticated(true);
           setIsLoading(true);
@@ -60,49 +94,39 @@ const ProtectedRoute = ({ router, children }: any) => {
       });
   }, [isAuthenticated && !enums]);
 
-  let protectedRoutes = {
-    student: [appRoutes.logout, appRoutes.classes],
-    teacher: [
-      appRoutes.home,
-      appRoutes.logout,
-      appRoutes.registerClass,
-      appRoutes.classes,
-      appRoutes.updateClass
-    ],
-    admin: [
-      appRoutes.home,
-      appRoutes.logout,
-      appRoutes.registerTeacher,
-      appRoutes.classes,
-      appRoutes.updateClass
-    ],
-    default: [appRoutes.login],
-  };
-
   if (isLoading) {
-    if(user.id === null && router.pathname === appRoutes.login) {
-      return children
+    if (
+      !user.id &&
+      protectedRoutes.default.includes(router.pathname) //validar se o redux de 'null' é null mesmo
+    ) {
+      return children;
     }
 
-  if (!isAuthenticated && router.pathname !== appRoutes.login) {
-    router.push(appRoutes.login);
-    return null;
-  }
+    if (!isAuthenticated && router.pathname === appRoutes.login) {
+      return children;
+    }
 
-  if (
-    isAuthenticated &&
-    !(protectedRoutes[user?.userType] || []).find((url) => url === router.pathname)
-  ) {
-    router.push((protectedRoutes[user?.userType]?.[0] || appRoutes.login));
-    return null;
-  }
+    if (!isAuthenticated && router.pathname !== appRoutes.login) {
+      router.push(appRoutes.login);
+      return null;
+    }
 
-  if (isAuthenticated && router.pathname === appRoutes.login) {
-    router.push(appRoutes.home);
-    return null;
-  }
+    if (
+      isAuthenticated &&
+      !(protectedRoutes[user?.userType] || []).find(
+        (url) => url === router.pathname
+      )
+    ) {
+      router.push(protectedRoutes[user?.userType]?.[0] || appRoutes.login);
+      return null;
+    }
 
-  return children;
+    if (isAuthenticated && router.pathname === appRoutes.login) {
+      router.push(appRoutes.home);
+      return null;
+    }
+
+    return children;
   }
 };
 

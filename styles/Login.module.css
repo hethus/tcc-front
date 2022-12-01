@@ -1,67 +1,151 @@
 @font-face {
-    font-family: FredokaOne;
-    src: url(../public/fonts/FredokaOne-Regular.ttf);
-  }
+  font-family: FredokaOne;
+  src: url(../public/fonts/FredokaOne-Regular.ttf);
+}
 
-.container{
-    display: flex;
-    justify-content: space-between;
-    height: 100vh;
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 .sideImage {
-    height: 100%;
-    width: 50vw;
-    /* dar zoom */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  height: 100%;
+  width: 50vw;
+  /* dar zoom */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.inputSide{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    text-align: center;
-    justify-content: center;
+.inputSide {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  text-align: center;
+  justify-content: center;
 }
 
-.logoText{
-    font-family: 'FredokaOne', Rubick;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 114px;
-    line-height: 135px;
-
-    color: #6D0088;
+.logoText {
+  font-family: "FredokaOne", Rubick;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 114px;
+  line-height: 135px;
+  color: #6d0088;
 }
 
-.text{
-    font-family: cursive;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 28px;
-    text-align: center;
-
-    color: #6D0088;
-    margin-bottom: 5rem;
+.text {
+  font-family: cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  color: #6d0088;
+  margin-bottom: 5rem;
 }
 
-.submitButton{
-    align-self: center;
-    margin-top: 36px;
-    text-align: center;
-    width: 101px;
-    min-height: 36px;
-    border: 1px solid #6D0088;
-    border-radius: 16px;
-    color: #6D0088;
-    cursor: pointer;
+.divInput {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+  width: 73%;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.7rem;
+  position: absolute;
+  width: 45%;
+  top: -1.97rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid red;
+  border-left: 1px solid red;
+  border-right: 1px solid red;
+  border-bottom: 1px solid white;
+  border-radius: 8px 8px 0 0;
+  background: white;
+  padding: 0 1rem;
+  font-weight: 600;
+}
+
+.submitButton {
+  align-self: center;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  width: 225px;
+  min-height: 36px;
+  border: 1px solid #6d0088;
+  border-radius: 16px;
+  color: #6d0088;
+  cursor: pointer;
+  transition: all 0.6s ease-in-out;
+}
+
+.submitButton:hover {
+  border-color: transparent;
+  color: #fff;
+  background-color: #6d0088;
+}
+
+.submitButton:hover {
+    background-color: #a503ce;
+    color: #fff;
 }
 
 .loginImg {
-    width: 50vw;
-    object-fit: cover;
-    object-position: top;
+  width: 50vw;
+  object-fit: cover;
+  object-position: top;
+}
+
+.linkPassword {
+  margin-top: 1.5rem;
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #000;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.6s ease-out;
+}
+
+.linkPassword:hover {
+  color: #6d0088;
+  text-decoration: underline;
+}
+
+.input {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  font-size: 18px;
+  width: 15rem;
+  padding: 0.5rem 1rem;
+}
+
+.inputError {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px 0 8px 8px;
+
+  font-size: 18px;
+  width: 15rem;
+  padding: 0.5rem 1rem;
+}
+
+.title{
+  width: 15%;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+
+  color: #000000;
 }

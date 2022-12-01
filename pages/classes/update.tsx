@@ -102,9 +102,13 @@ const UpdateClass: NextPage = () => {
                 </Form.Item>
 
                 <div className={styles.contentBtns}>
-                  <Button type="primary" className={styles.backBtn}>Voltar</Button>
+                  <Button type="primary" className={styles.backBtn}>
+                    Voltar
+                  </Button>
 
-                  <Button type="primary" className={styles.updateBtn}>Salvar</Button>
+                  <Button type="primary" className={styles.updateBtn}>
+                    Salvar
+                  </Button>
                 </div>
               </form>
             </div>
