@@ -5,14 +5,16 @@ import { FilterButton } from "../src/components/filterButton";
 import { Input, Switch } from "antd";
 import { FormCard } from "../src/components/formCard";
 import { Header } from "../src/components/header";
-import { useSelector } from "react-redux";
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
+import { useSelector } from "react-redux";
 
 const Home: NextPage = () => {
+  const { forms } = useSelector((state: any) => state);
 
-  const { enums } = useSelector((state: any) => state);
-  /* const hasEnums = Object.keys(enums).length; // ver se remove */
+  useEffect(() => {
+    console.log(forms);
+  }, []);
 
   const onChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);

@@ -98,7 +98,7 @@ const RegisterClass: NextPage = () => {
 
   const registerNewClass = () => {
     handleCreateClass({
-      values: { ...classData, teacherId: user.id },
+      values: { ...classData },
       header: {
         Authorization: `Bearer ${user.token}`,
       },

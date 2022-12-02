@@ -28,6 +28,8 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.updateClass,
       appRoutes.recoverPassword,
       appRoutes.changePassword,
+      appRoutes.registerForm,
+      appRoutes.updateForm,
     ],
     admin: [
       appRoutes.home,
