@@ -5,20 +5,18 @@ import { FilterButton } from "../src/components/filterButton";
 import { Input, Switch } from "antd";
 import { FormCard } from "../src/components/formCard";
 import { Header } from "../src/components/header";
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 
 const Home: NextPage = () => {
   const { forms } = useSelector((state: any) => state);
 
-  useEffect(() => {
-    console.log(forms);
-  }, []);
-
   const onChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
+
+  console.log(forms, forms);
 
   const { Search } = Input;
 
@@ -82,6 +80,14 @@ const Home: NextPage = () => {
         </div>
 
         <div className={styles.cardsDiv}>
+           {forms.forms?.map((form: any) => (
+            <FormCard
+              key={form.id}
+              title={form.name}
+              visualization={0} // como?
+              date={`${new Date(form.createdAt).toLocaleDateString()}`}
+            />
+          ))}
           <FormCard title="Formulário 1" visualization={5} date="15/01/22" />
           <FormCard title="Formulário 2" visualization={2} date="27/02/22" />
           <FormCard title="Formulário 3" visualization={7} date="13/03/22" />

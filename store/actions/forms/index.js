@@ -2,7 +2,7 @@ import { FORMS_UPDATE, FORMS_RESET } from "../";
 
 export const formsUpdate = (forms) => ({
   type: FORMS_UPDATE,
-  payload: forms,
+  payload: {forms},
 });
 
 export const formsReset = () => {

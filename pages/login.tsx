@@ -62,6 +62,7 @@ const Login: NextPage = () => {
                 refetchPathOptions: `${data.email}`,
               })
                 .then(({ data }) => {
+                  console.log(data);
                   dispatch(formsUpdate(data));
                 })
                 .catch((err) => {

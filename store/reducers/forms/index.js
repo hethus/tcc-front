@@ -6,7 +6,7 @@ const initialState = [];
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case HYDRATE:
-      return { ...action.payload };
+      return {...state, ...action.payload };
     case FORMS_UPDATE:
       const newState = { ...state, ...action.payload };
       return newState;
