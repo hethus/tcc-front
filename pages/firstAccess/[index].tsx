@@ -8,6 +8,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import useCRUD from "../../src/components/hooks/useCRUD";
 import { toast } from "react-toastify";
+import { appRoutes } from "../../constants";
 
 interface FirstAccessData {
   password: string;
@@ -64,7 +65,7 @@ const ChangePassword = () => {
         toastId: "firstAccessSuccess",
       });
 
-      router.push("/login");
+      router.push(appRoutes.login);
       return;
     });
   };

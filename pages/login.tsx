@@ -145,7 +145,7 @@ const Login: NextPage = () => {
 
         <span
           className={styles.linkPassword}
-          onClick={() => router.push("/recoverPassword")}
+          onClick={() => router.push(appRoutes.changePassword)}
         >
           Esqueceu sua senha
         </span>

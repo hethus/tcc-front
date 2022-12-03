@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useCRUD from "../../src/components/hooks/useCRUD";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { appRoutes } from "../../constants";
 
 interface RecoveryData {
   email: string;
@@ -36,7 +37,7 @@ const RecoverPassword: NextPage = () => {
         toastId: "recoverSuccess",
       });
 
-      router.push("/login");
+      router.push(appRoutes.login);
       return;
     });
   };

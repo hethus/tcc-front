@@ -8,31 +8,32 @@ import { Header } from "../src/components/header";
 import React from "react";
 import Head from "next/head";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { appRoutes } from "../constants";
 
 const Home: NextPage = () => {
   const { forms } = useSelector((state: any) => state);
+  const router = useRouter();
 
   const onChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
-
-  console.log(forms, forms);
 
   const { Search } = Input;
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>
-          Home - SAMI
-        </title>
+        <title>Home - SAMI</title>
         <meta name="Página inicial" content="Página inicial da aplicação" />
       </Head>
       <Header />
       <div className={styles.body}>
         <div className={styles.title}>
           Formulários
-          <button className={styles.button}>Criar</button>
+          <button className={styles.button} onClick={() => router.push(appRoutes.registerForm)}>
+            Criar
+          </button>
         </div>
         <div className={styles.filterDiv}>
           <div className={styles.filterDivLeftSide}>
@@ -64,7 +65,7 @@ const Home: NextPage = () => {
             </div>
 
             <div className={styles.switchDiv}>
-              <div className={styles.orderTitle}>Ordernar</div>
+              <div className={styles.orderTitle}>Ordenar</div>
               <div className={styles.orderDivButton}>
                 <button className={styles.orderDivButtonUpDown}>
                   <UpOutlined style={{ fontSize: "12px", color: "#C4C4C4" }} />
@@ -80,7 +81,7 @@ const Home: NextPage = () => {
         </div>
 
         <div className={styles.cardsDiv}>
-           {forms.forms?.map((form: any) => (
+          {forms.forms?.map((form: any) => (
             <FormCard
               key={form.id}
               title={form.name}
