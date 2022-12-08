@@ -14,6 +14,7 @@ import React from "react";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { ITableUser } from "../src/types/interfaces";
+
 const formFields = [
   { title: "Nome", type: "string", key: "name" },
   { title: "Nome da disciplina", type: "string", key: "subjectName" },
@@ -23,7 +24,7 @@ const formFields = [
 
 const RegisterClass: NextPage = () => {
   const { user } = useSelector((state: any) => state);
-  const [tableData, setTableData] = useState <ITableUser[]>([] as ITableUser[]);
+  const [tableData, setTableData] = useState<ITableUser[]>([] as ITableUser[]);
   const router = useRouter();
   const { id } = router.query;
   const [classData, setClassData] = useState({});
