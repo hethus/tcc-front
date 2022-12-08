@@ -46,6 +46,34 @@
   margin-bottom: 5rem;
 }
 
+.divInput {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+  width: 73%;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.7rem;
+  position: absolute;
+  width: 45%;
+  top: -1.97rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid red;
+  border-left: 1px solid red;
+  border-right: 1px solid red;
+  border-bottom: 1px solid white;
+  border-radius: 8px 8px 0 0;
+  background: white;
+  padding: 0 1rem;
+  font-weight: 600;
+}
+
 .submitButton {
   align-self: center;
   font-size: 1rem;
@@ -90,4 +118,34 @@
 .linkPassword:hover {
   color: #6d0088;
   text-decoration: underline;
+}
+
+.input {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  font-size: 18px;
+  width: 15rem;
+  padding: 0.5rem 1rem;
+}
+
+.inputError {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px 0 8px 8px;
+
+  font-size: 18px;
+  width: 15rem;
+  padding: 0.5rem 1rem;
+}
+
+.title{
+  width: 15%;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+
+  color: #000000;
 }

@@ -18,6 +18,36 @@ const ProtectedRoute = ({ router, children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const protectedRoutes = {
+    student: [appRoutes.logout, appRoutes.classes],
+    teacher: [
+      appRoutes.home,
+      appRoutes.logout,
+      appRoutes.registerClass,
+      appRoutes.classes,
+      appRoutes.updateClass,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+      appRoutes.registerForm,
+      appRoutes.updateForm,
+    ],
+    admin: [
+      appRoutes.home,
+      appRoutes.logout,
+      appRoutes.registerTeacher,
+      appRoutes.classes,
+      appRoutes.updateClass,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+    ],
+    default: [
+      appRoutes.login,
+      appRoutes.recoverPassword,
+      appRoutes.changePassword,
+      appRoutes.firstAccess,
+    ],
+  };
+
   useLayoutEffect(() => {
     if (user.token === null) {
       setIsLoading(true);
@@ -30,7 +60,7 @@ const ProtectedRoute = ({ router, children }: any) => {
       },
     })
       .then(async ({ data }) => {
-        if (!data && router.pathname !== appRoutes.login) {
+        if (!data && !protectedRoutes.default.includes(router.pathname)) {
           setIsAuthenticated(false);
           setIsLoading(true);
           toast.error("Sessão expirada, por favor faça login novamente", {
@@ -38,6 +68,12 @@ const ProtectedRoute = ({ router, children }: any) => {
           });
           return;
         }
+        if (!data) {
+          setIsAuthenticated(false);
+          setIsLoading(true);
+          return;
+        }
+
         if (data.message === "User successfully logged in!") {
           setIsAuthenticated(true);
           setIsLoading(true);
@@ -60,36 +96,15 @@ const ProtectedRoute = ({ router, children }: any) => {
       });
   }, [isAuthenticated && !enums]);
 
-  let protectedRoutes = {
-    student: [appRoutes.logout, appRoutes.classes],
-    teacher: [
-      appRoutes.home,
-      appRoutes.logout,
-      appRoutes.registerClass,
-      appRoutes.classes,
-      appRoutes.updateClass,
-      appRoutes.recoverPassword,
-      appRoutes.changePassword,
-    ],
-    admin: [
-      appRoutes.home,
-      appRoutes.logout,
-      appRoutes.registerTeacher,
-      appRoutes.registerClass,
-      appRoutes.classes,
-      appRoutes.updateClass,
-      appRoutes.recoverPassword,
-      appRoutes.changePassword,
-    ],
-    default: [
-      appRoutes.login,
-      appRoutes.recoverPassword,
-      appRoutes.changePassword,
-    ],
-  };
-
   if (isLoading) {
-    if (user.id === null && router.pathname === appRoutes.login) {
+    if (
+      !user.id &&
+      protectedRoutes.default.includes(router.pathname) //validar se o redux de 'null' é null mesmo
+    ) {
+      return children;
+    }
+
+    if (!isAuthenticated && router.pathname === appRoutes.login) {
       return children;
     }
 
