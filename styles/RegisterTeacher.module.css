@@ -46,16 +46,14 @@
 }
 
 .buttonCancel {
-  cursor: pointer;
-  background: #ff4040;
-  border-radius: 30px;
-  border: none;
-  padding: 0.5rem 3rem;
-
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 33px;
-
+  padding: 0 3rem;
+  border: transparent;
+  border-radius: 15px;
+  height: 40px;
+  background-color: #FF4040;
+  font-size: 1.1rem;
+  text-align: center;
+  transition: all .6s ease-in-out;
   color: #ffffff;
 }
 
@@ -65,15 +63,14 @@
 }
 
 .buttonRegister {
-  cursor: pointer;
-  background: #0094ff;
-  border-radius: 30px;
-  border: none;
-  padding: 0.5rem 3rem;
-
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 33px;
+  padding: 0 3rem;
+  border: transparent;
+  border-radius: 15px;
+  height: 40px;
+  background-color: #0094FF;
+  font-size: 1.1rem;
+  text-align: center;
+  transition: all .6s ease-in-out;
 
   color: #ffffff;
 }
@@ -89,11 +86,13 @@
   background: grey;
   border-radius: 10px;
   border: none;
-  padding: 0.5rem 3rem;
+  padding: .5rem 2.5rem;
+  height: auto;
 
   font-weight: 400;
   font-size: 1rem;
   line-height: 33px;
+  text-align: center;
 
   color: #ffffff;
 }
