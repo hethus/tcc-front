@@ -128,8 +128,11 @@
 .cardsDiv {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 1rem 2rem 1rem;
 }
 
 .cardsDiv > div {
-  margin: 2rem 2rem 0.5rem 2rem;
+  margin: 1rem 2rem 0.5rem 1rem;
 }

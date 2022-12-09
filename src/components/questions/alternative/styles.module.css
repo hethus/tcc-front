@@ -1,0 +1,42 @@
+.alternativeHeader {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  padding: 2rem 1rem 2rem 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.titleInput {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  font-size: 15px;
+  width: 20rem;
+  padding: 0.4rem 0.7rem;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  padding: 2rem 1rem;
+  width: 12rem;
+}
+
+.alternativeBody {
+  display: flex;
+  flex-direction: column;
+  margin: 0.65rem 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  width: 12rem;
+}
+
+.addAlternative {
+  width: 15rem;
+  color: #0094FF;
+  font-weight: 500;
+  font-size: 15px;
+}
