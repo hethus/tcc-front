@@ -18,16 +18,24 @@ export function QuestionAlternative({
   handleQuestionChange,
 }: QuestionAlternativeProps) {
   const addAlternative = () => {
+    const fieldLength = field.options.alternatives.length;
     const data = [...field.options.alternatives];
-    data.push({ value: "" });
+    data.push({ value: `Alternativa ${fieldLength + 1}` });
     handleQuestionChange(index, data);
   };
-  
+
   const editAlternative = (index2: number, event) => {
     const data = [...field.options.alternatives];
     data[index2].value = event.target.value;
     handleQuestionChange(index, data);
   };
+
+  const removeAlternative = (index2: number) => {
+    const data = [...field.options.alternatives];
+    data.splice(index2, 1);
+    handleQuestionChange(index, data);
+  };
+
   return (
     <div key={index} className={styles.alternativeHeader}>
       <input
@@ -40,21 +48,39 @@ export function QuestionAlternative({
       <div className={styles.body}>
         {field.options.alternatives.map((alternative, index) => {
           return (
-            <Radio key={index} defaultChecked={false} disabled>
-              <input
-                key={index}
-                name="options.alternatives.value"
-                placeholder={`Alternativa ${index + 1}`}
-                value={alternative.value}
-                onChange={(event) => editAlternative(index, event)}
-                className={styles.alternativeBody}
-              />
-            </Radio>
+            <div key={index} className={styles.mapField}>
+              <Radio defaultChecked={false} disabled>
+                <input
+                  name="options.alternatives.value"
+                  value={alternative.value}
+                  onChange={(event) => editAlternative(index, event)}
+                  className={styles.alternativeBody}
+                />
+              </Radio>
+              <Button
+                onClick={() => removeAlternative(index)}
+                className={styles.deleteAlternative}
+                type="text"
+              >
+                <img
+                  src="/exclude.svg"
+                  alt="Excluir alternativa"
+                  className={styles.deleteIcon}
+                />
+              </Button>
+            </div>
           );
         })}
       </div>
-      <Button onClick={() => addAlternative()} type={"text"} className={styles.addAlternative}>Adicionar alternativa</Button>
-      <button onClick={() => removeFields(index)}>Remover</button> {/* remover isso daqui */}
+      <Button
+        onClick={() => addAlternative()}
+        type={"text"}
+        className={styles.addAlternative}
+      >
+        Adicionar alternativa
+      </Button>
+      <button onClick={() => removeFields(index)}>Remover</button>{" "}
+      {/* remover isso daqui */}
     </div>
   );
 }
