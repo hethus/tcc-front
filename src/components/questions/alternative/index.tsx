@@ -20,7 +20,7 @@ export function QuestionAlternative({
   const addAlternative = () => {
     const fieldLength = field.options.alternatives.length;
     const data = [...field.options.alternatives];
-    data.push({ value: `Alternativa ${fieldLength + 1}` });
+    data.push({ value: `Alternativa ${fieldLength + 1}`, correct: false });
     handleQuestionChange(index, data);
   };
 
@@ -33,6 +33,13 @@ export function QuestionAlternative({
   const removeAlternative = (index2: number) => {
     const data = [...field.options.alternatives];
     data.splice(index2, 1);
+    handleQuestionChange(index, data);
+  };
+
+  const checkAlternative = (index2: number, event) => {
+    const data = [...field.options.alternatives];
+    data.forEach((alternative) => (alternative.correct = false));
+    data[index2].correct = event.target.checked;
     handleQuestionChange(index, data);
   };
 
@@ -49,7 +56,7 @@ export function QuestionAlternative({
         {field.options.alternatives.map((alternative, index) => {
           return (
             <div key={index} className={styles.mapField}>
-              <Radio defaultChecked={false} disabled>
+              <Radio checked={alternative.correct} onChange={(event) => checkAlternative(index, event)}>
                 <input
                   name="options.alternatives.value"
                   value={alternative.value}

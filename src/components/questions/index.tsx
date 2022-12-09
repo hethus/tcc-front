@@ -29,7 +29,6 @@ export function QuestionList ({ formFields, setFormFields }: QuestionListProps) 
           mandatory: false,
           options: {
             alternatives: [],
-            trueQuestion: "",
           },
           // opcionais
           subtitle: "",
