@@ -1,4 +1,5 @@
-.alternativeHeader {
+.alternativeContainer {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   margin: 0.5rem 0;
@@ -6,6 +7,18 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.alternativeContainerSelected {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  padding: 1.625rem 1rem 2rem 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border-top: 6px solid #0094ff;
 }
 
 .titleInput {
@@ -38,9 +51,13 @@
   width: 12rem;
 }
 
+.alternativeBody:focus {
+  outline: none;
+}
+
 .addAlternative {
   width: 15rem;
-  color: #0094FF;
+  color: #0094ff;
   font-weight: 500;
   font-size: 15px;
 }

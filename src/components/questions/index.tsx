@@ -1,5 +1,7 @@
 import { Button, Dropdown } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { MenuQuestions } from "../menuQuestions";
 import { QuestionAlternative } from "./alternative";
 import styles from "./styles.module.css";
 
@@ -8,13 +10,19 @@ interface QuestionListProps {
   setFormFields: any;
 }
 
-export function QuestionList ({ formFields, setFormFields }: QuestionListProps) {
+export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
   const items = [
     { label: "Alternativas", key: "alternative" },
     { label: "Texto", key: "text" },
     { label: "Likert", key: "likert" },
     { label: "Múltipla escolha", key: "multipleChoice" },
   ];
+
+  const [visible, setVisible] = useState({
+    index: -1,
+    visible: false,
+  });
+
   const addFields = (e: any) => {
     let newField = {};
 
@@ -103,20 +111,32 @@ export function QuestionList ({ formFields, setFormFields }: QuestionListProps) 
     setFormFields(data);
   };
 
+  const handleDuplicate = (question: any) => {
+    const duplicate = JSON.parse(JSON.stringify({ ...question, order: formFields.length + 1 }));
+      console.log(duplicate);
+    setFormFields([...formFields, duplicate]);
+  };
+
+  const handleVisible = (index: number) => {
+    setVisible({
+      index,
+      visible: true,
+    });
+  };
+
   if (formFields.length === 0) {
     return (
       <div className={styles.newFormOptions}>
-            <p>
-              <b>Formulário sem perguntas</b>
-            </p>
-            <p>Adicione a primeira pergunta:</p>
-            <div className={styles.newFormButton}>
-              <Dropdown menu={{ items, onClick: addFields }} trigger={["click"]}>
-                <Button type="primary">Escolher questão</Button>
-              </Dropdown>
-            </div>
-          </div>
-    )
+        <p>
+          <b>Formulário sem perguntas</b>
+        </p>
+        <p>Adicione a primeira pergunta:</p>
+
+        <Dropdown menu={{ items, onClick: addFields }} trigger={["click"]}>
+          <Button type="primary">Escolher questão</Button>
+        </Dropdown>
+      </div>
+    );
   }
 
   return (
@@ -125,14 +145,31 @@ export function QuestionList ({ formFields, setFormFields }: QuestionListProps) 
         switch (field.type) {
           case "alternative":
             return (
-              <QuestionAlternative
+              <div
                 key={index}
-                field={field}
-                index={index}
-                handleFormChange={handleFormChange}
-                removeFields={removeFields}
-                handleQuestionChange={handleQuestionChange}
-              />
+                className={styles.menuPosition}
+                onMouseEnter={() => handleVisible(index)}
+              >
+                <QuestionAlternative
+                  field={field}
+                  index={index}
+                  handleFormChange={handleFormChange}
+                  visible={
+                    visible.index === index && visible.visible ? true : false
+                  }
+                  handleQuestionChange={handleQuestionChange}
+                />
+                {visible.index === index && visible.visible && (
+                  <MenuQuestions
+                    index={index}
+                    removeFields={removeFields}
+                    handleDuplicate={handleDuplicate}
+                    items={items}
+                    addFields={addFields}
+                    field={field}
+                  />
+                )}
+              </div>
             );
           case "text":
             return <div>texto</div>;
@@ -143,8 +180,7 @@ export function QuestionList ({ formFields, setFormFields }: QuestionListProps) 
           default:
             return <div>erro</div>;
         }
-      }
-      )}
+      })}
     </div>
   );
 }

@@ -6,16 +6,16 @@ interface QuestionAlternativeProps {
   field: any;
   index: number;
   handleFormChange: (index: number, event: any) => void;
-  removeFields: (index: number) => void;
   handleQuestionChange: (index: number, question: any) => void;
+  visible: boolean;
 }
 
 export function QuestionAlternative({
   field,
   index,
   handleFormChange,
-  removeFields,
   handleQuestionChange,
+  visible,
 }: QuestionAlternativeProps) {
   const addAlternative = () => {
     const fieldLength = field.options.alternatives.length;
@@ -44,7 +44,14 @@ export function QuestionAlternative({
   };
 
   return (
-    <div key={index} className={styles.alternativeHeader}>
+    <div
+      key={index}
+      className={
+        visible
+          ? styles.alternativeContainerSelected
+          : styles.alternativeContainer
+      }
+    >
       <input
         name="title"
         placeholder="Título da pergunta"
@@ -56,7 +63,10 @@ export function QuestionAlternative({
         {field.options.alternatives.map((alternative, index) => {
           return (
             <div key={index} className={styles.mapField}>
-              <Radio checked={alternative.correct} onChange={(event) => checkAlternative(index, event)}>
+              <Radio
+                checked={alternative.correct}
+                onChange={(event) => checkAlternative(index, event)}
+              >
                 <input
                   name="options.alternatives.value"
                   value={alternative.value}
@@ -86,8 +96,6 @@ export function QuestionAlternative({
       >
         Adicionar alternativa
       </Button>
-      <button onClick={() => removeFields(index)}>Remover</button>{" "}
-      {/* remover isso daqui */}
     </div>
   );
 }
