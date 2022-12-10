@@ -113,7 +113,6 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
 
   const handleDuplicate = (question: any) => {
     const duplicate = JSON.parse(JSON.stringify({ ...question, order: formFields.length + 1 }));
-      console.log(duplicate);
     setFormFields([...formFields, duplicate]);
   };
 
