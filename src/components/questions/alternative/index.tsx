@@ -59,6 +59,9 @@ export function QuestionAlternative({
         onChange={(event) => handleFormChange(index, event)}
         className={styles.titleInput}
       />
+      <div className={styles.imgDiv}>
+        {field.image && <img src={field.image} alt="Imagem da pergunta" />}
+      </div>
       <div className={styles.body}>
         {field.options.alternatives.map((alternative, index) => {
           return (
@@ -89,6 +92,7 @@ export function QuestionAlternative({
           );
         })}
       </div>
+
       <Button
         onClick={() => addAlternative()}
         type={"text"}

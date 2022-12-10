@@ -1,4 +1,5 @@
 import { Button, Dropdown } from "antd";
+import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { MenuQuestions } from "../menuQuestions";
@@ -11,6 +12,7 @@ interface QuestionListProps {
 }
 
 export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
+    const [loading, setLoading] = useState(false);
   const items = [
     { label: "Alternativas", key: "alternative" },
     { label: "Texto", key: "text" },
@@ -112,7 +114,9 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
   };
 
   const handleDuplicate = (question: any) => {
-    const duplicate = JSON.parse(JSON.stringify({ ...question, order: formFields.length + 1 }));
+    const duplicate = JSON.parse(
+      JSON.stringify({ ...question, order: formFields.length + 1 })
+    );
     setFormFields([...formFields, duplicate]);
   };
 
@@ -121,6 +125,46 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
       index,
       visible: true,
     });
+  };
+  const handleImgChange = (index: number, e: any) => {
+    console.log(e);
+    const file = e.target.files?.[0];
+    //verifica se o file não é imagem
+    if (!file?.type.match(/image.*/)) {
+      toast.error("Arquivo não é uma imagem");
+      return;
+    }
+
+    //verifica se o tamanho do arquivo é maior que 5mb
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Arquivo muito grande");
+      return;
+    }
+
+    if (file) {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("album", process.env.NEXT_PUBLIC_CLIENT_ALBUM as string);
+
+      axios
+        .post(`https://api.imgur.com/3/image`, formData, {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_CLIENT_ID as string,
+          },
+        })
+        .then((response) => {
+          let data = [...formFields];
+          data[index].image = response.data.data.link;
+          setFormFields(data);
+          setLoading(false);
+        })
+        .catch((c) => {
+          toast.error("Erro ao enviar imagem");
+          console.log(c);
+          setLoading(false);
+        });
+    }
   };
 
   if (formFields.length === 0) {
@@ -164,6 +208,8 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
                     removeFields={removeFields}
                     handleDuplicate={handleDuplicate}
                     items={items}
+                    loading={loading}
+                    handleImgChange={handleImgChange}
                     addFields={addFields}
                     field={field}
                   />
