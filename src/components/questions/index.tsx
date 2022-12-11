@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { MenuQuestions } from "../menuQuestions";
 import { QuestionAlternative } from "./alternative";
 import styles from "./styles.module.css";
+import { QuestionText } from "./text";
 
 interface QuestionListProps {
   formFields: any;
@@ -113,6 +114,12 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
     setFormFields(data);
   };
 
+  const handleQuestionTextChange = (index, event) => {
+    let data = [...formFields];
+    data[index].options.textResponse = event.target.value;
+    setFormFields(data);
+  };
+
   const handleDuplicate = (question: any) => {
     const duplicate = JSON.parse(
       JSON.stringify({ ...question, order: formFields.length + 1 })
@@ -127,7 +134,6 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
     });
   };
   const handleImgChange = (index: number, e: any) => {
-    console.log(e);
     const file = e.target.files?.[0];
     //verifica se o file não é imagem
     if (!file?.type.match(/image.*/)) {
@@ -159,12 +165,17 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
           setFormFields(data);
           setLoading(false);
         })
-        .catch((c) => {
+        .catch(() => {
           toast.error("Erro ao enviar imagem");
-          console.log(c);
           setLoading(false);
         });
     }
+  };
+
+  const handleRemoveImg = (index: number) => {
+    let data = [...formFields];
+    data[index].image = "";
+    setFormFields(data);
   };
 
   if (formFields.length === 0) {
@@ -201,6 +212,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
                     visible.index === index && visible.visible ? true : false
                   }
                   handleQuestionChange={handleQuestionChange}
+                  handleRemoveImg={handleRemoveImg}
                 />
                 {visible.index === index && visible.visible && (
                   <MenuQuestions
@@ -217,7 +229,36 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
               </div>
             );
           case "text":
-            return <div>texto</div>;
+            return (
+              <div
+                key={index}
+                className={styles.menuPosition}
+                onMouseEnter={() => handleVisible(index)}
+              >
+                <QuestionText
+                  field={field}
+                  index={index}
+                  handleFormChange={handleFormChange}
+                  visible={
+                    visible.index === index && visible.visible ? true : false
+                  }
+                  handleQuestionTextChange={handleQuestionTextChange}
+                  handleRemoveImg={handleRemoveImg}
+                />
+                {visible.index === index && visible.visible && (
+                  <MenuQuestions
+                    index={index}
+                    removeFields={removeFields}
+                    handleDuplicate={handleDuplicate}
+                    items={items}
+                    loading={loading}
+                    handleImgChange={handleImgChange}
+                    addFields={addFields}
+                    field={field}
+                  />
+                )}
+              </div>
+            );
           case "likert":
             return <div>likert</div>;
           case "multipleChoice":
