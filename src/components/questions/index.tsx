@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { MenuQuestions } from "../menuQuestions";
 import { QuestionAlternative } from "./alternative";
+import { MultipleChoice } from "./multipleChoice";
 import styles from "./styles.module.css";
 import { QuestionText } from "./text";
 
@@ -85,8 +86,18 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
       case "multipleChoice":
         newField = {
           type: "multipleChoice",
-          question: "",
-          alternatives: [{ value: "" }, { value: "" }],
+          title: "",
+          order: formFields.length + 1, //
+          singleAnswer: false, //
+          random: false,
+          mandatory: false,
+          options: {
+            alternatives: [],
+          },
+          // opcionais
+          subtitle: "",
+          style: {},
+          image: "",
         };
         break;
       default:
@@ -262,9 +273,38 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
           case "likert":
             return <div>likert</div>;
           case "multipleChoice":
-            return <div>múltipla escolha</div>;
+            return (
+              <div
+                key={index}
+                className={styles.menuPosition}
+                onMouseEnter={() => handleVisible(index)}
+              >
+                <MultipleChoice
+                  field={field}
+                  index={index}
+                  handleFormChange={handleFormChange}
+                  visible={
+                    visible.index === index && visible.visible ? true : false
+                  }
+                  handleQuestionChange={handleQuestionChange}
+                  handleRemoveImg={handleRemoveImg}
+                />
+                {visible.index === index && visible.visible && (
+                  <MenuQuestions
+                    index={index}
+                    removeFields={removeFields}
+                    handleDuplicate={handleDuplicate}
+                    items={items}
+                    loading={loading}
+                    handleImgChange={handleImgChange}
+                    addFields={addFields}
+                    field={field}
+                  />
+                )}
+              </div>
+            );
           default:
-            return <div>erro</div>;
+            return null;
         }
       })}
     </div>

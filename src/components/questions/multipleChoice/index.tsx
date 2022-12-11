@@ -1,136 +1,142 @@
-import { Button, Dropdown } from "antd";
+import { Button, Checkbox, Radio } from "antd";
 import React from "react";
 import styles from "./styles.module.css";
 
-interface QuestionListProps {
-  formFields: any;
-  setFormFields: any;
+interface MultipleChoiceProps {
+  field: any;
+  index: number;
+  handleFormChange: (index: number, event: any) => void;
+  handleQuestionChange: (index: number, question: any) => void;
+  handleRemoveImg: (index: number) => void;
+  visible: boolean;
 }
 
-export function QuestionList ({ formFields, setFormFields }: QuestionListProps) {
-  const items = [
-    { label: "Alternativas", key: "alternative" },
-    { label: "Texto", key: "text" },
-    { label: "Likert", key: "likert" },
-    { label: "Múltipla escolha", key: "multipleChoice" },
-  ];
-  const addFields = (e: any) => {
-    let newField = {};
-
-    switch (e.key) {
-      case "alternative":
-        newField = {
-          type: "alternative",
-          title: "",
-          order: formFields.length + 1, //
-          singleAnswer: false, //
-          random: false,
-          mandatory: false,
-          options: {
-            alternatives: [],
-            trueQuestion: "",
-          },
-          // opcionais
-          subtitle: "",
-          style: {},
-          image: "",
-        };
-        break;
-      case "text":
-        newField = {
-          type: "text",
-          title: "",
-          order: formFields.length + 1, //
-          singleAnswer: null, //
-          random: null,
-          mandatory: null,
-          options: {
-            textResponse: "",
-          },
-          // opcionais
-          subtitle: "",
-          style: {},
-          image: "",
-        };
-        break;
-      case "likert":
-        newField = {
-          type: "likert",
-          title: "",
-          order: formFields.length + 1, //
-          singleAnswer: false, //
-          random: false,
-          mandatory: false,
-          options: {
-            alternatives: [],
-            trueQuestion: "",
-          },
-          // opcionais
-          subtitle: "",
-          style: {},
-          image: "",
-        };
-        break;
-      case "multipleChoice":
-        newField = {
-          type: "multipleChoice",
-          question: "",
-          alternatives: [{ value: "" }, { value: "" }],
-        };
-        break;
-      default:
-        break;
-    }
-
-    setFormFields([...formFields, newField]);
+export function MultipleChoice({
+  field,
+  index,
+  handleFormChange,
+  handleQuestionChange,
+  visible,
+  handleRemoveImg,
+}: MultipleChoiceProps) {
+  const addAlternative = () => {
+    const fieldLength = field.options.alternatives.length;
+    const data = [...field.options.alternatives];
+    data.push({ value: `Alternativa ${fieldLength + 1}`, correct: false });
+    handleQuestionChange(index, data);
   };
 
-  const removeFields = (index: number) => {
-    let data = [...formFields];
-    data.splice(index, 1);
-    setFormFields(data);
+  const editAlternative = (index2: number, event) => {
+    const data = [...field.options.alternatives];
+    data[index2].value = event.target.value;
+    handleQuestionChange(index, data);
   };
 
-  const handleFormChange = (index, event) => {
-    let data = [...formFields];
-    data[index][event.target.name] = event.target.value;
-    setFormFields(data);
+  const removeAlternative = (index2: number) => {
+    const data = [...field.options.alternatives];
+    data.splice(index2, 1);
+    handleQuestionChange(index, data);
   };
 
-  if (formFields.length === 0) {
-    return (
-      <div className={styles.newFormOptions}>
-            <p>Adicione a primeira pergunta:</p>
-            <div className={styles.newFormButton}>
-              <Dropdown menu={{ items, onClick: addFields }} trigger={["click"]}>
-                <Button type="primary">Escolher questão</Button>
-              </Dropdown>
-            </div>
-          </div>
-    )
+  const checkAlternative = (index2: number, event) => {
+    const data = [...field.options.alternatives];
+    data[index2].correct = event.target.checked;
+    handleQuestionChange(index, data);
+  };
+
+  const cleanAlternatives = () => {
+    const data = [...field.options.alternatives];
+    data.forEach((alternative: any) => (alternative.correct = false));
+    handleQuestionChange(index, data);
   }
 
   return (
-    <>
-    {formFields.map((input, index) => {
-      return (
-        <div key={index}>
-          <input
-            name="name"
-            placeholder="Name"
-            value={input.name}
-            onChange={(event) => handleFormChange(index, event)}
-          />
-          <input
-            name="age"
-            placeholder="Age"
-            value={input.age}
-            onChange={(event) => handleFormChange(index, event)}
-          />
-          <button onClick={() => removeFields(index)}>Remove</button>
+    <div
+      key={index}
+      className={
+        visible
+          ? styles.alternativeContainerSelected
+          : styles.alternativeContainer
+      }
+    >
+      <div className={styles.alternativeContainerLeft}>
+        <input
+          name="title"
+          placeholder="Título da pergunta"
+          value={field.title}
+          onChange={(event) => handleFormChange(index, event)}
+          className={styles.titleInput}
+        />
+
+        <div className={styles.body}>
+          {field.options.alternatives.map((alternative, index) => {
+            return (
+              <div key={index} className={styles.mapField}>
+                <Checkbox
+                  checked={alternative.correct}
+                  onChange={(event) => checkAlternative(index, event)}
+                >
+                  <input
+                    name="options.alternatives.value"
+                    value={alternative.value}
+                    onChange={(event) => editAlternative(index, event)}
+                    className={styles.alternativeBody}
+                  />
+                </Checkbox>
+                <Button
+                  onClick={() => removeAlternative(index)}
+                  className={styles.deleteAlternative}
+                  type="text"
+                >
+                  <img
+                    src="/exclude.svg"
+                    alt="Excluir alternativa"
+                    className={styles.deleteIcon}
+                  />
+                </Button>
+              </div>
+            );
+          })}
         </div>
-      );
-    })}
-    </>
-  )
+
+        <Button
+          onClick={() => addAlternative()}
+          type={"text"}
+          className={styles.addAlternative}
+        >
+          Adicionar alternativa
+        </Button>
+        <Button
+          onClick={() => cleanAlternatives()}
+          type={"text"}
+          className={styles.cleanAlternative}
+        >
+          Limpar alternativas
+        </Button>
+      </div>
+
+      <div>
+        {field.image && (
+          <div className={styles.imgDiv}>
+            <img
+              src={field.image}
+              className={styles.img}
+              alt="Imagem da pergunta"
+            />
+            <Button
+              onClick={() => handleRemoveImg(index)}
+              className={styles.deleteAlternativeImg}
+              type="text"
+            >
+              <img
+                src="/exclude.svg"
+                alt="Excluir alternativa"
+                className={styles.deleteIconImg}
+              />
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
