@@ -12,7 +12,7 @@ interface QuestionListProps {
 }
 
 export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const items = [
     { label: "Alternativas", key: "alternative" },
     { label: "Texto", key: "text" },

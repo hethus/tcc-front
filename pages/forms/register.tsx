@@ -7,8 +7,9 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { appRoutes } from "../../constants";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Space, Switch } from "antd";
+import { Button, Space, Switch } from "antd";
 import { QuestionList } from "../../src/components/questions";
+import TextareaAutosize from 'react-textarea-autosize';
 
 const Home: NextPage = () => {
   const { forms } = useSelector((state: any) => state);
@@ -44,7 +45,7 @@ const Home: NextPage = () => {
               />
             </Space>
           </div>
-          <textarea
+          <TextareaAutosize
             placeholder="Descrição do formulário"
             className={styles.headerTextArea}
           />
