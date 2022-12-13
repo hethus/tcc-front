@@ -38,18 +38,6 @@ export function MultipleChoice({
     handleQuestionChange(index, data);
   };
 
-  const checkAlternative = (index2: number, event) => {
-    const data = [...field.options.alternatives];
-    data[index2].correct = event.target.checked;
-    handleQuestionChange(index, data);
-  };
-
-  const cleanAlternatives = () => {
-    const data = [...field.options.alternatives];
-    data.forEach((alternative: any) => (alternative.correct = false));
-    handleQuestionChange(index, data);
-  }
-
   return (
     <div
       key={index}
@@ -73,8 +61,7 @@ export function MultipleChoice({
             return (
               <div key={index} className={styles.mapField}>
                 <Checkbox
-                  checked={alternative.correct}
-                  onChange={(event) => checkAlternative(index, event)}
+                  disabled
                 >
                   <input
                     name="options.alternatives.value"
@@ -105,13 +92,6 @@ export function MultipleChoice({
           className={styles.addAlternative}
         >
           Adicionar alternativa
-        </Button>
-        <Button
-          onClick={() => cleanAlternatives()}
-          type={"text"}
-          className={styles.cleanAlternative}
-        >
-          Limpar alternativas
         </Button>
       </div>
 

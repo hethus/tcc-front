@@ -26,15 +26,15 @@ export function MenuQuestions({
 }: MenuQuestionsProps) {
   return (
     <div className={styles.menu}>
-      <Button type="ghost" className={styles.button}>
-        <Dropdown
-          menu={{ items, onClick: addFields }}
-          trigger={["click"]}
-          placement="topRight"
-        >
+      <Dropdown
+        menu={{ items, onClick: addFields }}
+        trigger={["click"]}
+        placement="bottomRight"
+      >
+        <Button type="ghost" className={styles.button}>
           <img src="/add.svg" alt="Adicionar questão" className={styles.svg} />
-        </Dropdown>
-      </Button>
+        </Button>
+      </Dropdown>
       <Button
         type="ghost"
         className={styles.button}

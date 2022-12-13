@@ -45,6 +45,7 @@ export function QuestionText({
             value={field.options.textResponse}
             onChange={(event) => handleQuestionTextChange(index, event)}
             className={styles.textArea}
+            disabled
           />
         </div>
       </div>

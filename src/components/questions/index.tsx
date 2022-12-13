@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { MenuQuestions } from "../menuQuestions";
 import { QuestionAlternative } from "./alternative";
+import { QuestionLikert } from "./likert";
 import { MultipleChoice } from "./multipleChoice";
 import styles from "./styles.module.css";
 import { QuestionText } from "./text";
@@ -58,6 +59,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
           mandatory: null,
           options: {
             textResponse: "",
+            response: "",
           },
           // opcionais
           subtitle: "",
@@ -74,8 +76,8 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
           random: false,
           mandatory: false,
           options: {
-            alternatives: [],
-            trueQuestion: "",
+            columns: [],
+            lines: [], // aq tem q ser um array de objetos com a questão e a resposta do usuário (value: "questão 1", response: "bom")
           },
           // opcionais
           subtitle: "",
@@ -120,14 +122,24 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
   };
 
   const handleQuestionChange = (index, question) => {
+    // alternatives e multipleChoice
     let data = [...formFields];
     data[index].options.alternatives = question;
     setFormFields(data);
   };
 
   const handleQuestionTextChange = (index, event) => {
+    // textResponse
     let data = [...formFields];
     data[index].options.textResponse = event.target.value;
+    setFormFields(data);
+  };
+
+  const handleQuestionLikertChange = (index, question, type) => {
+    // columns e lines
+    let data = [...formFields];
+    if (type === "columns") data[index].options.columns = question;
+    if (type === "lines") data[index].options.lines = question;
     setFormFields(data);
   };
 
@@ -271,7 +283,36 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
               </div>
             );
           case "likert":
-            return <div>likert</div>;
+            return (
+              <div
+                key={index}
+                className={styles.menuPosition}
+                onMouseEnter={() => handleVisible(index)}
+              >
+                <QuestionLikert
+                  field={field}
+                  index={index}
+                  handleFormChange={handleFormChange}
+                  visible={
+                    visible.index === index && visible.visible ? true : false
+                  }
+                  handleQuestionLikertChange={handleQuestionLikertChange}
+                  handleRemoveImg={handleRemoveImg}
+                />
+                {visible.index === index && visible.visible && (
+                  <MenuQuestions
+                    index={index}
+                    removeFields={removeFields}
+                    handleDuplicate={handleDuplicate}
+                    items={items}
+                    loading={loading}
+                    handleImgChange={handleImgChange}
+                    addFields={addFields}
+                    field={field}
+                  />
+                )}
+              </div>
+            );
           case "multipleChoice":
             return (
               <div

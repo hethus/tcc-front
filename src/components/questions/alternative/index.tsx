@@ -38,12 +38,12 @@ export function QuestionAlternative({
     handleQuestionChange(index, data);
   };
 
-  const checkAlternative = (index2: number, event) => {
+  /* const checkAlternative = (index2: number, event) => {
     const data = [...field.options.alternatives];
     data.forEach((alternative) => (alternative.correct = false));
     data[index2].correct = event.target.checked;
     handleQuestionChange(index, data);
-  };
+  }; */
 
   return (
     <div
@@ -68,8 +68,7 @@ export function QuestionAlternative({
             return (
               <div key={index} className={styles.mapField}>
                 <Radio
-                  checked={alternative.correct}
-                  onChange={(event) => checkAlternative(index, event)}
+                  disabled
                 >
                   <input
                     name="options.alternatives.value"
