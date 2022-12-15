@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@hello-pangea/dnd": "^16.2.0",
     "@hookform/resolvers": "^2.9.10",
     "@reduxjs/toolkit": "^1.8.6",
     "antd": "^5.0.1",
@@ -17,6 +18,7 @@
     "next": "^12.2.0",
     "next-redux-wrapper": "^8.0.0",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-highlight-words": "^0.18.0",
     "react-hook-form": "^7.40.0",
@@ -26,12 +28,14 @@
     "read-excel-file": "^5.5.3",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
+    "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
+    "@types/uuid": "^9.0.0",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",
     "redux-devtools-extension": "^2.13.9",

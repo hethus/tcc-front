@@ -1,41 +1,51 @@
 import { Button, Radio } from "antd";
 import React from "react";
 import styles from "./styles.module.css";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { v4 as uuidv4 } from "uuid";
 
 interface QuestionAlternativeProps {
   field: any;
-  index: number;
+  indexQuestion: number;
   handleFormChange: (index: number, event: any) => void;
   handleQuestionChange: (index: number, question: any) => void;
   handleRemoveImg: (index: number) => void;
   visible: boolean;
+  dragProp: any;
+  dragging: number;
 }
 
 export function QuestionAlternative({
   field,
-  index,
+  indexQuestion,
   handleFormChange,
   handleQuestionChange,
   visible,
   handleRemoveImg,
+  dragProp,
+  dragging,
 }: QuestionAlternativeProps) {
   const addAlternative = () => {
     const fieldLength = field.options.alternatives.length;
     const data = [...field.options.alternatives];
-    data.push({ value: `Alternativa ${fieldLength + 1}`, correct: false });
-    handleQuestionChange(index, data);
+    data.push({
+      id: uuidv4(),
+      value: `Alternativa ${fieldLength + 1}`,
+      correct: false,
+    });
+    handleQuestionChange(indexQuestion, data);
   };
 
-  const editAlternative = (index2: number, event) => {
+  const editAlternative = (indexAlternative: number, event) => {
     const data = [...field.options.alternatives];
-    data[index2].value = event.target.value;
-    handleQuestionChange(index, data);
+    data[indexAlternative].value = event.target.value;
+    handleQuestionChange(indexQuestion, data);
   };
 
-  const removeAlternative = (index2: number) => {
+  const removeAlternative = (indexAlternative: number) => {
     const data = [...field.options.alternatives];
-    data.splice(index2, 1);
-    handleQuestionChange(index, data);
+    data.splice(indexAlternative, 1);
+    handleQuestionChange(indexQuestion, data);
   };
 
   /* const checkAlternative = (index2: number, event) => {
@@ -45,52 +55,105 @@ export function QuestionAlternative({
     handleQuestionChange(index, data);
   }; */
 
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const items = Array.from(field.options.alternatives);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    handleQuestionChange(indexQuestion, items);
+  };
+
   return (
     <div
-      key={index}
+      key={indexQuestion}
       className={
-        visible
+        dragging === indexQuestion
+          ? styles.alternativeContainerDragging
+          : visible
           ? styles.alternativeContainerSelected
           : styles.alternativeContainer
       }
     >
+      <div className={styles.drag} {...dragProp}>
+        <img src="/drag.svg" alt="ícone de drag" />
+      </div>
       <div className={styles.alternativeContainerLeft}>
         <input
           name="title"
           placeholder="Título da pergunta"
           value={field.title}
-          onChange={(event) => handleFormChange(index, event)}
-          className={styles.titleInput}
+          onChange={(event) => handleFormChange(indexQuestion, event)}
+          className={
+            dragging === indexQuestion
+              ? styles.titleInputDragging
+              : styles.titleInput
+          }
         />
 
         <div className={styles.body}>
-          {field.options.alternatives.map((alternative, index) => {
-            return (
-              <div key={index} className={styles.mapField}>
-                <Radio
-                  disabled
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="alternatives">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
                 >
-                  <input
-                    name="options.alternatives.value"
-                    value={alternative.value}
-                    onChange={(event) => editAlternative(index, event)}
-                    className={styles.alternativeBody}
-                  />
-                </Radio>
-                <Button
-                  onClick={() => removeAlternative(index)}
-                  className={styles.deleteAlternative}
-                  type="text"
-                >
-                  <img
-                    src="/exclude.svg"
-                    alt="Excluir alternativa"
-                    className={styles.deleteIcon}
-                  />
-                </Button>
-              </div>
-            );
-          })}
+                  {field.options.alternatives.map(
+                    (alternative: any, indexAlternative: number) => {
+                      return (
+                        <Draggable
+                          key={alternative.id}
+                          draggableId={alternative.id}
+                          index={indexAlternative}
+                        >
+                          {(provided) => (
+                            <div
+                              className={styles.mapField}
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                            >
+                              <div
+                                className={styles.dragAlternative}
+                                {...provided.dragHandleProps}
+                              >
+                                <img src="/drag.svg" alt="ícone de drag" />
+                              </div>
+                              <Radio disabled>
+                                <input
+                                  name="options.alternatives.value"
+                                  value={alternative.value}
+                                  onChange={(event) =>
+                                    editAlternative(indexAlternative, event)
+                                  }
+                                  className={styles.alternativeBody}
+                                />
+                              </Radio>
+                              <Button
+                                onClick={() =>
+                                  removeAlternative(indexAlternative)
+                                }
+                                className={styles.deleteAlternative}
+                                type="text"
+                              >
+                                <img
+                                  src="/exclude.svg"
+                                  alt="Excluir alternativa"
+                                  className={styles.deleteIcon}
+                                />
+                              </Button>
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  )}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
 
         <Button
@@ -111,7 +174,7 @@ export function QuestionAlternative({
               alt="Imagem da pergunta"
             />
             <Button
-              onClick={() => handleRemoveImg(index)}
+              onClick={() => handleRemoveImg(indexQuestion)}
               className={styles.deleteAlternativeImg}
               type="text"
             >

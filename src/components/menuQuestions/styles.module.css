@@ -1,7 +1,7 @@
 .menu {
   position: absolute;
   top: 1rem;
-  right: -4.3rem;
+  right: -4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

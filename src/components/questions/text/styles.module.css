@@ -1,29 +1,69 @@
 .alternativeContainer {
-  box-sizing: border-box;
   display: flex;
   justify-content: space-around;
-  margin: 0.5rem 0;
-  padding: 2rem 1rem 2rem 2rem;
+  margin: 0.5rem 0 1.5rem 0;
+  padding: 2rem 1rem 2rem 4.5rem;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
 .alternativeContainerSelected {
-  box-sizing: border-box;
   display: flex;
   justify-content: space-around;
-  margin: 0.5rem 0;
-  padding: 1.625rem 1rem 2rem 2rem;
+  margin: 0.5rem 0 1.5rem 0;
+  padding: 1.625rem 1rem 2rem 4.5rem;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
   border-top: 6px solid #0094ff;
 }
 
+.alternativeContainerDragging {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5rem 0 1.5rem 0;
+  padding: 1.625rem 1rem 2rem 4.5rem;
+  background-color: #ffffff8e;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border-top: 6px solid #0095ff8e;
+  max-height: 5rem;
+  overflow: hidden;
+}
+
+.alternativeContainerDragging {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5rem 0 1.5rem 0;
+  padding: 1.625rem 1rem 2rem 4.5rem;
+  background-color: #ffffff8e;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border-top: 6px solid #0095ff8e;
+  max-height: 5rem;
+  overflow: hidden;
+}
+
+.drag {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 1rem;
+  left: 0.8rem;
+  border: 1px solid #0094ff;
+  border-radius: 25%;
+  padding: 1.5rem 1.2rem;
+}
+
+.drag:hover {
+  border: 1px solid #000000;
+}
+
 .alternativeContainerLeft {
-  display: "flex";
-  flex-direction: "column";
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -45,6 +85,16 @@
 .titleInput {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  font-size: 15px;
+  width: 20rem;
+  padding: 0.4rem 0.7rem;
+}
+
+.titleInputDragging {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  background-color: #ffffff8e;
   border-radius: 8px;
   font-size: 15px;
   width: 20rem;

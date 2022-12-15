@@ -8,6 +8,8 @@ import { QuestionLikert } from "./likert";
 import { MultipleChoice } from "./multipleChoice";
 import styles from "./styles.module.css";
 import { QuestionText } from "./text";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { v4 as uuidv4 } from "uuid";
 
 interface QuestionListProps {
   formFields: any;
@@ -23,10 +25,27 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
     { label: "Múltipla escolha", key: "multipleChoice" },
   ];
 
+  const [dragging, setDragging] = useState(-1);
+
   const [visible, setVisible] = useState({
     index: -1,
     visible: false,
   });
+
+  const handleOnDragEnd = (result: any) => {
+    setDragging(-1);
+    if (!result.destination) return;
+
+    const items = Array.from(formFields);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    //atualizar o order de cada item
+    items.forEach((item: any, index: number) => {
+      item.order = index + 1;
+    });
+    setFormFields(items);
+  };
 
   const addFields = (e: any) => {
     let newField = {};
@@ -35,6 +54,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
       case "alternative":
         newField = {
           type: "alternative",
+          id: uuidv4(),
           title: "",
           order: formFields.length + 1, //
           singleAnswer: false, //
@@ -52,6 +72,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
       case "text":
         newField = {
           type: "text",
+          id: uuidv4(),
           title: "",
           order: formFields.length + 1, //
           singleAnswer: null, //
@@ -70,6 +91,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
       case "likert":
         newField = {
           type: "likert",
+          id: uuidv4(),
           title: "",
           order: formFields.length + 1, //
           singleAnswer: false, //
@@ -88,6 +110,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
       case "multipleChoice":
         newField = {
           type: "multipleChoice",
+          id: uuidv4(),
           title: "",
           order: formFields.length + 1, //
           singleAnswer: false, //
@@ -201,6 +224,10 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
     setFormFields(data);
   };
 
+  const handleStartDrag = (result: any) => {
+    setDragging(result.source.index);
+  };
+
   if (formFields.length === 0) {
     return (
       <div className={styles.newFormOptions}>
@@ -218,136 +245,204 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
 
   return (
     <div className={styles.questionList}>
-      {formFields.map((field: any, index: number) => {
-        switch (field.type) {
-          case "alternative":
-            return (
-              <div
-                key={index}
-                className={styles.menuPosition}
-                onMouseEnter={() => handleVisible(index)}
-              >
-                <QuestionAlternative
-                  field={field}
-                  index={index}
-                  handleFormChange={handleFormChange}
-                  visible={
-                    visible.index === index && visible.visible ? true : false
-                  }
-                  handleQuestionChange={handleQuestionChange}
-                  handleRemoveImg={handleRemoveImg}
-                />
-                {visible.index === index && visible.visible && (
-                  <MenuQuestions
-                    index={index}
-                    removeFields={removeFields}
-                    handleDuplicate={handleDuplicate}
-                    items={items}
-                    loading={loading}
-                    handleImgChange={handleImgChange}
-                    addFields={addFields}
-                    field={field}
-                  />
-                )}
-              </div>
-            );
-          case "text":
-            return (
-              <div
-                key={index}
-                className={styles.menuPosition}
-                onMouseEnter={() => handleVisible(index)}
-              >
-                <QuestionText
-                  field={field}
-                  index={index}
-                  handleFormChange={handleFormChange}
-                  visible={
-                    visible.index === index && visible.visible ? true : false
-                  }
-                  handleQuestionTextChange={handleQuestionTextChange}
-                  handleRemoveImg={handleRemoveImg}
-                />
-                {visible.index === index && visible.visible && (
-                  <MenuQuestions
-                    index={index}
-                    removeFields={removeFields}
-                    handleDuplicate={handleDuplicate}
-                    items={items}
-                    loading={loading}
-                    handleImgChange={handleImgChange}
-                    addFields={addFields}
-                    field={field}
-                  />
-                )}
-              </div>
-            );
-          case "likert":
-            return (
-              <div
-                key={index}
-                className={styles.menuPosition}
-                onMouseEnter={() => handleVisible(index)}
-              >
-                <QuestionLikert
-                  field={field}
-                  index={index}
-                  handleFormChange={handleFormChange}
-                  visible={
-                    visible.index === index && visible.visible ? true : false
-                  }
-                  handleQuestionLikertChange={handleQuestionLikertChange}
-                  handleRemoveImg={handleRemoveImg}
-                />
-                {visible.index === index && visible.visible && (
-                  <MenuQuestions
-                    index={index}
-                    removeFields={removeFields}
-                    handleDuplicate={handleDuplicate}
-                    items={items}
-                    loading={loading}
-                    handleImgChange={handleImgChange}
-                    addFields={addFields}
-                    field={field}
-                  />
-                )}
-              </div>
-            );
-          case "multipleChoice":
-            return (
-              <div
-                key={index}
-                className={styles.menuPosition}
-                onMouseEnter={() => handleVisible(index)}
-              >
-                <MultipleChoice
-                  field={field}
-                  index={index}
-                  handleFormChange={handleFormChange}
-                  visible={
-                    visible.index === index && visible.visible ? true : false
-                  }
-                  handleQuestionChange={handleQuestionChange}
-                  handleRemoveImg={handleRemoveImg}
-                />
-                {visible.index === index && visible.visible && (
-                  <MenuQuestions
-                    index={index}
-                    removeFields={removeFields}
-                    handleDuplicate={handleDuplicate}
-                    items={items}
-                    loading={loading}
-                    handleImgChange={handleImgChange}
-                    addFields={addFields}
-                    field={field}
-                  />
-                )}
-              </div>
-            );
-          default:
-            return null;
-        }
-      })}
+      <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={handleStartDrag}>
+        <Droppable droppableId="questions">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {formFields.map((field: any, index: number) => {
+                switch (field.type) {
+                  case "alternative":
+                    return (
+                      <Draggable
+                        key={field.id}
+                        draggableId={field.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            className={styles.menuPosition}
+                            onMouseEnter={() => handleVisible(index)}
+                          >
+                            <QuestionAlternative
+                              field={field}
+                              indexQuestion={index}
+                              handleFormChange={handleFormChange}
+                              visible={
+                                visible.index === index && visible.visible
+                                  ? true
+                                  : false
+                              }
+                              handleQuestionChange={handleQuestionChange}
+                              handleRemoveImg={handleRemoveImg}
+                              dragProp={provided.dragHandleProps}
+                              dragging={dragging}
+                            />
+                            {visible.index === index && visible.visible && (
+                              <MenuQuestions
+                                index={index}
+                                removeFields={removeFields}
+                                handleDuplicate={handleDuplicate}
+                                items={items}
+                                loading={loading}
+                                handleImgChange={handleImgChange}
+                                addFields={addFields}
+                                field={field}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  case "text":
+                    return (
+                      <Draggable
+                        key={field.id}
+                        draggableId={field.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            className={styles.menuPosition}
+                            onMouseEnter={() => handleVisible(index)}
+                          >
+                            <QuestionText
+                              field={field}
+                              index={index}
+                              handleFormChange={handleFormChange}
+                              visible={
+                                visible.index === index && visible.visible
+                                  ? true
+                                  : false
+                              }
+                              handleQuestionTextChange={
+                                handleQuestionTextChange
+                              }
+                              handleRemoveImg={handleRemoveImg}
+                              dragProp={provided.dragHandleProps}
+                              dragging={dragging}
+                            />
+                            {visible.index === index && visible.visible && (
+                              <MenuQuestions
+                                index={index}
+                                removeFields={removeFields}
+                                handleDuplicate={handleDuplicate}
+                                items={items}
+                                loading={loading}
+                                handleImgChange={handleImgChange}
+                                addFields={addFields}
+                                field={field}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  case "likert":
+                    return (
+                      <Draggable
+                        key={field.id}
+                        draggableId={field.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            className={styles.menuPosition}
+                            onMouseEnter={() => handleVisible(index)}
+                          >
+                            <QuestionLikert
+                              field={field}
+                              indexLikert={index}
+                              handleFormChange={handleFormChange}
+                              visible={
+                                visible.index === index && visible.visible
+                                  ? true
+                                  : false
+                              }
+                              handleQuestionLikertChange={
+                                handleQuestionLikertChange
+                              }
+                              handleRemoveImg={handleRemoveImg}
+                              dragProp={provided.dragHandleProps}
+                              dragging={dragging}
+                            />
+                            {visible.index === index && visible.visible && (
+                              <MenuQuestions
+                                index={index}
+                                removeFields={removeFields}
+                                handleDuplicate={handleDuplicate}
+                                items={items}
+                                loading={loading}
+                                handleImgChange={handleImgChange}
+                                addFields={addFields}
+                                field={field}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  case "multipleChoice":
+                    return (
+                      <Draggable
+                        key={field.id}
+                        draggableId={field.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            className={styles.menuPosition}
+                            onMouseEnter={() => handleVisible(index)}
+                          >
+                            <MultipleChoice
+                              field={field}
+                              indexQuestion={index}
+                              handleFormChange={handleFormChange}
+                              visible={
+                                visible.index === index && visible.visible
+                                  ? true
+                                  : false
+                              }
+                              handleQuestionChange={handleQuestionChange}
+                              handleRemoveImg={handleRemoveImg}
+                              dragProp={provided.dragHandleProps}
+                              dragging={dragging}
+                            />
+                            {visible.index === index && visible.visible && (
+                              <MenuQuestions
+                                index={index}
+                                removeFields={removeFields}
+                                handleDuplicate={handleDuplicate}
+                                items={items}
+                                loading={loading}
+                                handleImgChange={handleImgChange}
+                                addFields={addFields}
+                                field={field}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  default:
+                    return null;
+                }
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 }

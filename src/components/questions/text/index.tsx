@@ -10,6 +10,8 @@ interface QuestionTextProps {
   visible: boolean;
   handleQuestionTextChange: (index: number, event: any) => void;
   handleRemoveImg: (index: number) => void;
+  dragProp: any;
+  dragging: number;
 }
 
 export function QuestionText({
@@ -19,23 +21,32 @@ export function QuestionText({
   visible,
   handleQuestionTextChange,
   handleRemoveImg,
+  dragProp,
+  dragging,
 }: QuestionTextProps) {
   return (
     <div
       key={index}
       className={
-        visible
+        dragging === index
+          ? styles.alternativeContainerDragging
+          : visible
           ? styles.alternativeContainerSelected
           : styles.alternativeContainer
       }
     >
+      <div className={styles.drag} {...dragProp}>
+        <img src="/drag.svg" alt="ícone de drag" />
+      </div>
       <div className={styles.alternativeContainerLeft}>
         <input
           name="title"
           placeholder="Título da pergunta"
           value={field.title}
           onChange={(event) => handleFormChange(index, event)}
-          className={styles.titleInput}
+          className={
+            dragging === index ? styles.titleInputDragging : styles.titleInput
+          }
         />
 
         <div>

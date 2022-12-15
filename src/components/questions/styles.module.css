@@ -1,8 +1,7 @@
 .questionList {
   display: flex;
   flex-direction: column;
-  padding: 2rem 5.5rem 2rem 0;
-  gap: 2rem;
+  padding: 2rem 4.5rem 2rem 1rem;
   padding-bottom: 5rem;
 }
 
