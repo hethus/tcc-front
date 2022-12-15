@@ -35,7 +35,7 @@ const RegisterClass: NextPage = () => {
     loading,
   } = useCRUD({
     // para criar uma nova turma
-    model: "subject-class",
+    model: "classe",
     immediatlyLoadData: !!id,
   });
 
@@ -53,7 +53,7 @@ const RegisterClass: NextPage = () => {
 
   const { handleCreate: handleCreateRelationClass } = useCRUD({
     // para criar a relação entre a turma e o usuário
-    model: "subject-class-user",
+    model: "classes-relation",
     immediatlyLoadData: !!id,
   });
 
