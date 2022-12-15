@@ -4,11 +4,21 @@ import { useState } from "react";
 import { Header } from "../src/components/header";
 import { Button } from "antd";
 import { InputForms } from "../src/components/inputForms";
+import useCRUD from "../src/components/hooks/useCRUD";
 import styles from "../styles/RegisterTeacher.module.css";
 import React from "react";
+import { useRouter } from "next/router";
 
 const RegisterTeacher: NextPage = () => {
   const [isAdm, setIsAdm] = useState(false);
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { handleCreate, loading } = useCRUD({
+    model: "",
+    immediatlyLoadData: !!id,
+  });
 
   const onChange = () => {
     setIsAdm(!isAdm);
