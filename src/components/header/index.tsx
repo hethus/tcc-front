@@ -28,7 +28,7 @@ export function Header() {
   };
 
   const items = [
-    { label: "Perfil", key: "profile" },
+    { label: "Perfil", key: appRoutes.home }, // profile depois
     { label: "Sair", key: appRoutes.logout },
   ];
 

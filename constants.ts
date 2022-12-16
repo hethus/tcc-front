@@ -10,6 +10,8 @@ const appRoutes = {
   index: "/",
   classes: "/classes",
   updateClass: "/classes/update",
+  registerForm: "/forms/register",
+  updateForm: "/forms/update/[index]",
 };
 
 export { appRoutes };
