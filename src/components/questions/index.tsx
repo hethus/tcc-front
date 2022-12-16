@@ -75,9 +75,9 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
           id: uuidv4(),
           title: "",
           order: formFields.length + 1, //
-          singleAnswer: null, //
-          random: null,
-          mandatory: null,
+          singleAnswer: false, //
+          random: false,
+          mandatory: false,
           options: {
             textResponse: "",
             response: "",

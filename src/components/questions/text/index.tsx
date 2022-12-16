@@ -49,7 +49,7 @@ export function QuestionText({
           }
         />
 
-        <div>
+        
           <TextareaAutosize
             name="textResponse"
             placeholder="Escreva aqui"
@@ -58,7 +58,7 @@ export function QuestionText({
             className={styles.textArea}
             disabled
           />
-        </div>
+        
       </div>
       <div>
         {field.image && (

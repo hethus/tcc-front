@@ -273,18 +273,18 @@ export function QuestionLikert({
                       }
                     )}
                     {provided.placeholder}
-                    <Button
-                      onClick={() => addLikert("lines")}
-                      type={"text"}
-                      className={styles.addLine}
-                    >
-                      Adicionar
-                    </Button>
                   </tbody>
                 )}
               </Droppable>
             </DragDropContext>
           </table>
+          <Button
+            onClick={() => addLikert("lines")}
+            type={"text"}
+            className={styles.addLine}
+          >
+            Adicionar
+          </Button>
         </div>
       </div>
     </div>
