@@ -1,5 +1,6 @@
 import { InputHTMLAttributes } from "react";
 import styles from "./styles.module.css";
+import React from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
