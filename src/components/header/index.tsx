@@ -18,17 +18,17 @@ export function Header() {
       { label: "Cadastrar turma", href: appRoutes.registerClass },
       { label: "Indicadores", href: appRoutes.registerClass },
       { label: "Formulários", href: appRoutes.registerClass },
-      { label: "Turmas", href: appRoutes.registerClass },
+      { label: "Turmas", href: appRoutes.classes },
     ],
     [userType?.admin?.value]: [
       { label: "Cadastrar template", href: appRoutes.registerClass },
-      { label: "Cadastrar professor", href: appRoutes.registerClass },
+      { label: "Cadastrar professor", href: appRoutes.registerTeacher },
       { label: "Templates", href: appRoutes.registerClass },
     ],
   };
 
   const items = [
-    { label: "Perfil", key: "profile" },
+    { label: "Perfil", key: appRoutes.home }, // profile depois
     { label: "Sair", key: appRoutes.logout },
   ];
 

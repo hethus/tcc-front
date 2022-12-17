@@ -12,6 +12,7 @@ import Head from "next/head";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { formsUpdate } from "../store/actions/forms";
 
 interface LoginData {
   email: string;
@@ -29,6 +30,7 @@ const Login: NextPage = () => {
 
   const { handleCreate } = useCRUD({ model: "auth" });
   const { handleGet } = useCRUD({ model: "user" });
+  const { handleGet: handleForms } = useCRUD({ model: "form" });
 
   const {
     register: loginRegister,
@@ -53,6 +55,19 @@ const Login: NextPage = () => {
             },
           })
             .then(({ data }) => {
+              handleForms({
+                header: {
+                  Authorization: `Bearer ${data.token}`,
+                },
+                refetchPathOptions: `${data.email}`,
+              })
+                .then(({ data }) => {
+                  console.log(data);
+                  dispatch(formsUpdate(data));
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
               dispatch(userUpdate(data));
               toast.success("Login realizado com sucesso", {
                 toastId: "loginSuccess",
@@ -130,7 +145,7 @@ const Login: NextPage = () => {
 
         <span
           className={styles.linkPassword}
-          onClick={() => router.push("/recoverPassword")}
+          onClick={() => router.push(appRoutes.changePassword)}
         >
           Esqueceu sua senha
         </span>
