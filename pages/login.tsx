@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { useDispatch } from "react-redux";
-import React, { useState } from "react";
-import { Input } from "../src/components/Input";
+import React from "react";
 import { userUpdate } from "../store/actions/users";
 import styles from "../styles/Login.module.css";
 import useCRUD from "../src/components/hooks/useCRUD.js";
@@ -62,7 +61,6 @@ const Login: NextPage = () => {
                 refetchPathOptions: `${data.email}`,
               })
                 .then(({ data }) => {
-                  console.log(data);
                   dispatch(formsUpdate(data));
                 })
                 .catch((err) => {

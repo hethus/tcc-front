@@ -1,7 +1,8 @@
 const appRoutes = {
   home: "/home",
   registerClass: "/registerClass",
-  registerTeacher: "/registerTeacher",
+  registerTeacher: "/teacher/register",
+  updateTeacher: "/teacher/update/[index]",
   recoverPassword: "/recoverPassword",
   changePassword: "/changePassword/[index]",
   firstAccess: "/firstAccess/[index]",

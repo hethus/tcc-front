@@ -35,6 +35,7 @@ const ProtectedRoute = ({ router, children }: any) => {
       appRoutes.home,
       appRoutes.logout,
       appRoutes.registerTeacher,
+      appRoutes.updateTeacher,
       appRoutes.classes,
       appRoutes.updateClass,
       appRoutes.recoverPassword,
