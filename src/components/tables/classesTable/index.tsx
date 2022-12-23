@@ -3,9 +3,11 @@ import type { InputRef } from "antd";
 import { Button, Input, Space, Table } from "antd";
 import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
-import React, { useRef, useState } from "react";
+import React, { Dispatch, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import styles from "./styles.module.css";
+import MoreInfosTable from "../../dropdown";
+import useCRUD from "../../hooks/useCRUD";
 
 interface DataType {
   id: string;
@@ -18,45 +20,54 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-const Data: DataType[] = [
-  {
-    id: "1",
-    name: "Turma A",
-    students: 28,
-    semester: "01-2020",
-    discipline: "Algoritmos",
-    more: <MoreOutlined />,
-  },
-  {
-    id: "2",
-    name: "Turma B",
-    students: 22,
-    semester: "03-2020",
-    discipline: "Logica de programação",
-    more: <MoreOutlined />,
-  },
-  {
-    id: "3",
-    name: "Turma C",
-    students: 28,
-    semester: "02-2020",
-    discipline: "Contabilidade",
-    more: <MoreOutlined />,
-  },
-  {
-    id: "4",
-    name: "Turma A",
-    students: 30,
-    semester: "05-2020",
-    discipline: "Estruturas de dados II",
-    more: <MoreOutlined />,
-  },
-];
+interface Props {
+  setOpenModal: Dispatch<boolean>
+}
 
-const ClassesTable = () => {
+const ClassesTable = ({ setOpenModal }: Props) => {
   const [search, setSearch] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+
+  const { handleGet: handleGetClasses } = useCRUD({
+    model: 'classes',
+    pathOptions: ''
+  })
+
+  const Data: DataType[] = [
+    {
+      id: "1",
+      name: "Turma A",
+      students: 28,
+      semester: "01-2020",
+      discipline: "Algoritmos",
+      more: <MoreInfosTable setOpenModal={setOpenModal} />,
+    },
+    {
+      id: "2",
+      name: "Turma B",
+      students: 22,
+      semester: "03-2020",
+      discipline: "Logica de programação",
+      more: <MoreInfosTable setOpenModal={setOpenModal} />,
+    },
+    {
+      id: "3",
+      name: "Turma C",
+      students: 28,
+      semester: "02-2020",
+      discipline: "Contabilidade",
+      more: <MoreInfosTable setOpenModal={setOpenModal} />,
+    },
+    {
+      id: "4",
+      name: "Turma A",
+      students: 30,
+      semester: "05-2020",
+      discipline: "Estruturas de dados II",
+      more: <MoreInfosTable setOpenModal={setOpenModal} />,
+    },
+  ];
 
   const handleSearch = (
     selectedKeys: string[],
