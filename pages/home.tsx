@@ -15,10 +15,6 @@ const Home: NextPage = () => {
   const { forms } = useSelector((state: any) => state);
   const router = useRouter();
 
-  const onChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
-
   const { Search } = Input;
 
   return (
@@ -31,7 +27,10 @@ const Home: NextPage = () => {
       <div className={styles.body}>
         <div className={styles.title}>
           Formulários
-          <button className={styles.button} onClick={() => router.push(appRoutes.registerForm)}>
+          <button
+            className={styles.button}
+            onClick={() => router.push(appRoutes.registerForm)}
+          >
             Criar
           </button>
         </div>
@@ -46,7 +45,7 @@ const Home: NextPage = () => {
             <div className={styles.inputSearchDiv}>
               <div className={styles.inputSearchTitle}>Nome:</div>
               <Search
-                placeholder="input search text"
+                placeholder="Digite um nome..."
                 onSearch={() => {}}
                 className={styles.inputSearch}
               />
@@ -54,16 +53,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className={styles.filterDivRightSide}>
-            <div className={styles.switchDiv}>
-              <div className={styles.switchTitle}>lista</div>
-
-              <Switch defaultChecked onChange={onChange} />
-            </div>
-
-            <div className={styles.switchDiv}>
-              <div className={styles.switchTitle}>cartões</div>
-            </div>
-
+            {/* acredito que se tirar isso, ficara melhor: */}
             <div className={styles.switchDiv}>
               <div className={styles.orderTitle}>Ordenar</div>
               <div className={styles.orderDivButton}>
@@ -90,9 +80,24 @@ const Home: NextPage = () => {
               date={`${new Date(form.createdAt).toLocaleDateString()}`}
             />
           ))}
-          <FormCard title="Formulário 1" visualization={5} date="15/01/22" id="1" />
-          <FormCard title="Formulário 2" visualization={2} date="27/02/22" id="2"/>
-          <FormCard title="Formulário 3" visualization={7} date="13/03/22" id="3"/>
+          <FormCard
+            title="Formulário 1"
+            visualization={5}
+            date="15/01/22"
+            id="1"
+          />
+          <FormCard
+            title="Formulário 2"
+            visualization={2}
+            date="27/02/22"
+            id="2"
+          />
+          <FormCard
+            title="Formulário 3"
+            visualization={7}
+            date="13/03/22"
+            id="3"
+          />
         </div>
       </div>
     </div>
