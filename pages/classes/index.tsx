@@ -1,15 +1,18 @@
 import { NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Input } from "antd";
 import styles from "@/styles/Classes.module.css";
 import { Header } from "../../src/components/header";
 import { FilterButton } from "../../src/components/filterButton";
 import ClassesTable from "../../src/components/tables/classesTable";
+import DeleteClassModal from "../../src/components/modals/deleteClass";
 
 const Classes: NextPage = () => {
   const { enums } = useSelector((state: any) => state);
   const hasEnums = Object.keys(enums).length;
+
+  const [openModal, setOpenModal] = useState(false);
 
   const { Search } = Input;
 
@@ -47,8 +50,14 @@ const Classes: NextPage = () => {
         </div>
 
         <div className={styles.ContainerTable}>
-          <ClassesTable />
+          <ClassesTable setOpenModal={setOpenModal} />
         </div>
+
+        {openModal ? (
+          <DeleteClassModal openModal={openModal} setOpenModal={setOpenModal} />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   ) : null;
