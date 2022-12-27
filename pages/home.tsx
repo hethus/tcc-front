@@ -52,22 +52,7 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div className={styles.filterDivRightSide}>
-            {/* acredito que se tirar isso, ficara melhor: */}
-            <div className={styles.switchDiv}>
-              <div className={styles.orderTitle}>Ordenar</div>
-              <div className={styles.orderDivButton}>
-                <button className={styles.orderDivButtonUpDown}>
-                  <UpOutlined style={{ fontSize: "12px", color: "#C4C4C4" }} />
-                </button>
-                <button className={styles.orderDivButtonUpDown}>
-                  <DownOutlined
-                    style={{ fontSize: "12px", color: "#C4C4C4" }}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
+          
         </div>
 
         <div className={styles.cardsDiv}>
@@ -76,28 +61,9 @@ const Home: NextPage = () => {
               key={form.id}
               id={form.id}
               title={form.name}
-              visualization={0} // como?
               date={`${new Date(form.createdAt).toLocaleDateString()}`}
             />
           ))}
-          <FormCard
-            title="Formulário 1"
-            visualization={5}
-            date="15/01/22"
-            id="1"
-          />
-          <FormCard
-            title="Formulário 2"
-            visualization={2}
-            date="27/02/22"
-            id="2"
-          />
-          <FormCard
-            title="Formulário 3"
-            visualization={7}
-            date="13/03/22"
-            id="3"
-          />
         </div>
       </div>
     </div>

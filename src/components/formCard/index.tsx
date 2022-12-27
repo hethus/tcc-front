@@ -8,12 +8,11 @@ import { useRouter } from "next/router";
 
 interface FormCardProps {
   title: string;
-  visualization: number;
   date: string;
   id: string;
 }
 
-export function FormCard({ title, visualization, date, id }: FormCardProps) {
+export function FormCard({ title, date, id }: FormCardProps) {
   const router = useRouter();
   const items = [
     { label: "Editar", key: appRoutes.updateForm },
@@ -47,11 +46,6 @@ export function FormCard({ title, visualization, date, id }: FormCardProps) {
             style={{ fontSize: "18px", color: "#0094FF", fontWeight: "bold" }}
           />
         </Dropdown>
-      </div>
-      <div className={styles.body}>
-        <div className={styles.visualization}>
-          Visualização: {visualization}
-        </div>
       </div>
       <div className={styles.footer}>
         <ClockCircleOutlined style={{ fontSize: "16px", color: "#868686" }} />
