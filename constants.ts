@@ -13,6 +13,8 @@ const appRoutes = {
   updateClass: "/classes/update",
   registerForm: "/forms/register",
   updateForm: "/forms/update/[index]",
+  allIndicators: "/indicators/all",
+  oneIndicator: "/indicators/one/[index]",
 };
 
 export { appRoutes };

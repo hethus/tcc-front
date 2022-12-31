@@ -10,38 +10,54 @@ interface FormCardProps {
   title: string;
   date: string;
   id: string;
+  isIndicator?: boolean;
 }
 
-export function FormCard({ title, date, id }: FormCardProps) {
+export function FormCard({ title, date, id, isIndicator }: FormCardProps) {
   const router = useRouter();
-  const items = [
-    { label: "Editar", key: appRoutes.updateForm },
-    { label: "Adicionar à indicador", key: 'null1' },
-    { label: "Apagar", key: 'null2' },
-    { label: "Duplicar", key: 'null3' },
-  ];
+  const items = isIndicator
+    ? [
+        {
+          label: "Editar",
+          key: `${appRoutes.oneIndicator.replace("[index]", id)}, edit`,
+        },
+        { label: "Apagar", key: `null2, delete` },
+      ]
+    : [
+        {
+          label: "Editar",
+          key: `${appRoutes.updateForm.replace("[index]", id)}, edit`,
+        },
+        { label: "Adicionar à indicador", key: `null1, add` },
+        { label: "Apagar", key: `null2, delete` },
+        { label: "Duplicar", key: `null3, duplicate` },
+      ];
 
   const onClick = (e: any) => {
     if (!e.key) {
       return;
     }
+    const [key, action] = e.key.split(", ");
 
-    if (e.key === appRoutes.updateForm) {
-      const formRoute = appRoutes.updateForm.replace("[index]", id);
-      router.push(formRoute);
+    if (action === "edit") {
+      router.push(key);
       return;
     }
 
     return toast.error("Não implementado", {
       toastId: "not-implemented",
-      });
+    });
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-        <Dropdown className={styles.dropdown} menu={{ items, onClick }} trigger={["click"]}>
+        <Dropdown
+          className={styles.dropdown}
+          menu={{ items, onClick }}
+          trigger={["click"]}
+        >
           <MoreOutlined
             style={{ fontSize: "18px", color: "#0094FF", fontWeight: "bold" }}
           />

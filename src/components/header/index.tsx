@@ -19,8 +19,8 @@ export function Header() {
   const headerOptions = {
     [userType?.teacher?.value]: [
       { label: "Cadastrar turma", href: appRoutes.registerClass },
-      { label: "Indicadores", href: appRoutes.registerClass },
-      { label: "Formulários", href: appRoutes.registerClass },
+      { label: "Indicadores", href: appRoutes.allIndicators },
+      { label: "Formulários", href: appRoutes.home },
       { label: "Turmas", href: appRoutes.classes },
     ],
     [userType?.admin?.value]: [

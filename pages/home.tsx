@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { FilterButton } from "../src/components/filterButton";
-import { Input, Switch } from "antd";
+import { Input } from "antd";
 import { FormCard } from "../src/components/formCard";
 import { Header } from "../src/components/header";
 import React from "react";
@@ -10,6 +9,7 @@ import Head from "next/head";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { appRoutes } from "../constants";
+import { TitlePage } from "../src/components/titlePage";
 
 const Home: NextPage = () => {
   const { forms } = useSelector((state: any) => state);
@@ -25,15 +25,7 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <div className={styles.body}>
-        <div className={styles.title}>
-          Formulários
-          <button
-            className={styles.button}
-            onClick={() => router.push(appRoutes.registerForm)}
-          >
-            Criar
-          </button>
-        </div>
+        <TitlePage title="Formulários" url={appRoutes.registerForm} />
         <div className={styles.filterDiv}>
           <div className={styles.filterDivLeftSide}>
             <FilterButton title="Tipos" />

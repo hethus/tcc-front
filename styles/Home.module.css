@@ -7,35 +7,6 @@
   height: 88vh;
 }
 
-.title {
-  padding: 3rem 1rem 2rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 49px;
-
-  color: #000000;
-}
-
-.button {
-  border: none;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.5rem;
-  line-height: 33px;
-  padding: 0.7rem 2rem;
-
-  color: #ffffff;
-
-  background: #0094ff;
-  border-radius: 30px;
-  cursor: pointer;
-}
-
 .button:hover {
   opacity: 0.8;
 }
