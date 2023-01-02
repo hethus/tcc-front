@@ -1,13 +1,15 @@
-import { SearchOutlined, MoreOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
 import { Button, Input, Space, Table } from "antd";
 import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
-import React, { Dispatch, useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import styles from "./styles.module.css";
 import MoreInfosTable from "../../dropdown";
 import useCRUD from "../../hooks/useCRUD";
+import { useSelector } from "react-redux";
+import { ITableClass } from "../../../types/interfaces";
 
 interface DataType {
   id: string;
@@ -15,59 +17,58 @@ interface DataType {
   students: number;
   semester: string;
   discipline: string;
-  more: any;
+  more?: any;
 }
 
 type DataIndex = keyof DataType;
 
 interface Props {
-  setOpenModal: Dispatch<boolean>
+  setOpenModal: Dispatch<boolean>;
 }
 
 const ClassesTable = ({ setOpenModal }: Props) => {
   const [search, setSearch] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [classTableData, setClassTableData] = useState<DataType[]>([] as DataType[]);
+
   const searchInput = useRef<InputRef>(null);
+  const { user } = useSelector((state: any) => state)
 
   const { handleGet: handleGetClasses } = useCRUD({
-    model: 'classes',
-    pathOptions: ''
+    model: 'classe',
   })
 
-  const Data: DataType[] = [
-    {
-      id: "1",
-      name: "Turma A",
-      students: 28,
-      semester: "01-2020",
-      discipline: "Algoritmos",
-      more: <MoreInfosTable setOpenModal={setOpenModal} />,
-    },
-    {
-      id: "2",
-      name: "Turma B",
-      students: 22,
-      semester: "03-2020",
-      discipline: "Logica de programação",
-      more: <MoreInfosTable setOpenModal={setOpenModal} />,
-    },
-    {
-      id: "3",
-      name: "Turma C",
-      students: 28,
-      semester: "02-2020",
-      discipline: "Contabilidade",
-      more: <MoreInfosTable setOpenModal={setOpenModal} />,
-    },
-    {
-      id: "4",
-      name: "Turma A",
-      students: 30,
-      semester: "05-2020",
-      discipline: "Estruturas de dados II",
-      more: <MoreInfosTable setOpenModal={setOpenModal} />,
-    },
-  ];
+  const classesData = async () => {
+    handleGetClasses({
+      refetchPathOptions: user.email,
+      header: {
+        Authorization: `Bearer ${user.token}`
+      }
+    })
+    .then(({data}) => {
+      console.log(data)
+      const tableData = data.map((info) => {
+        return {
+          id: info.id,
+          name: info.name,
+          students: info.UsersSubjectClasses.length,
+          semester: info.semester,
+          discipline: info.subjectName,
+          more: <MoreInfosTable setOpenModal={setOpenModal} idParam={info.id} />,
+        }
+      })
+      setClassTableData(tableData)
+      return 
+    })
+    .catch((error: any) => {
+      console.error(`Message error: ${error}`)
+      return
+    })
+  }
+
+  useEffect(() => {
+    classesData()
+  }, [])
 
   const handleSearch = (
     selectedKeys: string[],
@@ -173,6 +174,7 @@ const ClassesTable = ({ setOpenModal }: Props) => {
       title: "Turma",
       dataIndex: "name",
       key: "name",
+      ...getColumnsSearchProps("name"),
       sorter: (a, b) => a.name.length - b.name.length,
       sortDirections: ["ascend", "descend"],
       align: 'center',
@@ -182,6 +184,7 @@ const ClassesTable = ({ setOpenModal }: Props) => {
       title: "Alunos",
       dataIndex: "students",
       key: "students",
+      ...getColumnsSearchProps("students"),
       sorter: (a, b) => a.students - b.students,
       sortDirections: ["ascend", "descend"],
       align: 'center',
@@ -191,6 +194,7 @@ const ClassesTable = ({ setOpenModal }: Props) => {
       title: "Semestres",
       dataIndex: "semester",
       key: "semester",
+      ...getColumnsSearchProps("semester"),
       sorter: (a, b) => a.semester.length - b.semester.length,
       sortDirections: ["ascend", "descend"],
       align: 'center',
@@ -214,7 +218,7 @@ const ClassesTable = ({ setOpenModal }: Props) => {
     },
   ];
 
-  return <Table size={"middle"} className={styles.Table} columns={columns} dataSource={Data} />;
+  return <Table size={"middle"} className={styles.Table} columns={columns} dataSource={classTableData} />;
 };
 
 export default ClassesTable;
