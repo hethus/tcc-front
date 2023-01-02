@@ -7,17 +7,17 @@ import { appRoutes } from "../../../constants";
 import { useRouter } from "next/router";
 
 interface Props {
-  setOpenModal: Dispatch<boolean>
+  setOpenModal: Dispatch<boolean>;
+  idParam: string
 }
 
-
-const MoreInfosTable = ({ setOpenModal }: Props) => {
+const MoreInfosTable = ({ setOpenModal, idParam }: Props) => {
   const navigate = useRouter();
 
   const items: MenuProps["items"] = [
     {
       label: (
-        <Typography onClick={() => navigate.push(appRoutes.updateClass)}>
+        <Typography onClick={() => navigate.push(appRoutes.updateClass.replace("[index]", idParam))}>
           Editar
         </Typography>
       ),
