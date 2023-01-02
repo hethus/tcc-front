@@ -9,7 +9,7 @@ const appRoutes = {
   logout: "/logout",
   index: "/",
   classes: "/classes",
-  updateClass: "/classes/update",
+  updateClass: "/classes/update/[index]",
   registerForm: "/forms/register",
   updateForm: "/forms/update",
 };
