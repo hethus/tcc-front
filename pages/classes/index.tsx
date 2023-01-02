@@ -8,15 +8,24 @@ import { FilterButton } from "../../src/components/filterButton";
 import ClassesTable from "../../src/components/tables/classesTable";
 import DeleteClassModal from "../../src/components/modals/deleteClass";
 
+interface Source {
+  id: string;
+  name: string;
+  students: number;
+  semester: string;
+  discipline: string;
+  more?: any;
+}
+
 const Classes: NextPage = () => {
   const { enums } = useSelector((state: any) => state);
   const hasEnums = Object.keys(enums).length;
 
+  const [deleteId, setDeleteId] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
   const { Search } = Input;
 
-  const handleOnSearch = () => {};
 
   return hasEnums ? (
     <div className={styles.container}>
@@ -34,18 +43,6 @@ const Classes: NextPage = () => {
             <FilterButton title="Disciplina" />
 
             <FilterButton title="Semestre" />
-          </div>
-
-          <div className={styles.filterRightSide}>
-            <div className={styles.inputSearchDiv}>
-              <label className={styles.inputSearchName}>Nome:</label>
-              <Search
-                placeholder="Digite um nome..."
-                allowClear
-                onSearch={handleOnSearch}
-                style={{ width: 300 }}
-              />
-            </div>
           </div>
         </div>
 
