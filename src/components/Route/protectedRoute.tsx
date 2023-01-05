@@ -33,6 +33,7 @@ const ProtectedRoute = ({ router, children }: any) => {
     ],
     admin: [
       appRoutes.home,
+      appRoutes.registerClass,
       appRoutes.logout,
       appRoutes.registerTeacher,
       appRoutes.classes,
