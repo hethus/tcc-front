@@ -57,6 +57,7 @@ const ClassesTable = ({ setOpenModal }: Props) => {
           more: <MoreInfosTable setOpenModal={setOpenModal} idParam={info.id} />,
         }
       })
+      console.log(tableData)
       setClassTableData(tableData)
       return 
     })
