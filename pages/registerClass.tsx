@@ -36,25 +36,21 @@ const RegisterClass: NextPage = () => {
   } = useCRUD({
     // para criar uma nova turma
     model: "classe",
-    immediatlyLoadData: !!id,
   });
 
   const { handleCreate: handleCreateUser } = useCRUD({
     // para criar o usuário
     model: "user",
-    immediatlyLoadData: !!id,
   });
 
   const { handleGet: handleGetUser } = useCRUD({
     // para pegar o usuário
     model: "user",
-    immediatlyLoadData: !!id,
   });
 
   const { handleCreate: handleCreateRelationClass } = useCRUD({
     // para criar a relação entre a turma e o usuário
     model: "classes-relation",
-    immediatlyLoadData: !!id,
   });
 
   useEffect(() => {
@@ -114,7 +110,8 @@ const RegisterClass: NextPage = () => {
         }
 
         // se tiver dados, vai criar o usuário usando os dados do excel:
-        for (let i = 0; i < tableData.length; i++) {
+        for (let i = 0; i <= tableData.length; i++) {
+          console.log(tableData[i])
           handleCreateUser({
             values: { ...tableData[i], userType: "student" },
             header: {
@@ -128,8 +125,9 @@ const RegisterClass: NextPage = () => {
                   values: { subjectClassId: dataClass.id, userId },
                 });
               };
-
-              if (error.message[0] === "Usuário já cadastrado") {
+              
+              console.log(error?.message)
+              if (error?.message === "Usuário já cadastrado") {
                 // vai entrar aq se o usuário já estiver cadastrado, então tera que pegar o id dele e adicionar na turma
                 handleGetUser({
                   refetchPathOptions: `${tableData[i].email}`,
@@ -137,17 +135,19 @@ const RegisterClass: NextPage = () => {
                     Authorization: `Bearer ${user.token}`,
                   },
                 }).then(({ data }) => {
-                  handleRelationClass(data.id); // aqui chama a função para criar a relação
+                  console.log(data)
+                  handleRelationClass(data?.id); // aqui chama a função para criar a relação
                   return;
                 });
               }
 
               if (error) {
+                console.log('Erro: ' + error)
                 console.log(error); // aqui vai mostrar o erro no console, se o erro n for o de usuário já cadastrado
                 return;
               }
 
-              handleRelationClass(data.id); // aqui chama a função para criar a relação
+              handleRelationClass(data?.id); // aqui chama a função para criar a relação
               return;
             });
         }
