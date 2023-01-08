@@ -86,8 +86,6 @@ const OneIndicator: NextPage = () => {
         };
       });
 
-      console.log("testeaq", dataFormatted);
-
       setMethodologies(dataFormatted);
     });
 
@@ -108,8 +106,6 @@ const OneIndicator: NextPage = () => {
           label: item.label,
         };
       });
-      console.log("testeaq2", dataFormatted);
-
       setGroups(dataFormatted);
     });
   }, [router.query.index]);
@@ -186,7 +182,11 @@ const OneIndicator: NextPage = () => {
             className={styles.textArea}
           />
         </div>
-        <IndicatorTable data={indicator.forms} id={router.query.index as string} setIndicator={setIndicator}/>
+        <IndicatorTable
+          data={indicator.forms}
+          id={router.query.index as string}
+          setIndicator={setIndicator}
+        />
       </div>
     </div>
   );
