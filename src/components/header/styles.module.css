@@ -8,6 +8,10 @@
   font-weight: 600;
 }
 
+.imgSide{
+  cursor: pointer;
+}
+
 .link {
   padding: 16px;
   cursor: pointer;

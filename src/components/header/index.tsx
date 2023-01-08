@@ -2,6 +2,7 @@ import { SmileFilled } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { useSelector } from "react-redux";
 import { appRoutes } from "../../../constants";
@@ -13,11 +14,13 @@ export function Header() {
     enums: { userType },
   } = useSelector((state: any) => state);
 
+  const router = useRouter();
+
   const headerOptions = {
     [userType?.teacher?.value]: [
       { label: "Cadastrar turma", href: appRoutes.registerClass },
-      { label: "Indicadores", href: appRoutes.registerClass },
-      { label: "Formulários", href: appRoutes.registerClass },
+      { label: "Indicadores", href: appRoutes.allIndicators },
+      { label: "Formulários", href: appRoutes.home },
       { label: "Turmas", href: appRoutes.classes },
     ],
     [userType?.admin?.value]: [
@@ -44,6 +47,7 @@ export function Header() {
         alt="UnB + A3M imagem"
         width="128"
         height="76"
+        onClick={() => (router.push(appRoutes.home))}
       />
       <Space size={16} style={{ display: "flex", alignItems: "center" }}>
         {headerOptions[user?.userType]?.map(({ label, href }, index) => (

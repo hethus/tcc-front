@@ -33,6 +33,17 @@
   overflow: hidden;
 }
 
+.headerQuestion {
+  display: flex;
+  align-items: flex-start;
+}
+
+.required {
+  color: #ff0000;
+  font-size: 20px;
+  margin: 0 0.5rem;
+}
+
 .drag {
   position: absolute;
   display: flex;

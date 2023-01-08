@@ -54,6 +54,17 @@
   width: 100%;
 }
 
+.headerQuestion {
+  display: flex;
+  align-items: flex-start;
+}
+
+.required {
+  color: #ff0000;
+  font-size: 20px;
+  margin: 0 0.5rem;
+}
+
 .imgContainer {
   display: flex;
   align-items: center;
