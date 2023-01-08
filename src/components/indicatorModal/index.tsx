@@ -1,6 +1,7 @@
-import { Modal, Select } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Divider, Input, InputRef, Modal, Select } from "antd";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
@@ -17,8 +18,8 @@ export function IndicatorModal({
   setIsModalOpen,
   isModalOpen,
 }: IndicatorModalProps) {
-  const [methodologies, setMethodologies] = useState([]);
-  const [groups, setGroups] = useState([]);
+  const [methodologies, setMethodologies] = useState([] as any);
+  const [groups, setGroups] = useState([] as any);
   const [indicator, setIndicator] = useState({
     name: "",
     description: "",
@@ -27,12 +28,22 @@ export function IndicatorModal({
   });
   const [indicatorError, setIndicatorError] = useState("");
 
+  const [nameGroup, setNameGroup] = useState("");
+  const [nameMethodology, setNameMethodology] = useState("");
+
   const { user } = useSelector((state: any) => state);
   const router = useRouter();
+
+  const inputRef = useRef<InputRef>(null);
 
   const { handleGet: handleGroup } = useCRUD({ model: "group" });
   const { handleGet: handleMethodology } = useCRUD({ model: "methodology" });
   const { handleCreate: handleIndicator } = useCRUD({ model: "indicator" });
+
+  const { handleCreate: handleCreateGroup } = useCRUD({ model: "group" });
+  const { handleCreate: handleCreateMethodology } = useCRUD({
+    model: "methodology",
+  });
 
   const handleOk = () => {
     if (!indicator.name) {
@@ -101,6 +112,87 @@ export function IndicatorModal({
       methodology: "",
       group: "",
     });
+  };
+
+  const onNameChange = (event: any, type: string) => {
+    if (type === "group") {
+    setNameGroup(event.target.value);
+    } else {
+      setNameMethodology(event.target.value);
+    }
+  };
+
+  const addItem = (e: any, type: string) => {
+    e.preventDefault();
+  
+    if (type === "group" && !nameGroup) {
+      return toast.error("Nome do grupo é obrigatório", {
+        toastId: "error-group",
+      });
+    }
+
+    if (type === "methodology" && !nameMethodology) {
+      return toast.error("Nome da metodologia é obrigatório", {
+        toastId: "error-methodology",
+      });
+    }
+
+    if (type === "group") {
+      handleCreateGroup({
+        header: {
+          Authorization: `Bearer ${user.token}`,
+        },
+        values: {
+          label: nameGroup || `New item ${groups.length++}`,
+        },
+      }).then(({ data, error }) => {
+        if (error) {
+          return toast.error("Erro ao criar grupo", {
+            toastId: "error",
+          });
+        }
+
+        setGroups([
+          ...groups,
+          {
+            value: data.id,
+            label: data.label,
+          },
+        ]);
+      });
+      setNameGroup("");
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    } else {
+      handleCreateMethodology({
+        header: {
+          Authorization: `Bearer ${user.token}`,
+        },
+        values: {
+          label: nameMethodology || `New item ${methodologies.length++}`,
+        },
+      }).then(({ data, error }) => {
+        if (error) {
+          return toast.error("Erro ao criar metodologia", {
+            toastId: "error",
+          });
+        }
+
+        setMethodologies([
+          ...methodologies,
+          {
+            value: data.id,
+            label: data.label,
+          },
+        ]);
+
+      });
+      setNameMethodology("");
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
   };
 
   useEffect(() => {
@@ -200,6 +292,28 @@ export function IndicatorModal({
               value={indicator.methodology || "Selecione a metodologia"}
               className={styles.select}
               size="large"
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <Divider style={{ margin: "8px 0" }} />
+                  <div>
+                    <Input
+                      placeholder="Nome da nova metodologia"
+                      ref={inputRef}
+                      value={nameMethodology}
+                      onChange={(e) => onNameChange(e, "methodology")}
+                      style={{ width: "100%" }}
+                    />
+                    <Button
+                      type="primary"
+                      onClick={(e) => addItem(e, "methodology")}
+                      style={{ width: "100%", marginTop: 8 }}
+                    >
+                      Adicionar item
+                    </Button>
+                  </div>
+                </>
+              )}
             />
           </div>
           <div className={styles.inputDiv}>
@@ -220,6 +334,27 @@ export function IndicatorModal({
               value={indicator.group || "Selecione o conjunto"}
               className={styles.select}
               size="large"
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <Divider style={{ margin: "8px 0" }} />
+                  <div>
+                    <Input
+                      placeholder="Nome do novo conjunto"
+                      ref={inputRef}
+                      value={nameGroup}
+                      onChange={(e) => onNameChange(e, "group")}
+                    />
+                    <Button
+                      type="primary"
+                      onClick={(e) => addItem(e, "group")}
+                      style={{ width: "100%", marginTop: 8 }}
+                    >
+                      Adicionar item
+                    </Button>
+                  </div>
+                </>
+              )}
             />
           </div>
         </div>

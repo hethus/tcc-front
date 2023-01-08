@@ -51,7 +51,7 @@ const AllIndicators: NextPage = () => {
       </Head>
       <Header />
       <div className={styles.body}>
-        <TitlePage title="Indicadores" isIndicator />
+        <TitlePage title="Indicadores" isIndicator reload={reload}/>
         <div className={styles.filterDiv}>
           <div className={styles.filterDivLeftSide}>
             <FilterButton title="Tipos" />
