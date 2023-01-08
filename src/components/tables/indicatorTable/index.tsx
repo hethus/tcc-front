@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { formsUpdate } from "../../../../store/actions/forms";
 import useCRUD from "../../hooks/useCRUD";
 import styles from "./styles.module.css";
+import { appRoutes } from "../../../../constants";
 
 interface IndicatorTableProps {
   data: any;
@@ -32,9 +33,7 @@ export function IndicatorTable({
   const { handleCreate: handleCreateIndicator } = useCRUD({
     model: "indicator",
   });
-  const { handleDelete: handleDeleteRelationIndicator } = useCRUD({
-    model: "indicator/remove",
-  });
+
   const { handleGet: handleGetIndicator } = useCRUD({
     model: "indicator/one",
   });
@@ -43,8 +42,8 @@ export function IndicatorTable({
   const dataDropdown = (type: string) => {
     if (type === "form") {
       return [
-        { label: "Ver detalhes", key: "Ver detalhes-form" },
-        { label: "Reaplicar", key: "Reaplicar-form" },
+        { label: "Ver detalhes (editar)", key: "Ver detalhes-form" },
+        { label: "Aplicar", key: "Reaplicar-form" },
         { label: "Excluir", key: "Excluir-form", danger: true },
       ];
     }
@@ -153,33 +152,12 @@ export function IndicatorTable({
     if (menuTypeSplitArray[1] === "form") {
       switch (menuTypeSplitArray[0]) {
         case "Ver detalhes":
-          toast.warn("Em breve");
+          router.push(`${appRoutes.updateForm.replace("[index]", dataId)}?indicator=${id}`);
           break;
         case "Reaplicar":
           toast.warn("Em breve");
           break;
         case "Excluir":
-          /* handleDeleteRelationIndicator({
-            values: { formsId: [dataId] },
-            header: {
-              Authorization: `Bearer ${user.token}`,
-            },
-            refetchPathOptions: `${id}`,
-          }).then(({ data, error }) => {
-            if (error) {
-              toast.error("Erro ao excluir formulário");
-              return;
-            }
-            toast.success("Formulário excluído com sucesso");
-            handleGetIndicator({
-              header: {
-                Authorization: `Bearer ${user.token}`,
-              },
-              refetchPathOptions: `${id}`,
-            }).then(({ data, error }) => {
-              setIndicator(data);
-            });
-          }); */
           setFormId(dataId);
           setDeleteModal(true);
           setIsModalOpen(true);
