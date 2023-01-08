@@ -44,7 +44,7 @@ const Login: NextPage = () => {
     })
       .then(({ data, error }) => {
         if (!data) {
-          console.log(error)
+          console.log(error);
           return toast.error("Credenciais inválidas ou usuário não cadastrado");
         }
 
@@ -60,13 +60,11 @@ const Login: NextPage = () => {
                   Authorization: `Bearer ${data.token}`,
                 },
                 refetchPathOptions: `${data.email}`,
-              })
-                .then(({ data }) => {
+              }).then(({ data, error }) => {
+                if (!error) {
                   dispatch(formsUpdate(data));
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+                }
+              });
               dispatch(userUpdate(data));
               toast.success("Login realizado com sucesso", {
                 toastId: "loginSuccess",
