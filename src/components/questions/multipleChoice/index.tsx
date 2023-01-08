@@ -73,26 +73,27 @@ export function MultipleChoice({
         <img src="/drag.svg" alt="ícone de drag" />
       </div>
       <div className={styles.alternativeContainerLeft}>
-        <input
-          name="title"
-          placeholder="Título da múltipla escolha"
-          value={field.title}
-          onChange={(event) => handleFormChange(indexQuestion, event)}
-          className={
-            dragging === indexQuestion
-              ? styles.titleInputDragging
-              : styles.titleInput
-          }
-        />
+        <div className={styles.headerQuestion}>
+          <input
+            name="title"
+            placeholder="Título da múltipla escolha"
+            value={field.title}
+            onChange={(event) => handleFormChange(indexQuestion, event)}
+            className={
+              dragging === indexQuestion
+                ? styles.titleInputDragging
+                : styles.titleInput
+            }
+          />
+
+          {field.mandatory && <p className={styles.required}>*</p>}
+        </div>
 
         <div className={styles.body}>
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="alternatives">
               {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
+                <div {...provided.droppableProps} ref={provided.innerRef}>
                   {field.options.alternatives.map(
                     (multipleChoice: any, indexMultipleChoice: number) => {
                       return (

@@ -1,19 +1,70 @@
-import { NextPage } from "next";
-import React from "react";
-import { useSelector } from "react-redux";
-import { Header } from "../../src/components/header";
+/* eslint-disable react-hooks/rules-of-hooks */
 import styles from "@/styles/UpdateClass.module.css";
-import { Form, Input, Button } from "antd";
+import { Button, Form, Input } from "antd";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useRouter } from 'next/router';
+import BackPage from "../../../src/components/backPages";
+import { Header } from "../../../src/components/header";
+import useCRUD from "../../../src/components/hooks/useCRUD";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = (context) => {
+  const { params } = context;
+
+  return {
+    props: {
+      params,
+    },
+  };
+};
 
 const UpdateClass: NextPage = () => {
-  const { enums } = useSelector((state: any) => state);
+  const { enums, user } = useSelector((state: any) => state);
   const hasEnums = Object.keys(enums).length;
+  const route = useRouter();
+
+  const [classData, setClassData] = useState('');
+
+  const { handleGet: handleGetClass } = useCRUD({
+    model: 'classe/one'
+  })
+
+  const renderClassData = async () => {
+    handleGetClass({
+      refetchPathOptions: route.query.index as string,
+      header: {
+        Authorization: `Bearer ${user.token}`
+      }
+    })
+    .then(({data}) => {
+      console.log(data)
+      setClassData(data)
+    })
+    .catch((error: any) => {
+      console.error(`Message error: ${error}`)
+      return
+    })
+  }
+
+  useEffect(() => {
+    renderClassData()
+  }, [])
 
   return hasEnums ? (
     <div className={styles.container}>
       <Header />
 
       <div className={styles.body}>
+        <BackPage />
+
         <div className={styles.content}>
           <h1 className={styles.title}>Atualizar Turma</h1>
 
