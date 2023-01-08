@@ -7,9 +7,34 @@
   font-style: normal;
   font-weight: 400;
   font-size: 2rem;
-  line-height: 49px;
 
   color: #000000;
+}
+
+.titleDiv {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}	
+
+.titleIndicatorName {
+  font-size: 1.4rem;
+  padding: 0.7rem 1rem;
+  color: #000000;
+  border: 2px solid #0094ff;
+  border-radius: 8px;
+}
+
+.details {
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 22px;
+  color: #0094FF;
+  cursor: pointer;
+}
+
+.details:hover {
+  text-decoration: underline;
 }
 
 .button {

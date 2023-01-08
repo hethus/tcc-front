@@ -42,8 +42,9 @@ const Login: NextPage = () => {
     handleCreate({
       values: data,
     })
-      .then(({ data }) => {
+      .then(({ data, error }) => {
         if (!data) {
+          console.log(error)
           return toast.error("Credenciais inválidas ou usuário não cadastrado");
         }
 

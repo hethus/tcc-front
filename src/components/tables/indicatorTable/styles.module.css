@@ -1,0 +1,53 @@
+.tableContainer {
+  margin-top: 4rem;
+  padding-bottom: 1.5rem;
+}
+
+.moreIcon {
+  cursor: pointer;
+  padding: 0.7rem;
+}
+
+.addLayer {
+  cursor: pointer;
+  padding: 0.7rem;
+  margin: 0 0.5rem;
+  width: 2.8rem;
+}
+
+.addLayer:hover {
+  background-color: rgb(214, 212, 212);
+  border-radius: 25%;
+}
+
+.moreIcon:hover {
+  background-color: rgb(214, 212, 212);
+  border-radius: 25%;
+}
+
+.plusIcon {
+  cursor: pointer;
+  padding: 0.4rem;
+  margin: 0 0.5rem;
+}
+
+.plusIcon:hover {
+  background-color: rgb(214, 212, 212);
+  border-radius: 25%;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+}
+
+.newContainer {
+  display: flex;
+  align-items: center;
+  color: #0094FF;
+  font-size: 1.1rem;
+}
+
+.newContainer:hover {
+  color: #0066CC;
+}

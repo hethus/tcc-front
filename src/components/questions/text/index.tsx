@@ -55,7 +55,7 @@ export function QuestionText({
         <TextareaAutosize
           name="textResponse"
           placeholder="Escreva aqui"
-          value={field.options.textResponse}
+          value={field.options?.textResponse}
           onChange={(event) => handleQuestionTextChange(index, event)}
           className={styles.textArea}
           disabled

@@ -122,7 +122,7 @@ const UpdateForm: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Atualizar formulário - SAMI</title>
-        <meta name="Página inicial" content="Página inicial da aplicação" />
+        <meta name="Página de atualizar formulário" content="Página de atualizar formulário" />
       </Head>
       <Header />
       <div className={styles.body}>

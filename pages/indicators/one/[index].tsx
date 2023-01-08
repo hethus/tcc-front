@@ -1,20 +1,16 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import styles from "../../../styles/Forms.module.css";
+import styles from "../../../styles/indicators/one.module.css";
 import { Header } from "../../../src/components/header";
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { appRoutes } from "../../../constants";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Space, Switch } from "antd";
-import { QuestionList } from "../../../src/components/questions";
+import { Select } from "antd";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
-import { validateForm } from "../../../src/utils/validate-forms";
 import useCRUD from "../../../src/components/hooks/useCRUD";
-import { formsUpdate } from "../../../store/actions/forms";
-import { useDispatch } from "react-redux";
+import { TitlePage } from "../../../src/components/titlePage";
+import { IndicatorTable } from "../../../src/components/tables/indicatorTable";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -36,21 +32,28 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const OneIndicator: NextPage = () => {
   const { handleUpdate } = useCRUD({ model: "indicator" });
   const { handleGet: handleGetOne } = useCRUD({ model: "indicator/one" });
-  const { handleGet } = useCRUD({ model: "indicator" });
+  const { handleGet: handleGetMethodologies } = useCRUD({
+    model: "methodology",
+  });
+  const { handleGet: handleGetGroups } = useCRUD({ model: "group" });
 
   const { user } = useSelector((state: any) => state);
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const [formHeader, setFormHeader] = useState({
-    title: "",
+  const [indicator, setIndicator] = useState({
+    id: "",
+    name: "",
     description: "",
-    randomOrder: false,
+    forms: [],
+    methodologyId: "",
+    groupId: "",
+    userId: "",
   });
-  const [formFields, setFormFields] = useState([] as any);
+  const [methodologies, setMethodologies] = useState([]);
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    if (!router.isReady) return;
+    if (!router.isReady || !router.query.index) return;
     handleGetOne({
       header: {
         Authorization: `Bearer ${user.token}`,
@@ -58,37 +61,62 @@ const OneIndicator: NextPage = () => {
       refetchPathOptions: `${router.query.index}`,
     }).then(({ data, error }) => {
       if (error) {
-        toast.error("Erro ao buscar formulário");
+        toast.error("Erro ao buscar indicador");
         return;
       }
 
-      setFormHeader({
-        title: data.name,
-        description: data.description,
-        randomOrder: data.random,
-      });
-      setFormFields(data.questions);
+      setIndicator(data);
     });
-  }, [router.isReady]);
 
-  const submit = (e: any) => {
-    e.preventDefault();
+    handleGetMethodologies({
+      header: {
+        Authorization: `Bearer ${user.token}`,
+      },
+      refetchPathOptions: user.email,
+    }).then(({ data, error }) => {
+      if (error) {
+        toast.error("Erro ao buscar metodologias");
+        return;
+      }
 
-    const valid = validateForm(formHeader, formFields);
+      const dataFormatted = data.map((item: any) => {
+        return {
+          value: item.id,
+          label: item.label,
+        };
+      });
 
-    if (!valid) {
-      return;
-    }
+      console.log("testeaq", dataFormatted);
 
-    const newForm = {
-      name: formHeader.title,
-      description: formHeader.description,
-      random: formHeader.randomOrder,
-      questions: formFields,
-    };
+      setMethodologies(dataFormatted);
+    });
 
+    handleGetGroups({
+      header: {
+        Authorization: `Bearer ${user.token}`,
+      },
+      refetchPathOptions: user.email,
+    }).then(({ data, error }) => {
+      if (error) {
+        toast.error("Erro ao buscar grupos");
+        return;
+      }
+
+      const dataFormatted = data.map((item: any) => {
+        return {
+          value: item.id,
+          label: item.label,
+        };
+      });
+      console.log("testeaq2", dataFormatted);
+
+      setGroups(dataFormatted);
+    });
+  }, [router.query.index]);
+
+  const submit = () => {
     handleUpdate({
-      values: newForm,
+      values: indicator,
       header: {
         Authorization: `Bearer ${user.token}`,
       },
@@ -99,80 +127,66 @@ const OneIndicator: NextPage = () => {
         return;
       }
       toast.success("Formulário atualizado com sucesso!");
+    });
+  };
 
-      handleGet({
-        header: {
-          Authorization: `Bearer ${user.token}`,
-        },
-        refetchPathOptions: `${user.email}`,
-      }).then(({ data, error }) => {
-        if (error) {
-          toast.error("Erro ao buscar formulário");
-          router.push(appRoutes.home);
-          return;
-        }
-        dispatch(formsUpdate(data));
-        router.push(appRoutes.home);
-      });
+  const handleEditIndicator = (e: any, name: string) => {
+    setIndicator({
+      ...indicator,
+      [name]: e.target.value,
     });
   };
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>Atualizar formulário - SAMI</title>
-        <meta name="Página inicial" content="Página inicial da aplicação" />
+        <title>Indicadores - SAMI</title>
+        <meta name="Indicadores" content="Página de indicadores da aplicação" />
       </Head>
       <Header />
+      <TitlePage
+        title="Indicadores"
+        isIndicatorEdit
+        nameIndicator={indicator.name}
+        handleEditIndicator={handleEditIndicator}
+        handleUpdateIndicator={submit}
+      />
       <div className={styles.body}>
-        <div className={styles.headerForm}>
-          <div className={styles.headerFirstLine}>
-            <input
-              className={styles.headerInput}
-              type="text"
-              placeholder="Título do formulário"
-              value={formHeader.title}
-              onChange={(e) => {
-                setFormHeader({
-                  ...formHeader,
-                  title: e.target.value,
-                });
+        <div className={styles.selectContainer}>
+          <div className={styles.selectDiv}>
+            <p className={styles.inputName}>Metodologia:</p>
+            <Select
+              onChange={(value) => {
+                setIndicator({ ...indicator, methodologyId: value });
               }}
+              options={methodologies}
+              value={indicator.methodologyId || "Selecione o conjunto"}
+              className={styles.select}
+              size="large"
             />
-            <Space direction="horizontal">
-              <p>Ordem aleatória:</p>
-              <Switch
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-                defaultChecked
-                checked={formHeader.randomOrder}
-                onChange={(checked) => {
-                  setFormHeader({
-                    ...formHeader,
-                    randomOrder: checked,
-                  });
-                }}
-              />
-            </Space>
           </div>
+          <div className={styles.selectDiv}>
+            <p className={styles.inputName}>Grupo:</p>
+            <Select
+              onChange={(value) => {
+                setIndicator({ ...indicator, groupId: value });
+              }}
+              options={groups}
+              value={indicator.groupId || "Selecione o conjunto"}
+              className={styles.select}
+              size="large"
+            />
+          </div>
+        </div>
+        <div className={styles.textAreaDiv}>
+          <p className={styles.inputName}>Descrição:</p>
           <TextareaAutosize
-            placeholder="Descrição do formulário"
-            className={styles.headerTextArea}
-            value={formHeader.description}
-            onChange={(e) => {
-              setFormHeader({
-                ...formHeader,
-                description: e.target.value,
-              });
-            }}
+            value={indicator.description}
+            onChange={(e) => handleEditIndicator(e, "description")}
+            className={styles.textArea}
           />
         </div>
-        <QuestionList formFields={formFields} setFormFields={setFormFields} />
-      </div>
-      <div className={styles.footerForm}>
-        <Button onClick={submit} type="primary">
-          Enviar formulário
-        </Button>
+        <IndicatorTable data={indicator.forms} id={router.query.index as string} setIndicator={setIndicator}/>
       </div>
     </div>
   );
