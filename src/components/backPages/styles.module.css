@@ -1,0 +1,10 @@
+.backPage {
+  margin-top: 1.2rem;
+  position: relative;
+  left: 70px;
+}
+
+.backIcon {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
