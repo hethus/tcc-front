@@ -26,12 +26,13 @@
   align-items: center;
 }
 
-.button {
+.dropdown {
   border: none;
   background: #ffffff;
   border: 1px solid #0094ff;
   border-radius: 8px;
   cursor: pointer;
+  padding: 0.2rem 0.2rem;
 }
 
 .visualization {

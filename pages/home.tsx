@@ -84,14 +84,15 @@ const Home: NextPage = () => {
           {forms.forms?.map((form: any) => (
             <FormCard
               key={form.id}
+              id={form.id}
               title={form.name}
               visualization={0} // como?
               date={`${new Date(form.createdAt).toLocaleDateString()}`}
             />
           ))}
-          <FormCard title="Formulário 1" visualization={5} date="15/01/22" />
-          <FormCard title="Formulário 2" visualization={2} date="27/02/22" />
-          <FormCard title="Formulário 3" visualization={7} date="13/03/22" />
+          <FormCard title="Formulário 1" visualization={5} date="15/01/22" id="1" />
+          <FormCard title="Formulário 2" visualization={2} date="27/02/22" id="2"/>
+          <FormCard title="Formulário 3" visualization={7} date="13/03/22" id="3"/>
         </div>
       </div>
     </div>
