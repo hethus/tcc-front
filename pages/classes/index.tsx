@@ -25,14 +25,6 @@ const Classes: NextPage = () => {
           <button className={styles.button}>Criar</button>
         </div>
 
-        <div className={styles.filterContainer}>
-          <div className={styles.filterLeftSide}>
-            <FilterButton title="Disciplina" />
-
-            <FilterButton title="Semestre" />
-          </div>
-        </div>
-
         <div className={styles.ContainerTable}>
           <ClassesTable setOpenModal={setOpenModal} />
         </div>
