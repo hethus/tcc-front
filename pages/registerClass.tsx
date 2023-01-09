@@ -110,8 +110,8 @@ const RegisterClass: NextPage = () => {
         }
 
         // se tiver dados, vai criar o usuário usando os dados do excel:
-        for (let i = 0; i <= tableData.length; i++) {
-          console.log(tableData[i])
+        for (let i = 0; i < tableData.length; i++) {
+          console.log(tableData[i]);
           handleCreateUser({
             values: { ...tableData[i], userType: "student" },
             header: {
@@ -125,29 +125,32 @@ const RegisterClass: NextPage = () => {
                   values: { subjectClassId: dataClass.id, userId },
                 });
               };
-              
-              console.log(error?.message)
+
               if (error?.message === "Usuário já cadastrado") {
                 // vai entrar aq se o usuário já estiver cadastrado, então tera que pegar o id dele e adicionar na turma
                 handleGetUser({
                   refetchPathOptions: `${tableData[i].email}`,
                   header: {
                     Authorization: `Bearer ${user.token}`,
-                  },
-                }).then(({ data }) => {
-                  console.log(data)
-                  handleRelationClass(data?.id); // aqui chama a função para criar a relação
+                  },  
+                }).then(({ data, error }) => {
+                  if (error) {
+                    console.log(error)
+                    toast.error("Error ao localizar o usuário", {
+                      toastId: "getUser",
+                    });
+                    return;
+                  }
+
+                  handleRelationClass(data.id); // aqui chama a função para criar a relação
                   return;
                 });
-              }
-
-              if (error) {
-                console.log('Erro: ' + error)
+              } else {
                 console.log(error); // aqui vai mostrar o erro no console, se o erro n for o de usuário já cadastrado
                 return;
               }
 
-              handleRelationClass(data?.id); // aqui chama a função para criar a relação
+              handleRelationClass(data.id); // aqui chama a função para criar a relação
               return;
             });
         }
