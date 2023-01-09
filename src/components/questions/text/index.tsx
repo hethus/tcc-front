@@ -39,26 +39,27 @@ export function QuestionText({
         <img src="/drag.svg" alt="ícone de drag" />
       </div>
       <div className={styles.alternativeContainerLeft}>
-        <input
-          name="title"
-          placeholder="Título da pergunta"
-          value={field.title}
-          onChange={(event) => handleFormChange(index, event)}
-          className={
-            dragging === index ? styles.titleInputDragging : styles.titleInput
-          }
-        />
-
-        
-          <TextareaAutosize
-            name="textResponse"
-            placeholder="Escreva aqui"
-            value={field.options.textResponse}
-            onChange={(event) => handleQuestionTextChange(index, event)}
-            className={styles.textArea}
-            disabled
+        <div className={styles.headerQuestion}>
+          <input
+            name="title"
+            placeholder="Título da pergunta"
+            value={field.title}
+            onChange={(event) => handleFormChange(index, event)}
+            className={
+              dragging === index ? styles.titleInputDragging : styles.titleInput
+            }
           />
-        
+          {field.mandatory && <p className={styles.required}>*</p>}
+        </div>
+
+        <TextareaAutosize
+          name="textResponse"
+          placeholder="Escreva aqui"
+          value={field.options?.textResponse}
+          onChange={(event) => handleQuestionTextChange(index, event)}
+          className={styles.textArea}
+          disabled
+        />
       </div>
       <div>
         {field.image && (

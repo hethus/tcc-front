@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { useDispatch } from "react-redux";
-import React, { useState } from "react";
-import { Input } from "../src/components/Input";
+import React from "react";
 import { userUpdate } from "../store/actions/users";
 import styles from "../styles/Login.module.css";
 import useCRUD from "../src/components/hooks/useCRUD.js";
@@ -43,8 +42,9 @@ const Login: NextPage = () => {
     handleCreate({
       values: data,
     })
-      .then(({ data }) => {
+      .then(({ data, error }) => {
         if (!data) {
+          console.log(error);
           return toast.error("Credenciais inválidas ou usuário não cadastrado");
         }
 
@@ -60,14 +60,11 @@ const Login: NextPage = () => {
                   Authorization: `Bearer ${data.token}`,
                 },
                 refetchPathOptions: `${data.email}`,
-              })
-                .then(({ data }) => {
-                  console.log(data);
+              }).then(({ data, error }) => {
+                if (!error) {
                   dispatch(formsUpdate(data));
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+                }
+              });
               dispatch(userUpdate(data));
               toast.success("Login realizado com sucesso", {
                 toastId: "loginSuccess",

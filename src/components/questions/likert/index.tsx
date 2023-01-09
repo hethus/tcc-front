@@ -106,17 +106,20 @@ export function QuestionLikert({
         <img src="/drag.svg" alt="ícone de drag" />
       </div>
       <div className={styles.likertContainerLeft}>
-        <input
-          name="title"
-          placeholder="Título da pergunta"
-          value={field.title}
-          onChange={(event) => handleFormChange(indexLikert, event)}
-          className={
-            dragging === indexLikert
-              ? styles.titleInputDragging
-              : styles.titleInput
-          }
-        />
+        <div className={styles.headerQuestion}>
+          <input
+            name="title"
+            placeholder="Título da pergunta"
+            value={field.title}
+            onChange={(event) => handleFormChange(indexLikert, event)}
+            className={
+              dragging === indexLikert
+                ? styles.titleInputDragging
+                : styles.titleInput
+            }
+          />
+          {field.mandatory && <p className={styles.required}>*</p>}
+        </div>
         {field.image && (
           <div className={styles.imgContainer}>
             <div className={styles.imgDiv}>

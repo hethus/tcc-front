@@ -132,6 +132,12 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
     setFormFields([...formFields, newField]);
   };
 
+  const changeProperties = (e: any, property: string, index: number) => {
+    let data = [...formFields];
+    data[index][property] = e;
+    setFormFields(data);
+  };
+
   const removeFields = (index: number) => {
     let data = [...formFields];
     data.splice(index, 1);
@@ -292,6 +298,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
                                 handleImgChange={handleImgChange}
                                 addFields={addFields}
                                 field={field}
+                                changeProperties={changeProperties}
                               />
                             )}
                           </div>
@@ -338,6 +345,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
                                 handleImgChange={handleImgChange}
                                 addFields={addFields}
                                 field={field}
+                                changeProperties={changeProperties}
                               />
                             )}
                           </div>
@@ -384,6 +392,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
                                 handleImgChange={handleImgChange}
                                 addFields={addFields}
                                 field={field}
+                                changeProperties={changeProperties}
                               />
                             )}
                           </div>
@@ -428,6 +437,7 @@ export function QuestionList({ formFields, setFormFields }: QuestionListProps) {
                                 handleImgChange={handleImgChange}
                                 addFields={addFields}
                                 field={field}
+                                changeProperties={changeProperties}
                               />
                             )}
                           </div>

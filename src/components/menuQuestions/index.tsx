@@ -1,4 +1,4 @@
-import { Button, Dropdown, Input } from "antd";
+import { Button, Dropdown, Input, Switch } from "antd";
 import React from "react";
 import { toast } from "react-toastify";
 import styles from "./styles.module.css";
@@ -9,6 +9,7 @@ interface MenuQuestionsProps {
   handleDuplicate: (field: any) => void;
   removeFields: (index: number) => void;
   handleImgChange: (index: number, e: any) => void;
+  changeProperties: (e: any, property: string, index: number) => void;
   field: any;
   index: number;
   loading: boolean;
@@ -22,8 +23,57 @@ export function MenuQuestions({
   field,
   index,
   loading,
+  changeProperties,
   handleImgChange,
 }: MenuQuestionsProps) {
+  const itensProperties = [
+    {
+      label: (
+        <div
+          className={styles.menuProperties}
+          onClick={(e) => e?.stopPropagation()}
+        >
+          <p>ordem aleatória</p>
+          <Switch
+            onChange={(e) => changeProperties(e, "random", index)}
+            checked={field.random}
+          />
+        </div>
+      ),
+      key: "random",
+    },
+    {
+      label: (
+        <div
+          onClick={(e) => e?.stopPropagation()}
+          className={styles.menuProperties}
+        >
+          <p>Resposta única</p>
+          <Switch
+            onChange={(e) => changeProperties(e, "singleAnswer", index)}
+            checked={field.singleAnswer}
+          />
+        </div>
+      ),
+      key: "singleAnswer",
+    },
+    {
+      label: (
+        <div
+          onClick={(e) => e?.stopPropagation()}
+          className={styles.menuProperties}
+        >
+          <p>Questão obrigatória</p>
+          <Switch
+            onChange={(e) => changeProperties(e, "mandatory", index)}
+            checked={field.mandatory}
+          />
+        </div>
+      ),
+      key: "mandatory",
+    },
+  ];
+
   return (
     <div className={styles.menu}>
       <Dropdown
@@ -74,17 +124,16 @@ export function MenuQuestions({
           <img src="/img.svg" alt="Adicionar imagem" className={styles.svg} />
         ) : null}
       </Button>
-      <Button
-        type="ghost"
-        className={styles.button}
-        onClick={() =>
-          toast.info("Em breve", {
-            toastId: "more",
-          })
-        }
+      <Dropdown
+        menu={{ items: itensProperties }}
+        placement="topRight"
+        arrow
+        trigger={["click"]}
       >
-        <img src="/more.svg" alt="Mais opções" className={styles.svg} />
-      </Button>
+        <Button type="ghost" className={styles.button}>
+          <img src="/more.svg" alt="Mais opções" className={styles.svg} />
+        </Button>
+      </Dropdown>
     </div>
   );
 }

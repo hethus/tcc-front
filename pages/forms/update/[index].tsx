@@ -37,7 +37,7 @@ const UpdateForm: NextPage = () => {
   const { handleUpdate } = useCRUD({ model: "form" });
   const { handleGet: handleGetOne } = useCRUD({ model: "form/one" });
   const { handleGet } = useCRUD({ model: "form" });
-  
+
   const { user } = useSelector((state: any) => state);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -56,20 +56,19 @@ const UpdateForm: NextPage = () => {
         Authorization: `Bearer ${user.token}`,
       },
       refetchPathOptions: `${router.query.index}`,
-    })
-      .then(({ data, error }) => {
-        if (error) {
-          toast.error("Erro ao buscar formulário");
-          return;
-        }
+    }).then(({ data, error }) => {
+      if (error) {
+        toast.error("Erro ao buscar formulário");
+        return;
+      }
 
-        setFormHeader({
-          title: data.name,
-          description: data.description,
-          randomOrder: data.random,
-        });
-        setFormFields(data.questions);
-      }) 
+      setFormHeader({
+        title: data.name,
+        description: data.description,
+        randomOrder: data.random,
+      });
+      setFormFields(data.questions);
+    });
   }, [router.isReady]);
 
   const submit = (e: any) => {
@@ -113,16 +112,26 @@ const UpdateForm: NextPage = () => {
           return;
         }
         dispatch(formsUpdate(data));
+        if (router.query?.indicator) {
+          router.push(appRoutes.oneIndicator.replace(
+            "[index]",
+            router.query?.indicator as string
+          ));
+          return;
+        }
         router.push(appRoutes.home);
       });
-    }); 
+    });
   };
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Atualizar formulário - SAMI</title>
-        <meta name="Página inicial" content="Página inicial da aplicação" />
+        <meta
+          name="Página de atualizar formulário"
+          content="Página de atualizar formulário"
+        />
       </Head>
       <Header />
       <div className={styles.body}>

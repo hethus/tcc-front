@@ -55,7 +55,7 @@ const useCRUD = ({ model = '', options = {}, pathOptions = '', headerOptions = {
       );
 
       const handleCreate = useCallback(
-        ({ values = {}, refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true, header = {} } = {}) => {
+        ({ values = {}, refetchOptions = null, refetchPathOptions = '', generateLoading = true, displayToast = true, header = {} } = {}) => {
           if (generateLoading) setLoading(true);
           if (!header) header = headers;
     
@@ -94,9 +94,10 @@ const useCRUD = ({ model = '', options = {}, pathOptions = '', headerOptions = {
       );
 
       const handleDelete = useCallback(
-        ({ values = {}, id = '', refetchOptions = null, refetchPathOptions = null, generateLoading = true, displayToast = true } = {}) => {
+        ({ values = {}, id = '', refetchOptions = null, refetchPathOptions = {}, generateLoading = true, displayToast = true, header = {} } = {}) => {
 
           if (generateLoading) setLoading(true);
+          if (!header) header = headers;
     
           // eslint-disable-next-line consistent-return
           return axios
