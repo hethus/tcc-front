@@ -1,15 +1,14 @@
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
 import { Button, Input, Space, Table } from "antd";
-import type { ColumnsType, ColumnType } from "antd/es/table";
+import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import React, { Dispatch, useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import styles from "./styles.module.css";
+import { useSelector } from "react-redux";
 import MoreInfosTable from "../../dropdown";
 import useCRUD from "../../hooks/useCRUD";
-import { useSelector } from "react-redux";
-import { ITableClass } from "../../../types/interfaces";
+import styles from "./styles.module.css";
 
 interface DataType {
   id: string;
@@ -57,7 +56,6 @@ const ClassesTable = ({ setOpenModal }: Props) => {
           more: <MoreInfosTable setOpenModal={setOpenModal} idParam={info.id} />,
         }
       })
-      console.log(tableData)
       setClassTableData(tableData)
       return 
     })
