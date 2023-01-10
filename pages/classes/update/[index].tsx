@@ -4,10 +4,12 @@ import { Button, Form, Input } from "antd";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import BackPage from "../../../src/components/backPages";
 import { Header } from "../../../src/components/header";
 import useCRUD from "../../../src/components/hooks/useCRUD";
+import { toast } from "react-toastify";
+import StudentsTable from "../../../src/components/tables/studentsTable";
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
@@ -26,39 +28,79 @@ export const getStaticProps: GetStaticProps = (context) => {
   };
 };
 
+interface AllDataClass {
+  name: string;
+  semester: string;
+  subjectName: string;
+  subjectId: number;
+  UsersSubjectClasses: [];
+}
+
 const UpdateClass: NextPage = () => {
   const { enums, user } = useSelector((state: any) => state);
   const hasEnums = Object.keys(enums).length;
   const route = useRouter();
 
-  const [classData, setClassData] = useState('');
+  const [classData, setClassData] = useState({
+    id: null,
+    name: "",
+    semester: "",
+    subjectId: 0,
+    subjectName: "",
+    UsersSubjectClasses: [],
+  });
+  const [loading, setLoading] = useState(true);
 
   const { handleGet: handleGetClass } = useCRUD({
-    model: 'classe/one'
+    model: "classe/one",
+  });
+
+  const {handleUpdate: handleUpdateClass} = useCRUD({
+    model: 'classe'
   })
 
-  const renderClassData = async () => {
+  const renderClassData = () => {
     handleGetClass({
       refetchPathOptions: route.query.index as string,
       header: {
-        Authorization: `Bearer ${user.token}`
+        Authorization: `Bearer ${user.token}`,
+      },
+    }).then(({ data, error }) => {
+      if (error) {
+        console.log(error);
+        toast.error("Error ao puxar os dados da turma", {
+          toastId: "getClass",
+        });
+        return;
       }
-    })
-    .then(({data}) => {
-      console.log(data)
-      setClassData(data)
-    })
-    .catch((error: any) => {
-      console.error(`Message error: ${error}`)
-      return
-    })
-  }
+
+      console.log(data);
+      setClassData({
+        id: data.id,
+        name: data.name,
+        semester: data.semester,
+        subjectId: data.subjectId,
+        subjectName: data.subjectName,
+        UsersSubjectClasses: data.UsersSubjectClasses.map((infos) => {
+          return infos?.user;
+        }),
+      });
+    });
+  };
 
   useEffect(() => {
-    renderClassData()
-  }, [])
+    renderClassData();
+  }, []);
 
-  return hasEnums ? (
+  useEffect(() => {
+    if (classData.id) {
+      setLoading(false);
+    }
+  }, [classData]);
+
+  console.log(classData);
+
+  return hasEnums && !loading ? (
     <div className={styles.container}>
       <Header />
 
@@ -92,7 +134,16 @@ const UpdateClass: NextPage = () => {
                     },
                   ]}
                 >
-                  <Input style={{ fontSize: "1.1rem" }} />
+                  <Input
+                    style={{ fontSize: "1.1rem", textAlign: 'center' }}
+                    defaultValue={classData.name}
+                    onChange={(e) => {
+                      setClassData({
+                        ...classData,
+                        name: e.target.value,
+                      });
+                    }}
+                  />
                 </Form.Item>
 
                 <label className={styles.labelForm} htmlFor="discipline">
@@ -109,7 +160,16 @@ const UpdateClass: NextPage = () => {
                     },
                   ]}
                 >
-                  <Input style={{ fontSize: "1.1rem" }} />
+                  <Input
+                    style={{ fontSize: "1.1rem", textAlign: 'center'}}
+                    defaultValue={classData.subjectName}
+                    onChange={(e) => {
+                      setClassData({
+                        ...classData,
+                        subjectName: e.target.value,
+                      });
+                    }}
+                  />
                 </Form.Item>
 
                 <label className={styles.labelForm} htmlFor="code">
@@ -126,25 +186,22 @@ const UpdateClass: NextPage = () => {
                     },
                   ]}
                 >
-                  <Input style={{ fontSize: "1.1rem" }} />
+                  <Input
+                    style={{ fontSize: "1.1rem", textAlign: 'center' }}
+                    defaultValue={classData.subjectId}
+                    onChange={(e) => {
+                      setClassData({
+                        ...classData,
+                        subjectId: Number(e.target.value),
+                      });
+                    }}
+                  />
                 </Form.Item>
 
-                <label className={styles.labelForm} htmlFor="students">
+                <p className={styles.labelForm}>
                   Alunos
-                </label>
-                <Form.Item
-                  name="students"
-                  id="students"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Coloque uma disciplina!",
-                      type: "string",
-                    },
-                  ]}
-                >
-                  <Input style={{ fontSize: "1.1rem" }} />
-                </Form.Item>
+                </p>
+                <StudentsTable />
 
                 <Form.Item>
                   <Button className={styles.addStudentsBtn} type="primary">
