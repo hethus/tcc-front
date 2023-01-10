@@ -145,7 +145,9 @@ const RegisterClass: NextPage = () => {
                   handleRelationClass(data.id); // aqui chama a função para criar a relação
                   return;
                 });
-              } else {
+              }
+              
+              if (error) {
                 console.log(error); // aqui vai mostrar o erro no console, se o erro n for o de usuário já cadastrado
                 return;
               }
