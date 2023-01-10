@@ -47,7 +47,7 @@ const Login: NextPage = () => {
           console.log(error);
           return toast.error("Credenciais inválidas ou usuário não cadastrado");
         }
-
+        console.log(data)
         if (data.login) {
           handleGet({
             header: {
