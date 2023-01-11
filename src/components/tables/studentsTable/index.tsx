@@ -11,10 +11,11 @@ import React, {
   useState,
 } from "react";
 import Highlighter from "react-highlight-words";
-import styles from "./styles.module.css";
-import MoreInfosTable from "../../dropdown";
+import Styles from "./styles.module.css";
+import MoreInfosTable from "../../dropdown/moreInfosTable";
 import useCRUD from "../../hooks/useCRUD";
 import { useSelector } from "react-redux";
+import RemoveStudent from "../../dropdown/removeStudent";
 
 interface DataType {
   name: string;
@@ -25,7 +26,12 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-const StudentsTable = () => {
+interface Props {
+  students: any[];
+  setOpenModal: Dispatch<boolean>;
+}
+
+const StudentsTable = ({ students, setOpenModal }: Props) => {
   const [search, setSearch] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [studentsTableData, setStudentsTableData] = useState<DataType[]>(
@@ -33,6 +39,18 @@ const StudentsTable = () => {
   );
 
   const searchInput = useRef<InputRef>(null);
+
+  useEffect(() => {
+    const studentsData = students.map((info) => {
+      return {
+        name: info.name,
+        email: info.email,
+        registration: info.registration,
+        more: <RemoveStudent setOpenModal={setOpenModal} />
+      };
+    });
+    setStudentsTableData(studentsData);
+  }, []);
 
   const handleSearch = (
     selectedKeys: string[],
@@ -142,37 +160,44 @@ const StudentsTable = () => {
       sorter: (a, b) => a.name.length - b.name.length,
       sortDirections: ["ascend", "descend"],
       align: "center",
-      width: 85
+      width: 85,
     },
     {
-        title: "Email",
-        dataIndex: "email",
-        key: "email",
-        ...getColumnsSearchProps("email"),
-        sorter: (a, b) => a.name.length - b.name.length,
-        sortDirections: ["ascend", "descend"],
-        align: "center",
-        width: 85
-      },
-      {
-        title: "Registro",
-        dataIndex: "registration",
-        key: "registration",
-        ...getColumnsSearchProps("registration"),
-        sorter: (a, b) => a.name.length - b.name.length,
-        sortDirections: ["ascend", "descend"],
-        align: "center",
-        width: 85
-      },
-      {
-        title: "",
-        dataIndex: "more",
-        key: "more",
-        width: 20
-      },
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      ...getColumnsSearchProps("email"),
+      sorter: (a, b) => a.name.length - b.name.length,
+      sortDirections: ["ascend", "descend"],
+      align: "center",
+      width: 85,
+    },
+    {
+      title: "Registro",
+      dataIndex: "registration",
+      key: "registration",
+      ...getColumnsSearchProps("registration"),
+      sorter: (a, b) => a.name.length - b.name.length,
+      sortDirections: ["ascend", "descend"],
+      align: "center",
+      width: 85,
+    },
+    {
+      title: "",
+      dataIndex: "more",
+      key: "more",
+      width: 20,
+    },
   ];
 
-  return <Table size={"middle"} className={styles.Table} columns={columns} dataSource={studentsTableData} />;
+  return (
+    <Table
+      size={"middle"}
+      className={Styles.Table}
+      columns={columns}
+      dataSource={studentsTableData}
+    />
+  );
 };
 
 export default StudentsTable;
