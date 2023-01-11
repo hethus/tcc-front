@@ -6,7 +6,7 @@ import type { FilterConfirmProps } from "antd/es/table/interface";
 import React, { Dispatch, useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useSelector } from "react-redux";
-import MoreInfosTable from "../../dropdown";
+import MoreInfosTable from "../../dropdown/moreInfosTable";
 import useCRUD from "../../hooks/useCRUD";
 import styles from "./styles.module.css";
 
