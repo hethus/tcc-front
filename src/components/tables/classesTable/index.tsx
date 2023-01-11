@@ -23,9 +23,10 @@ type DataIndex = keyof DataType;
 
 interface Props {
   setOpenModal: Dispatch<boolean>;
+  setDataIdParam: Dispatch<string>;
 }
 
-const ClassesTable = ({ setOpenModal }: Props) => {
+const ClassesTable = ({ setOpenModal, setDataIdParam }: Props) => {
   const [search, setSearch] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [classTableData, setClassTableData] = useState<DataType[]>([] as DataType[]);
@@ -47,6 +48,7 @@ const ClassesTable = ({ setOpenModal }: Props) => {
     .then(({data}) => {
       console.log(data)
       const tableData = data.map((info) => {
+        setDataIdParam(info.id)
         return {
           id: info.id,
           name: info.name,
