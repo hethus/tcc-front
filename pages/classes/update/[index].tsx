@@ -10,6 +10,7 @@ import { Header } from "../../../src/components/header";
 import useCRUD from "../../../src/components/hooks/useCRUD";
 import { toast } from "react-toastify";
 import StudentsTable from "../../../src/components/tables/studentsTable";
+import RemoveStudentModal from "../../../src/components/modals/removeStudent";
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
@@ -29,11 +30,12 @@ export const getStaticProps: GetStaticProps = (context) => {
 };
 
 interface AllDataClass {
+  id: string | null;
   name: string;
   semester: string;
   subjectName: string;
   subjectId: number;
-  UsersSubjectClasses: [];
+  UsersSubjectClasses: any[];
 }
 
 const UpdateClass: NextPage = () => {
@@ -41,7 +43,7 @@ const UpdateClass: NextPage = () => {
   const hasEnums = Object.keys(enums).length;
   const route = useRouter();
 
-  const [classData, setClassData] = useState({
+  const [classData, setClassData] = useState<AllDataClass>({
     id: null,
     name: "",
     semester: "",
@@ -50,14 +52,15 @@ const UpdateClass: NextPage = () => {
     UsersSubjectClasses: [],
   });
   const [loading, setLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const { handleGet: handleGetClass } = useCRUD({
     model: "classe/one",
   });
 
-  const {handleUpdate: handleUpdateClass} = useCRUD({
-    model: 'classe'
-  })
+  const { handleUpdate: handleUpdateClass } = useCRUD({
+    model: "classe",
+  });
 
   const renderClassData = () => {
     handleGetClass({
@@ -75,16 +78,19 @@ const UpdateClass: NextPage = () => {
       }
 
       console.log(data);
-      setClassData({
-        id: data.id,
-        name: data.name,
-        semester: data.semester,
-        subjectId: data.subjectId,
-        subjectName: data.subjectName,
-        UsersSubjectClasses: data.UsersSubjectClasses.map((infos) => {
-          return infos?.user;
-        }),
-      });
+      if (data !== undefined) {
+        setClassData({
+          id: data.id,
+          name: data.name,
+          semester: data.semester,
+          subjectId: data.subjectId,
+          subjectName: data.subjectName,
+          UsersSubjectClasses: data.UsersSubjectClasses.map((infos) => {
+            return infos?.user;
+          }),
+        });
+        return;
+      }
     });
   };
 
@@ -98,7 +104,7 @@ const UpdateClass: NextPage = () => {
     }
   }, [classData]);
 
-  console.log(classData);
+  console.log(classData.UsersSubjectClasses);
 
   return hasEnums && !loading ? (
     <div className={styles.container}>
@@ -135,7 +141,7 @@ const UpdateClass: NextPage = () => {
                   ]}
                 >
                   <Input
-                    style={{ fontSize: "1.1rem", textAlign: 'center' }}
+                    style={{ fontSize: "1.1rem", textAlign: "center" }}
                     defaultValue={classData.name}
                     onChange={(e) => {
                       setClassData({
@@ -161,7 +167,7 @@ const UpdateClass: NextPage = () => {
                   ]}
                 >
                   <Input
-                    style={{ fontSize: "1.1rem", textAlign: 'center'}}
+                    style={{ fontSize: "1.1rem", textAlign: "center" }}
                     defaultValue={classData.subjectName}
                     onChange={(e) => {
                       setClassData({
@@ -187,7 +193,7 @@ const UpdateClass: NextPage = () => {
                   ]}
                 >
                   <Input
-                    style={{ fontSize: "1.1rem", textAlign: 'center' }}
+                    style={{ fontSize: "1.1rem", textAlign: "center" }}
                     defaultValue={classData.subjectId}
                     onChange={(e) => {
                       setClassData({
@@ -198,12 +204,13 @@ const UpdateClass: NextPage = () => {
                   />
                 </Form.Item>
 
-                <p className={styles.labelForm}>
-                  Alunos
-                </p>
-                <StudentsTable />
+                <p className={styles.labelForm}>Alunos</p>
+                <StudentsTable
+                  students={classData.UsersSubjectClasses}
+                  setOpenModal={setOpenModal}
+                />
 
-                <Form.Item>
+                <Form.Item style={{ marginTop: "1.5rem" }}>
                   <Button className={styles.addStudentsBtn} type="primary">
                     Adicionar Alunos
                   </Button>
@@ -222,6 +229,14 @@ const UpdateClass: NextPage = () => {
             </div>
           </div>
         </div>
+        {openModal ? (
+          <RemoveStudentModal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   ) : null;
