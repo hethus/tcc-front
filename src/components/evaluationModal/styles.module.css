@@ -1,0 +1,63 @@
+.lineFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.divFlex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 40%;
+}
+
+.divFlexRange {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.datePicker {
+  width: 100%;
+}
+
+.descriptionDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.checkboxContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.checkboxDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.textArea {
+  width: 100%;
+  resize: none;
+  min-height: 6rem;
+  border: 1px solid #000000;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.select {
+  width: 100%;
+}

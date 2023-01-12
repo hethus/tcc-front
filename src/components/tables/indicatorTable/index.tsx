@@ -7,6 +7,7 @@ import { formsUpdate } from "../../../../store/actions/forms";
 import useCRUD from "../../hooks/useCRUD";
 import styles from "./styles.module.css";
 import { appRoutes } from "../../../../constants";
+import { EvaluationModal } from "../../evaluationModal";
 
 interface IndicatorTableProps {
   data: any;
@@ -27,6 +28,7 @@ export function IndicatorTable({
   const [informationModal, setInformationModal] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [formId, setFormId] = useState("");
+  const [evaluationModal, setEvaluationModal] = useState(false);
 
   const { forms, user } = useSelector((state: any) => state);
   const { handleGet: handleGetForms } = useCRUD({ model: "form" });
@@ -152,7 +154,9 @@ export function IndicatorTable({
     if (menuTypeSplitArray[1] === "form") {
       switch (menuTypeSplitArray[0]) {
         case "Ver detalhes":
-          router.push(`${appRoutes.updateForm.replace("[index]", dataId)}?indicator=${id}`);
+          router.push(
+            `${appRoutes.updateForm.replace("[index]", dataId)}?indicator=${id}`
+          );
           break;
         case "Reaplicar":
           toast.warn("Em breve");
@@ -177,20 +181,15 @@ export function IndicatorTable({
           <div className={styles.nameContainer}>
             {item.name}
             <Tooltip title="Adicionar aplicação">
-              <Dropdown
-                arrow
-                trigger={["click"]}
-                menu={{
-                  items: dropdownData("evaluation"),
-                  onClick: (e) => handleMenu(e.key, "evaluation-add", item.id),
+              <img
+                src="/add-layer.svg"
+                alt="adicionar aplicação"
+                className={styles.addLayer}
+                onClick={() => {
+                  setFormId(item.id);
+                  setEvaluationModal(true);
                 }}
-              >
-                <img
-                  src="/add-layer.svg"
-                  alt="adicionar aplicação"
-                  className={styles.addLayer}
-                />
-              </Dropdown>
+              />
             </Tooltip>
           </div>
         ),
@@ -296,6 +295,17 @@ export function IndicatorTable({
     });
   };
 
+  const handleReload = () => {
+    handleGetIndicator({
+      header: {
+        Authorization: `Bearer ${user.token}`,
+      },
+      refetchPathOptions: `${id}`,
+    }).then(({ data, error }) => {
+      setIndicator(data);
+    });
+  }
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -365,6 +375,13 @@ export function IndicatorTable({
           </span>
         )}
       </Modal>
+      <EvaluationModal
+        open={evaluationModal}
+        formId={formId}
+        indicatorId={id}
+        handleReload={handleReload}
+        setEvaluationModal={setEvaluationModal}
+      />
     </div>
   );
 }

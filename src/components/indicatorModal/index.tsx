@@ -143,7 +143,7 @@ export function IndicatorModal({
           Authorization: `Bearer ${user.token}`,
         },
         values: {
-          label: nameGroup || `New item ${groups.length++}`,
+          label: nameGroup,
         },
       }).then(({ data, error }) => {
         if (error) {
@@ -170,7 +170,7 @@ export function IndicatorModal({
           Authorization: `Bearer ${user.token}`,
         },
         values: {
-          label: nameMethodology || `New item ${methodologies.length++}`,
+          label: nameMethodology,
         },
       }).then(({ data, error }) => {
         if (error) {

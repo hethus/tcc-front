@@ -172,7 +172,7 @@ const OneIndicator: NextPage = () => {
           Authorization: `Bearer ${user.token}`,
         },
         values: {
-          label: nameGroup || `New item ${groups.length++}`,
+          label: nameGroup,
         },
       }).then(({ data, error }) => {
         if (error) {
@@ -199,7 +199,7 @@ const OneIndicator: NextPage = () => {
           Authorization: `Bearer ${user.token}`,
         },
         values: {
-          label: nameMethodology || `New item ${methodologies.length++}`,
+          label: nameMethodology,
         },
       }).then(({ data, error }) => {
         if (error) {
@@ -242,6 +242,7 @@ const OneIndicator: NextPage = () => {
           <div className={styles.selectDiv}>
             <p className={styles.inputName}>Metodologia:</p>
             <Select
+              showSearch
               onChange={(value) => {
                 setIndicator({ ...indicator, methodologyId: value });
               }}
@@ -249,6 +250,9 @@ const OneIndicator: NextPage = () => {
               value={indicator.methodologyId || "Selecione o conjunto"}
               className={styles.select}
               size="large"
+              filterOption={(input, option) =>
+                (`${option?.label ?? ''}`).toLowerCase().includes(input.toLowerCase())
+              }
               dropdownRender={(menu) => (
                 <>
                   {menu}
@@ -276,6 +280,7 @@ const OneIndicator: NextPage = () => {
           <div className={styles.selectDiv}>
             <p className={styles.inputName}>Grupo:</p>
             <Select
+              showSearch
               onChange={(value) => {
                 setIndicator({ ...indicator, groupId: value });
               }}
@@ -283,6 +288,9 @@ const OneIndicator: NextPage = () => {
               value={indicator.groupId || "Selecione o conjunto"}
               className={styles.select}
               size="large"
+              filterOption={(input, option) =>
+                (`${option?.label ?? ''}`).toLowerCase().includes(input.toLowerCase())
+              }
               dropdownRender={(menu) => (
                 <>
                   {menu}
